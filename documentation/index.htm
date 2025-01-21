@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<head>
+<style>
+html
+{
+  background-color: #09090c;
+  color: #dfdfdf;
+}
+*
+{
+  font-family: 'Arial';
+  padding: 3px 20px;
+}
+table td
+{
+  padding: 3px 20px;
+}
+.property
+{
+  color: dodgerblue;
+}
+.private_property
+{
+  color: aliceblue;
+}
+
+.method
+{
+  color: orange;
+}
+
+.private_method
+{
+  color: pink;
+}
+
+.dependency
+{
+  color: #9f9fa1;
+}
+
+.component
+{
+  padding: 20 10 20 10;
+  margin: 20 10 20 10;
+  background-color: #1a1a1c;
+}
+
+.component h3
+{
+}
+</style>
+</head>
+<body>
+<h1>Table of Contents</h1>
+<ul>
+  <li><a href="#quintessence/BulletPhysics/Game/Configurations/Main.q.yml">quintessence/BulletPhysics/Game/Configurations/Main.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml">quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/Gameplay/Level.q.yml">quintessence/BulletPhysics/Gameplay/Level.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/Gameplay/Screen.q.yml">quintessence/BulletPhysics/Gameplay/Screen.q.yml</a></li>
+</ul>
+<h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/Game/Configurations/Main.q.yml">quintessence/BulletPhysics/Game/Configurations/Main.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">primary_gameplay_screen</td>
+  <td class="property">BulletPhysics::Gameplay::Screen*</td>
+</tr>
+<tr>
+  <td class="property">primary_gameplay_subscreen</td>
+  <td class="property">AllegroFlare::Screens::Subscreen::Screen*</td>
+</tr>
+<tr>
+  <td class="property">pause_screen</td>
+  <td class="property">AllegroFlare::Screens::PauseScreen*</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>app_icon_1024_filename</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>app_title</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>title_screen_title</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>primary_display_icon_filename</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::tuple&lt;std::string, AllegroFlare::Achievement*, bool, bool&gt;&gt;</td>
+  <td class="method"><b>build_achievements</b>()</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Screens::Gameplay*</td>
+  <td class="method"><b>create_primary_gameplay_screen</b>(AllegroFlare::Runners::Complete* runner=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Screens::Subscreen::Screen*</td>
+  <td class="method"><b>create_primary_gameplay_subscreen</b>(AllegroFlare::Runners::Complete* runner=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Screens::PauseScreen*</td>
+  <td class="method"><b>create_pause_screen</b>(AllegroFlare::Runners::Complete* runner=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>handle_primary_gameplay_screen_paused</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>handle_primary_gameplay_screen_unpaused</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_intro_logos_storyboard_pages</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_intro_storyboard_pages</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>handle_arbitrary_storyboard_screen_finished</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+  <td class="method"><b>build_title_screen_menu_options</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>load_audio_controller</b>(AllegroFlare::AudioController* audio_controller=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>load_last_played_session_or_start_new</b>(AllegroFlare::GameSession* game_session=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>setup_new_game_progress_and_state_info</b>(AllegroFlare::GameSession* game_session=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::LoadASavedGame::SaveSlots::Base*&gt;</td>
+  <td class="method"><b>build_save_slots_for_load_a_saved_game_screen</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>handle_game_event</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>continue_from_last_save</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+  <td class="method"><b>build_level_list_for_level_select_screen_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::DialogTree::NodeBank</td>
+  <td class="method"><b>build_dialog_bank_by_identifier</b>(std::string identifier=&quot;[identifier-discarded]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Levels::Base*</td>
+  <td class="method"><b>load_level_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameConfigurations::Complete&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameConfigurations/Complete.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Levels::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Levels/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBankFactory&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBankFactory.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::Nodes::Wait&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/Nodes/Wait.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::Nodes::ExitProgram&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/Nodes/ExitProgram.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::Nodes::MultipageWithOptions&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::GoToNode&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/GoToNode.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::ExitDialog&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Gameplay::Level&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Gameplay/Level.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Achievement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Achievement.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameSession&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameSession.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameProgressAndStateInfos::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameProgressAndStateInfos/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::LoadASavedGame::SaveSlots::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/LoadASavedGame/SaveSlots/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Gameplay/Screen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Gameplay&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Gameplay.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Runners::Complete&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Runners/Complete.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventNames&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventNames.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEventDatas::AchievementUnlocked&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEventDatas/AchievementUnlocked.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::PauseScreen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/PauseScreen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Subscreen::Screen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Subscreen/Screen.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml">quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">player_inventory_items</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_player_inventory_item</b>(std::string item_identifier=&quot;[unset-item_identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>export_to_string</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>import_from_string</b>(std::string data_string=&quot;[unset-data_string]&quot;)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameProgressAndStateInfos::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameProgressAndStateInfos/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::JSONLoaders::BulletPhysics::GameProgressAndStateInfo&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/Gameplay/Level.q.yml">quintessence/BulletPhysics/Gameplay/Level.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">title</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Levels::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Levels/Base.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/Gameplay/Screen.q.yml">quintessence/BulletPhysics/Gameplay/Screen.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">data_folder_path</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">asset_studio_database</td>
+  <td class="property">AllegroFlare::AssetStudio::Database*</td>
+</tr>
+<tr>
+  <td class="property">event_emitter</td>
+  <td class="property">AllegroFlare::EventEmitter*</td>
+</tr>
+<tr>
+  <td class="property">bitmap_bin</td>
+  <td class="property">AllegroFlare::BitmapBin*</td>
+</tr>
+<tr>
+  <td class="property">font_bin</td>
+  <td class="property">AllegroFlare::FontBin*</td>
+</tr>
+<tr>
+  <td class="property">model_bin</td>
+  <td class="property">AllegroFlare::ModelBin*</td>
+</tr>
+<tr>
+  <td class="property">current_level_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">current_level</td>
+  <td class="property">BulletPhysics::Gameplay::Level*</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_DATA_FOLDER_PATH</td>
+  <td class="property">char*</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>load_level_by_identifier</b>(std::string level_identifier=&quot;[unset-level_identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_activate</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_deactivate</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>render</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>game_event_func</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>primary_update_func</b>(double time_now=0.0f, double delta_time=1.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>primary_render_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_button_up_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_button_down_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_axis_change_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_font</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_EVENT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Gameplay&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Gameplay.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::FontBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/FontBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_is_primitives_addon_initialized&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_primitives.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Player&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Player.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::GenericController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/GenericController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Gameplay/Screen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Gameplay::Level&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Gameplay/Level.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AssetStudio::Database&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AssetStudio/Database.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<h1>Dependents</h1>
+<pre>
+{
+  "AllegroFlare/GameConfigurations/Complete": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Levels/Base": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Level"
+  ],
+  "AllegroFlare/DialogTree/NodeBank": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeBankFactory": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/Wait": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/ExitProgram": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/Gameplay/Level": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Achievement": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Elements/StoryboardPages/Base": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameSession": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameProgressAndStateInfos/Base": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/GameProgressAndStateInfo"
+  ],
+  "AllegroFlare/LoadASavedGame/SaveSlots/Base": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/Gameplay/Screen": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/Gameplay": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Runners/Complete": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/AudioController": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/EventNames": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEventDatas/AchievementUnlocked": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEvent": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/PauseScreen": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Screens/Subscreen/Screen": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
+    "BulletPhysics/GameProgressAndStateInfo"
+  ],
+  "ALLEGRO_FONT": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_EVENT": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/ModelBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "al_is_primitives_addon_initialized": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Player": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/AssetStudio/Database": [
+    "BulletPhysics/Gameplay/Screen"
+  ]
+}
+</pre>
+</body>

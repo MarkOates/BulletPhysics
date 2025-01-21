@@ -1,0 +1,116 @@
+{
+  "AllegroFlare/GameConfigurations/Complete": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Levels/Base": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Level"
+  ],
+  "AllegroFlare/DialogTree/NodeBank": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeBankFactory": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/Wait": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/ExitProgram": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/Gameplay/Level": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Achievement": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Elements/StoryboardPages/Base": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameSession": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameProgressAndStateInfos/Base": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/GameProgressAndStateInfo"
+  ],
+  "AllegroFlare/LoadASavedGame/SaveSlots/Base": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/Gameplay/Screen": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/Gameplay": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Runners/Complete": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/AudioController": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/EventNames": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEventDatas/AchievementUnlocked": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEvent": [
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/PauseScreen": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Screens/Subscreen/Screen": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
+    "BulletPhysics/GameProgressAndStateInfo"
+  ],
+  "ALLEGRO_FONT": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_EVENT": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/ModelBin": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "al_is_primitives_addon_initialized": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Player": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/AssetStudio/Database": [
+    "BulletPhysics/Gameplay/Screen"
+  ]
+}
