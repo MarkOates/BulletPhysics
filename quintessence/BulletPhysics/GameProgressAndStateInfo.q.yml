@@ -1,0 +1,72 @@
+parent_classes:
+
+
+  - class: AllegroFlare::GameProgressAndStateInfos::Base
+    scope: public
+    init_with: BulletPhysics::GameProgressAndStateInfo::TYPE
+
+
+properties:
+
+
+  - name: player_inventory_items
+    type: std::vector<std::string>
+    init_with: '{}'
+    getter: true
+    setter: true
+    getter_ref: true
+
+  - name: TYPE
+    type: char*
+    init_with: '(char*)"BulletPhysics/GameProgressAndStateInfo"'
+    static: true
+    constexpr: true
+
+
+methods:
+
+
+  - name: add_player_inventory_item
+    parameters:
+      - name: item_identifier
+        type: std::string
+        default_argument: '"[unset-item_identifier]"'
+    body: |
+      player_inventory_items.push_back(item_identifier);
+
+
+  - name: export_to_string
+    type: std::string
+    virtual: true
+    override: true
+    body: |
+      nlohmann::json j = *this;
+      std::string string_dump = j.dump(2);
+      return string_dump;
+    body_dependency_symbols:
+      - BulletPhysics::JSONLoaders::BulletPhysics::GameProgressAndStateInfo
+
+
+  - name: import_from_string
+    parameters:
+      - name: data_string
+        type: std::string
+        default_argument: '"[unset-data_string]"'
+    virtual: true
+    override: true
+    body: |
+      nlohmann::json parsed_json = nlohmann::json::parse(data_string);
+      parsed_json.get_to(*this);
+    body_dependency_symbols:
+      - BulletPhysics::JSONLoaders::BulletPhysics::GameProgressAndStateInfo
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::GameProgressAndStateInfos::Base
+    headers: [ AllegroFlare/GameProgressAndStateInfos/Base.hpp ]
+  - symbol: BulletPhysics::JSONLoaders::BulletPhysics::GameProgressAndStateInfo
+    headers: [ BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo.hpp ]
+
+

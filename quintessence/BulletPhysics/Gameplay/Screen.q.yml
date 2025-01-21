@@ -1,0 +1,301 @@
+parent_classes:
+
+
+  - class: AllegroFlare::Screens::Gameplay
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+  - name: data_folder_path
+    type: std::string
+    init_with: DEFAULT_DATA_FOLDER_PATH
+    getter: true
+    setter: before_initialized
+
+  - name: asset_studio_database
+    type: AllegroFlare::AssetStudio::Database*
+    init_with: nullptr
+    getter_ref: true
+    setter: before_initialized
+
+  - name: event_emitter
+    type: AllegroFlare::EventEmitter*
+    init_with: nullptr
+    setter: before_initialized
+    getter: true
+
+  - name: bitmap_bin
+    type: AllegroFlare::BitmapBin*
+    init_with: nullptr
+    setter: before_initialized
+
+  - name: font_bin
+    type: AllegroFlare::FontBin*
+    init_with: nullptr
+    setter: before_initialized
+
+  - name: model_bin
+    type: AllegroFlare::ModelBin*
+    init_with: nullptr
+    setter: before_initialized
+
+  - name: current_level_identifier
+    type: std::string
+    init_with: '"[unset-current_level]"'
+
+  - name: current_level
+    type: BulletPhysics::Gameplay::Level*
+    init_with: nullptr
+
+  - name: initialized
+    type: bool
+    init_with: false
+    getter: true
+
+  - name: DEFAULT_DATA_FOLDER_PATH
+    type: char*
+    init_with: '(char*)"[unset-data_folder_path]"'
+    static: true
+    constexpr: true
+
+  - name: TYPE
+    type: char*
+    init_with: '(char*)"BulletPhysics/Gameplay/Screen"'
+    static: true
+    constexpr: true
+
+
+methods:
+
+
+  - name: initialize
+    guards:
+      - (!initialized)
+      - al_is_system_installed()
+      - al_is_primitives_addon_initialized()
+      - al_is_font_addon_initialized()
+      - event_emitter
+      - bitmap_bin
+      - font_bin
+      - model_bin
+    body: |
+      set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+      initialized = true;
+      return;
+    body_dependency_symbols:
+      - al_is_primitives_addon_initialized
+
+
+  - name: load_level_by_identifier
+    type: bool
+    virtual: true
+    override: true
+    parameters:
+      - name: level_identifier
+        type: std::string
+        default_argument: '"[unset-level_identifier]"'
+    body: |
+      return false;
+    body_dependency_symbols:
+     - BulletPhysics::Gameplay::Level
+
+
+  - name: on_activate
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    body: |
+      //emit_event_to_update_input_hints_bar();
+      //emit_show_and_size_input_hints_bar_event();
+      return;
+
+
+  - name: on_deactivate
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    body: |
+      //emit_hide_and_restore_size_input_hints_bar_event();
+      return;
+
+
+  - name: update
+    body: |
+      return;
+
+
+  - name: render
+    body: |
+      ALLEGRO_FONT *font = obtain_font();
+      al_draw_text(font, ALLEGRO_COLOR{1, 1, 1, 1}, 1920/2, 1080/2 - 30, ALLEGRO_ALIGN_CENTER, "Hello");
+      return;
+
+
+  - name: game_event_func
+    virtual: true
+    override: true
+    parameters:
+      - name: game_event
+        type: AllegroFlare::GameEvent*
+        default_argument: nullptr
+    guards: [ game_event ]
+    body: |
+      return;
+
+
+  - name: primary_update_func
+    virtual: true
+    override: true
+    parameters:
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+      - name: delta_time
+        type: double
+        default_argument: 1.0f
+    guards: [ initialized ]
+    body: |
+      // Update stuff here (take into account delta_time)
+      update();
+      return;
+
+
+  - name: primary_render_func
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    body: |
+      // Render stuff here
+      render();
+      return;
+
+
+
+  - name: virtual_control_button_up_func
+    virtual: true
+    override: true
+    parameters:
+      - name: player
+        type: AllegroFlare::Player*
+        default_argument: nullptr
+      - name: virtual_controller
+        type: AllegroFlare::VirtualControllers::Base*
+        default_argument: nullptr
+      - name: virtual_controller_button_num
+        type: int
+        default_argument: 0
+      - name: is_repeat
+        type: bool
+        default_argument: false
+    guards: [ initialized ]
+    body: |
+      // TODO: this function
+      return;
+
+
+  - name: virtual_control_button_down_func
+    virtual: true
+    override: true
+    parameters:
+      - name: player
+        type: AllegroFlare::Player*
+        default_argument: nullptr
+      - name: virtual_controller
+        type: AllegroFlare::VirtualControllers::Base*
+        default_argument: nullptr
+      - name: virtual_controller_button_num
+        type: int
+        default_argument: 0
+      - name: is_repeat
+        type: bool
+        default_argument: false
+    guards: [ initialized ]
+    body: |
+      // TODO: this function
+      using namespace AllegroFlare;
+      //if (!is_processing_user_input()) return;
+
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_RIGHT)
+      {
+         //player_velocity.x = 1;
+         //chapter_select_element.rotate_carousel_right();
+      }
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_LEFT)
+      {
+         //player_velocity.x = -1;
+         //chapter_select_element.rotate_carousel_left();
+      }
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_A
+         || virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_MENU
+         )
+      {
+         //select_menu_option();
+      }
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_X)
+      {
+         //exit_screen();
+      }
+      //call_on_finished_callback_func(); // Consider technique to exit
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::VirtualControllers::GenericController
+
+
+  - name: virtual_control_axis_change_func
+    virtual: true
+    override: true
+    parameters:
+      - name: ev
+        type: ALLEGRO_EVENT*
+        default_argument: nullptr
+    guards: [ initialized ]
+    body: |
+      // TODO: this function
+      return;
+
+
+  - name: obtain_font
+    type: ALLEGRO_FONT*
+    guards: [ font_bin ]
+    body: |
+      return font_bin->auto_get("Inter-Regular.ttf -32");
+
+
+dependencies:
+
+
+  - symbol: ALLEGRO_FONT
+    headers: [ allegro5/allegro.h ]
+  - symbol: ALLEGRO_EVENT
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Screens::Gameplay
+    headers: [ AllegroFlare/Screens/Gameplay.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
+  - symbol: AllegroFlare::FontBin
+    headers: [ AllegroFlare/FontBin.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: al_is_primitives_addon_initialized
+    headers: [ allegro5/allegro_primitives.h ]
+  - symbol: AllegroFlare::Player
+    headers: [ AllegroFlare/Player.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::Base
+    headers: [ AllegroFlare/VirtualControllers/Base.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::GenericController
+    headers: [ AllegroFlare/VirtualControllers/GenericController.hpp ]
+  - symbol: BulletPhysics::Gameplay::Screen
+    headers: [ BulletPhysics/Gameplay/Screen.hpp ]
+  - symbol: BulletPhysics::Gameplay::Level
+    headers: [ BulletPhysics/Gameplay/Level.hpp ]
+  - symbol: AllegroFlare::GameEvent
+    headers: [ AllegroFlare/GameEvent.hpp ]
+  - symbol: AllegroFlare::AssetStudio::Database
+    headers: [ AllegroFlare/AssetStudio/Database.hpp ]
+
+

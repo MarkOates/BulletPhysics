@@ -1,0 +1,43 @@
+
+# temp files from building build dir
+
+build/tmp*
+tmp/*
+!tmp/test_snapshots/.keep
+obj/**
+*.a
+
+
+# compiled object files and any executable files (but maintain the data folder)
+
+bin/*
+!bin/data/
+!bin/data/**
+
+
+# Dep files
+
+.deps/**
+
+
+# OSX image caches
+
+**/.DS_store
+
+
+# Allegro log files
+
+allegro.log
+
+
+# Hexagon files
+
+~TMP.txt
+
+
+# vim swap files
+
+*.swp
+*.swo
+
+

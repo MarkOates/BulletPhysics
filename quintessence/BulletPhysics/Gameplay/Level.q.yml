@@ -1,0 +1,31 @@
+parent_classes:
+
+
+  - class: AllegroFlare::Levels::Base
+    scope: public
+    init_with: BulletPhysics::Gameplay::Level::TYPE
+
+
+properties:
+
+
+  - name: title
+    type: std::string
+    init_with: '"[unset-title]"'
+    getter: true
+    setter: true
+
+  - name: TYPE
+    type: char*
+    init_with: '(char*)"BulletPhysics/Gameplay/Level"'
+    static: true
+    constexpr: true
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::Levels::Base
+    headers: [ AllegroFlare/Levels/Base.hpp ]
+
+
