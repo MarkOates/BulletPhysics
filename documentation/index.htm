@@ -55,6 +55,7 @@ table td
 <h1>Table of Contents</h1>
 <ul>
   <li><a href="#quintessence/BulletPhysics/Examples/Basic.q.yml">quintessence/BulletPhysics/Examples/Basic.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Game/Configurations/Main.q.yml">quintessence/BulletPhysics/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml">quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Gameplay/Level.q.yml">quintessence/BulletPhysics/Gameplay/Level.q.yml</a></li>
@@ -131,6 +132,133 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>capture_sphere_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;bullet_physics_common&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDiscreteDynamicsWorld&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btRigidBody&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btCollisionShape&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btCollisionDispatcher&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDbvtBroadphase&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDefaultCollisionConfiguration&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btSequentialImpulseConstraintSolver&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">collision_configuration</td>
+  <td class="property">btDefaultCollisionConfiguration</td>
+</tr>
+<tr>
+  <td class="property">dispatcher</td>
+  <td class="property">btCollisionDispatcher</td>
+</tr>
+<tr>
+  <td class="property">broadphase</td>
+  <td class="property">btDbvtBroadphase</td>
+</tr>
+<tr>
+  <td class="property">solver</td>
+  <td class="property">btSequentialImpulseConstraintSolver</td>
+</tr>
+<tr>
+  <td class="property">dynamics_world</td>
+  <td class="property">btDiscreteDynamicsWorld*</td>
+</tr>
+<tr>
+  <td class="property">sphere_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">sphere_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">cube_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">cube_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">ground_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">ground_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destroyed</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>step_physics</b>(double time_step=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>output_body_positions_and_rotations</b>(double time_step=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_sphere_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_cube_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -610,34 +738,44 @@ table td
 <pre>
 {
   "bullet_physics_common": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDiscreteDynamicsWorld": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btRigidBody": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btCollisionShape": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/Logger": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btCollisionDispatcher": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDbvtBroadphase": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDefaultCollisionConfiguration": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btSequentialImpulseConstraintSolver": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/Vec3D": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"

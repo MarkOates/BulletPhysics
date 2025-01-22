@@ -123,6 +123,10 @@ void Cubes::initialize()
       cube_inertia
    );
    cube_body = new btRigidBody(cube_body_ci);
+
+   // Make the cube body bouncy
+   cube_body->setRestitution(1.0);
+
    dynamics_world->addRigidBody(cube_body);
 
 

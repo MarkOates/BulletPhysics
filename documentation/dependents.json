@@ -1,33 +1,43 @@
 {
   "bullet_physics_common": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDiscreteDynamicsWorld": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btRigidBody": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btCollisionShape": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/Logger": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btCollisionDispatcher": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDbvtBroadphase": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btDefaultCollisionConfiguration": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "btSequentialImpulseConstraintSolver": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/Vec3D": [
-    "BulletPhysics/Examples/Basic"
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
