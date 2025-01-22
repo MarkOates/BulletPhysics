@@ -82,13 +82,13 @@ void Cubes::initialize()
    dynamics_world->addRigidBody(ground_body);
 
    // Make the ground floor body bouncy
-   ground_body->setRestitution(1.0);
+   ground_body->setRestitution(0.8);
 
    // Create a falling sphere
    sphere_shape = new btSphereShape(1);
    btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
       btTransform(btQuaternion(0, 0, 0, 1),
-      btVector3(0, 50, 0))
+      btVector3(0, 10, 0))
    );
    btScalar sphere_mass = 1;
    btVector3 sphere_inertia;
@@ -102,7 +102,7 @@ void Cubes::initialize()
    sphere_body = new btRigidBody(sphere_body_ci);
 
    // Make the sphere body bouncy
-   sphere_body->setRestitution(1.0);
+   sphere_body->setRestitution(0.8);
 
    dynamics_world->addRigidBody(sphere_body);
 
@@ -111,7 +111,7 @@ void Cubes::initialize()
    cube_shape = new btBoxShape(half_extents);
    btDefaultMotionState *cube_motion_state = new btDefaultMotionState(
       btTransform(btQuaternion(0, 0, 0, 1),
-      btVector3(20, 50, 0)) // Starting at position (0, 50, 0)
+      btVector3(2.5, 12, 0)) // Starting at position
    );
    btScalar cube_mass = 1;
    btVector3 cube_inertia;
@@ -125,7 +125,7 @@ void Cubes::initialize()
    cube_body = new btRigidBody(cube_body_ci);
 
    // Make the cube body bouncy
-   cube_body->setRestitution(1.0);
+   cube_body->setRestitution(0.8);
 
    dynamics_world->addRigidBody(cube_body);
 

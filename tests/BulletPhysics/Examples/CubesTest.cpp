@@ -5,6 +5,8 @@
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/Testing/WithInteractionFixture.hpp>
 #include <AllegroFlare/Useful.hpp> // For draw_crosshair
+#include <AllegroFlare/ModelBin.hpp>
+#include <AllegroFlare/Placement3D.hpp>
 
 
 class BulletPhysics_Examples_CubesTest : public ::testing::Test {};
@@ -70,20 +72,28 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
 {
    BulletPhysics::Examples::Cubes physics;
    AllegroFlare::Camera3D camera;
+   AllegroFlare::ModelBin model_bin;
+   model_bin.set_full_path(get_data_folder_path() + "models");
+
+   AllegroFlare::Model3D *sphere_model = model_bin.auto_get("unit_sphere-01.obj");
+   AllegroFlare::Model3D *cube_model = model_bin.auto_get("centered_unit_cube-02.obj");
+   cube_model->set_texture(get_bitmap_bin_ref().auto_get("centered_unit_cube-03-faces.png"));
 
    // Initialize the physics
    physics.initialize();
 
    // Setup the camera
-   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 100);
-   camera.tilt = 0.0;
+   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 12);
+   camera.tilt = 0.25;
+   camera.spin = 0.125;
    camera.near_plane = 0.25;
    camera.far_plane = 500.0;
 
    // Create some scene "entity" variables
    AllegroFlare::Vec3D sphere_body_position;
    AllegroFlare::Vec3D cube_body_position;
-
+   AllegroFlare::Placement3D sphere_body_placement;
+   AllegroFlare::Placement3D cube_body_placement;
 
    while(interactive_test_wait_for_event())
    {
@@ -94,19 +104,34 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
          case ALLEGRO_EVENT_TIMER:
          {
             // Step the physics
-            physics.step_physics(1.0 / 60.0);
+            physics.step_physics(1.0 / 60.0 * 2);
 
             // Synchronize the physics with the visual
             physics.capture_sphere_body_position_and_rotation(&sphere_body_position);
             physics.capture_cube_body_position_and_rotation(&cube_body_position);
 
+            // Update the sphere and cube placements
+            sphere_body_placement.position = sphere_body_position;
+            cube_body_placement.position = cube_body_position;
+
             // Render
             clear();
             camera.setup_projection_on(al_get_target_bitmap());
 
-            // Draw the sphere position
+            // Draw the sphere and cube positions with crosshairs
             AllegroFlare::draw_crosshair(sphere_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
             AllegroFlare::draw_crosshair(cube_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
+
+            // Draw the sphere and cube objects
+            sphere_body_placement.start_transform();
+            sphere_model->draw();
+            sphere_body_placement.restore_transform();
+
+            cube_body_placement.start_transform();
+            cube_model->draw();
+            cube_body_placement.restore_transform();
+
+            //cube_body_placement.position = cube_body_position;
 
             // Finish the interactive rendering
             interactive_test_render_status();
