@@ -2,15 +2,24 @@
 #include <gtest/gtest.h>
 
 #include <BulletPhysics/Examples/Basic.hpp>
+#include <AllegroFlare/Camera3D.hpp>
+#include <AllegroFlare/Testing/WithInteractionFixture.hpp>
+#include <AllegroFlare/Useful.hpp> // For draw_crosshair
 
 
-TEST(BulletPhysics_Examples_BasicTest, can_be_created_without_blowing_up)
+class BulletPhysics_Examples_BasicTest : public ::testing::Test {};
+class BulletPhysics_Examples_BasicTestWithInteractionFixture : public AllegroFlare::Testing::WithInteractionFixture {};
+
+
+
+TEST_F(BulletPhysics_Examples_BasicTest, can_be_created_without_blowing_up)
 {
    BulletPhysics::Examples::Basic basic;
 }
 
 
-TEST(BulletPhysics_Examples_BasicTest, when_initialized_freed_and_not_destroyed__will_output_a_warning)
+
+TEST_F(BulletPhysics_Examples_BasicTest, when_initialized_freed_and_not_destroyed__will_output_a_warning)
 {
    BulletPhysics::Examples::Basic *basic = new BulletPhysics::Examples::Basic;
    basic->initialize();
@@ -27,7 +36,8 @@ TEST(BulletPhysics_Examples_BasicTest, when_initialized_freed_and_not_destroyed_
 }
 
 
-TEST(BulletPhysics_Examples_BasicTest, initialize__will_not_blow_up)
+
+TEST_F(BulletPhysics_Examples_BasicTest, initialize__will_not_blow_up)
 {
    BulletPhysics::Examples::Basic basic;
    basic.initialize();
@@ -35,13 +45,13 @@ TEST(BulletPhysics_Examples_BasicTest, initialize__will_not_blow_up)
 }
 
 
-TEST(BulletPhysics_Examples_BasicTest, step_physics__will_step_the_simulation)
+
+TEST_F(BulletPhysics_Examples_BasicTest, step_physics__will_step_the_simulation)
 {
    BulletPhysics::Examples::Basic basic;
    basic.initialize();
 
    // Run simulation
-   btTransform bullet_transform;
    for (int i = 0; i < 150; i++)
    {
       // Make simulation step
@@ -52,6 +62,78 @@ TEST(BulletPhysics_Examples_BasicTest, step_physics__will_step_the_simulation)
    }
 
    basic.destroy();
+}
+
+
+
+TEST_F(BulletPhysics_Examples_BasicTestWithInteractionFixture, will_work_with_the_expected_context)
+{
+   BulletPhysics::Examples::Basic physics;
+   AllegroFlare::Camera3D camera;
+
+   // Initialize the physics
+   physics.initialize();
+
+   // Setup the camera
+   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 100);
+   camera.tilt = 0.0;
+   camera.near_plane = 0.25;
+   camera.far_plane = 500.0;
+
+   // Create some scene "entity" variables
+   AllegroFlare::Vec3D sphere_body_position;
+
+
+   while(interactive_test_wait_for_event())
+   {
+      ALLEGRO_EVENT &current_event = *interactive_test_get_current_event();
+
+      switch(current_event.type)
+      {
+         case ALLEGRO_EVENT_TIMER:
+         {
+            // Step the physics
+            physics.step_physics(1.0 / 60.0);
+
+            // Synchronize the physics with the visual
+            physics.capture_sphere_body_position_and_rotation(&sphere_body_position);
+
+            // Render
+            clear();
+            camera.setup_projection_on(al_get_target_bitmap());
+
+            // Draw the sphere position
+            AllegroFlare::draw_crosshair(sphere_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
+
+            // Finish the interactive rendering
+            interactive_test_render_status();
+            al_flip_display();
+         }
+         break;
+
+         //// For example:
+         //case ALLEGRO_FLARE_EVENT_PLAY_SOUND_EFFECT:
+         //{
+            //std::cout << "[AllegroFlare_Elements_MultiListTestWithAllegroRenderingFixture]: INFO: "
+                      //<< "Play sound effect event was emitted. "
+                      //<< std::endl;
+         //}
+         //break;
+
+         //// For example:
+         //case ALLEGRO_EVENT_KEY_DOWN:
+         //{
+            //bool shift = current_event.keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+            //switch(current_event.keyboard.keycode)
+            //{
+               //case ALLEGRO_KEY_ENTER:
+                  //// Do something
+               //break;
+            //}
+         //}
+         //break;
+      }
+   }
 }
 
 

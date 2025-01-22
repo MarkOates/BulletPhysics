@@ -132,6 +132,35 @@ methods:
       return;
 
 
+  - name: capture_sphere_body_position_and_rotation
+    parameters:
+      - name: position
+        type: AllegroFlare::Vec3D*
+        default_argument: nullptr
+      - name: rotation_euler
+        type: AllegroFlare::Vec3D*
+        default_argument: nullptr
+    guards: [ position ]
+    xguards: [ position, rotation_euler ]
+    body: |
+      // Capture the sphere (currently the only object in the scene)
+      btTransform bullet_transform;
+      sphere_body->getMotionState()->getWorldTransform(bullet_transform);
+      btVector3 origin = bullet_transform.getOrigin();
+
+      position->x = origin.getX();
+      position->y = origin.getY();
+      position->z = origin.getZ();
+
+      //btQuaternion rotation_quarternion = bullet_transform.getRotation();
+
+      //rotation_euler->x = origin.getX();
+      //rotation_euler->y = origin.getY();
+      //rotation_euler->z = origin.getZ();
+
+      return;
+
+
   - name: ~destroy
     body: |
       if (initialized && !destroyed)
@@ -186,5 +215,7 @@ dependencies:
     headers: [ btBulletDynamicsCommon.h ]
   - symbol: btSequentialImpulseConstraintSolver
     headers: [ btBulletDynamicsCommon.h ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
 
 

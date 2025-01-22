@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <AllegroFlare/Vec3D.hpp>
 #include <btBulletDynamicsCommon.h>
 
 
@@ -33,6 +34,7 @@ namespace BulletPhysics
          void initialize();
          void step_physics(double time_step=1.0 / 60.0);
          void output_body_positions_and_rotations(double time_step=1.0 / 60.0);
+         void capture_sphere_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr);
          void destroy();
       };
    }

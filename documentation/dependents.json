@@ -26,6 +26,9 @@
   "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic"
   ],
+  "AllegroFlare/Vec3D": [
+    "BulletPhysics/Examples/Basic"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

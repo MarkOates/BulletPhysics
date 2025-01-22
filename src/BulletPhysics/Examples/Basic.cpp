@@ -125,6 +125,33 @@ void Basic::output_body_positions_and_rotations(double time_step)
    return;
 }
 
+void Basic::capture_sphere_body_position_and_rotation(AllegroFlare::Vec3D* position, AllegroFlare::Vec3D* rotation_euler)
+{
+   if (!(position))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Basic::capture_sphere_body_position_and_rotation]: error: guard \"position\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Basic::capture_sphere_body_position_and_rotation]: error: guard \"position\" not met");
+   }
+   // Capture the sphere (currently the only object in the scene)
+   btTransform bullet_transform;
+   sphere_body->getMotionState()->getWorldTransform(bullet_transform);
+   btVector3 origin = bullet_transform.getOrigin();
+
+   position->x = origin.getX();
+   position->y = origin.getY();
+   position->z = origin.getZ();
+
+   //btQuaternion rotation_quarternion = bullet_transform.getRotation();
+
+   //rotation_euler->x = origin.getX();
+   //rotation_euler->y = origin.getY();
+   //rotation_euler->z = origin.getZ();
+
+   return;
+}
+
 void Basic::destroy()
 {
    if (!((!destroyed)))
