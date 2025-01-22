@@ -100,6 +100,38 @@ methods:
       - bullet_physics_common
 
 
+  - name: step_physics
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 1.0 / 60.0
+    body: |
+      // Simulate physics
+      //for (int i = 0; i < 150; i++)
+      //{
+         //dynamics_world.stepSimulation(1.0f / 60.0f, 10);
+         dynamics_world->stepSimulation(time_step, 10); // TODO: Not sure what 10 is, believe it's "max substeps", but
+                                                        // not sure how this applies
+         btTransform trans;
+         sphere_body->getMotionState()->getWorldTransform(trans);
+         //std::cout << "Sphere height at step " << i << ": " << trans.getOrigin().getY() << std::endl;
+      //}
+      return;
+
+
+  - name: output_body_positions_and_rotations
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 1.0 / 60.0
+    body: |
+      // Output the sphere (currently the only object in the scene)
+      btTransform bullet_transform;
+      sphere_body->getMotionState()->getWorldTransform(bullet_transform);
+      std::cout << "Sphere height at step: " << bullet_transform.getOrigin().getY() << std::endl;
+      return;
+
+
   - name: ~destroy
     body: |
       if (initialized && !destroyed)

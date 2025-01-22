@@ -101,6 +101,30 @@ void Basic::initialize()
    return;
 }
 
+void Basic::step_physics(double time_step)
+{
+   // Simulate physics
+   //for (int i = 0; i < 150; i++)
+   //{
+      //dynamics_world.stepSimulation(1.0f / 60.0f, 10);
+      dynamics_world->stepSimulation(time_step, 10); // TODO: Not sure what 10 is, believe it's "max substeps", but
+                                                     // not sure how this applies
+      btTransform trans;
+      sphere_body->getMotionState()->getWorldTransform(trans);
+      //std::cout << "Sphere height at step " << i << ": " << trans.getOrigin().getY() << std::endl;
+   //}
+   return;
+}
+
+void Basic::output_body_positions_and_rotations(double time_step)
+{
+   // Output the sphere (currently the only object in the scene)
+   btTransform bullet_transform;
+   sphere_body->getMotionState()->getWorldTransform(bullet_transform);
+   std::cout << "Sphere height at step: " << bullet_transform.getOrigin().getY() << std::endl;
+   return;
+}
+
 void Basic::destroy()
 {
    if (!((!destroyed)))

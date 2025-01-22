@@ -31,6 +31,8 @@ namespace BulletPhysics
          ~Basic();
 
          void initialize();
+         void step_physics(double time_step=1.0 / 60.0);
+         void output_body_positions_and_rotations(double time_step=1.0 / 60.0);
          void destroy();
       };
    }

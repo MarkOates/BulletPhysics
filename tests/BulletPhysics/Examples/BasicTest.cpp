@@ -35,3 +35,23 @@ TEST(BulletPhysics_Examples_BasicTest, initialize__will_not_blow_up)
 }
 
 
+TEST(BulletPhysics_Examples_BasicTest, step_physics__will_step_the_simulation)
+{
+   BulletPhysics::Examples::Basic basic;
+   basic.initialize();
+
+   // Run simulation
+   btTransform bullet_transform;
+   for (int i = 0; i < 150; i++)
+   {
+      // Make simulation step
+      basic.step_physics(1.0 / 60.0);
+
+      // Capture and output the physics information on the sphere
+      basic.output_body_positions_and_rotations();
+   }
+
+   basic.destroy();
+}
+
+
