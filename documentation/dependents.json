@@ -1,4 +1,31 @@
 {
+  "bullet_physics_common": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btDiscreteDynamicsWorld": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btRigidBody": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btCollisionShape": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "AllegroFlare/Logger": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btCollisionDispatcher": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btDbvtBroadphase": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btDefaultCollisionConfiguration": [
+    "BulletPhysics/Examples/Basic"
+  ],
+  "btSequentialImpulseConstraintSolver": [
+    "BulletPhysics/Examples/Basic"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

@@ -10,11 +10,19 @@ TEST(BulletPhysics_Examples_BasicTest, can_be_created_without_blowing_up)
 }
 
 
-TEST(BulletPhysics_Examples_BasicTest, run__returns_the_expected_response)
+TEST(BulletPhysics_Examples_BasicTest, when_initialized_freed_and_not_destroyed__will_output_a_warning)
+{
+   BulletPhysics::Examples::Basic *basic = new BulletPhysics::Examples::Basic;
+   basic->initialize();
+   //delete basic;
+}
+
+
+TEST(BulletPhysics_Examples_BasicTest, initialize__will_not_blow_up)
 {
    BulletPhysics::Examples::Basic basic;
-   std::string expected_string = "Hello World!";
-   EXPECT_EQ(expected_string, basic.run());
+   basic.initialize();
+   basic._destroy();
 }
 
 

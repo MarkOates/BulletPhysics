@@ -1,0 +1,40 @@
+#pragma once
+
+
+#include <btBulletDynamicsCommon.h>
+
+
+namespace BulletPhysics
+{
+   namespace Examples
+   {
+      class Basic
+      {
+      private:
+         btDefaultCollisionConfiguration collision_configuration;
+         btCollisionDispatcher dispatcher;
+         btDbvtBroadphase broadphase;
+         btSequentialImpulseConstraintSolver solver;
+         btDiscreteDynamicsWorld* dynamics_world;
+         btRigidBody* sphere_body;
+         btCollisionShape* sphere_shape;
+         btRigidBody* ground_body;
+         btCollisionShape* ground_shape;
+         bool initialized;
+         bool destroyed;
+
+      protected:
+
+
+      public:
+         Basic();
+         ~Basic();
+
+         void initialize();
+         void _destroy();
+      };
+   }
+}
+
+
+
