@@ -31,7 +31,7 @@ namespace BulletPhysics
          ~Basic();
 
          void initialize();
-         void _destroy();
+         void destroy();
       };
    }
 }

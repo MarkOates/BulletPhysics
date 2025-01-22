@@ -62,29 +62,35 @@ methods:
       //btCollisionDispatcher dispatcher(&collision_configuration);
       //btDbvtBroadphase broadphase;
       //btSequentialImpulseConstraintSolver solver;
+      // NOTE: I'm not sure what of these injected objects are disposable after construction and/or which need to be
+      // kept alive for dynamics_world
       dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
 
       // Set gravity
       dynamics_world->setGravity(btVector3(0, -9.81, 0));
 
       // Create a ground plane
-      //btCollisionShape *ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
       ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
       btDefaultMotionState *ground_motion_state = new btDefaultMotionState();
       btRigidBody::btRigidBodyConstructionInfo ground_body_ci(0, ground_motion_state, ground_shape, btVector3(0, 0, 0));
-      //btRigidBody *ground_body = new btRigidBody(ground_body_ci);
       ground_body = new btRigidBody(ground_body_ci);
       dynamics_world->addRigidBody(ground_body);
 
       // Create a falling sphere
-      //btCollisionShape *sphere_shape = new btSphereShape(1);
       sphere_shape = new btSphereShape(1);
-      btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+      btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
+         btTransform(btQuaternion(0, 0, 0, 1),
+         btVector3(0, 50, 0))
+      );
       btScalar sphere_mass = 1;
       btVector3 sphere_inertia;
       sphere_shape->calculateLocalInertia(sphere_mass, sphere_inertia);
-      btRigidBody::btRigidBodyConstructionInfo sphere_body_ci(sphere_mass, sphere_motion_state, sphere_shape, sphere_inertia);
-      //btRigidBody *sphere_body = new btRigidBody(sphere_body_ci);
+      btRigidBody::btRigidBodyConstructionInfo sphere_body_ci(
+         sphere_mass,
+         sphere_motion_state,
+         sphere_shape,
+         sphere_inertia
+      );
       sphere_body = new btRigidBody(sphere_body_ci);
       dynamics_world->addRigidBody(sphere_body);
 
@@ -108,21 +114,21 @@ methods:
       - AllegroFlare::Logger
 
 
-  - name: _destroy
+  - name: destroy
     guards: [ (!destroyed), initialized ]
     body: |
       // Cleanup
       dynamics_world->removeRigidBody(sphere_body);
-      //delete sphere_body->getMotionState();
-      //delete sphere_body;
-      //delete sphere_shape;
+      delete sphere_body->getMotionState();
+      delete sphere_body;
+      delete sphere_shape;
 
-      //dynamics_world->removeRigidBody(ground_body);
-      //delete ground_body->getMotionState();
-      //delete ground_body;
-      //delete ground_shape;
+      dynamics_world->removeRigidBody(ground_body);
+      delete ground_body->getMotionState();
+      delete ground_body;
+      delete ground_shape;
 
-      //delete dynamics_world;
+      delete dynamics_world;
       destroyed = true;
       return;
 
