@@ -234,10 +234,10 @@ void Cubes::destroy()
    delete sphere_body;
    delete sphere_shape;
 
-   //dynamics_world->removeRigidBody(cube_body);
-   //delete cube_body->getMotionState();
-   //delete cube_body;
-   //delete cube_shape;
+   dynamics_world->removeRigidBody(cube_body);
+   delete cube_body->getMotionState();
+   delete cube_body;
+   delete cube_shape;
 
    dynamics_world->removeRigidBody(ground_body);
    delete ground_body->getMotionState();

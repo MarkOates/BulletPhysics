@@ -83,8 +83,8 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
    physics.initialize();
 
    // Setup the camera
-   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 12);
-   camera.tilt = 0.25;
+   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 14);
+   camera.tilt = 0.5;
    camera.spin = 0.125;
    camera.near_plane = 0.25;
    camera.far_plane = 500.0;
