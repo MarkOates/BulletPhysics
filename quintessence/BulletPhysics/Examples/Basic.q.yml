@@ -76,6 +76,9 @@ methods:
       ground_body = new btRigidBody(ground_body_ci);
       dynamics_world->addRigidBody(ground_body);
 
+      // Make the ground floor body bouncy
+      ground_body->setRestitution(1.0);
+
       // Create a falling sphere
       sphere_shape = new btSphereShape(1);
       btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
@@ -92,6 +95,10 @@ methods:
          sphere_inertia
       );
       sphere_body = new btRigidBody(sphere_body_ci);
+
+      // Make the sphere body bouncy
+      sphere_body->setRestitution(1.0);
+
       dynamics_world->addRigidBody(sphere_body);
 
       initialized = true;
