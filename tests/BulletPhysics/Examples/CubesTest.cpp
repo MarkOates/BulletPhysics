@@ -123,7 +123,7 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
          {
             // Step the physics
             physics.step_physics(1.0 / 60.0 * 2.0);
-            camera.spin -= 0.0125 * 0.5;
+            //camera.spin -= 0.0125 * 0.5;
 
             // Synchronize the physics with the visual
             physics.capture_sphere_body_position_and_rotation(&sphere_body_position, &sphere_body_rotation);
