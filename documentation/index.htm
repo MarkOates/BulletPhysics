@@ -56,6 +56,7 @@ table td
 <ul>
   <li><a href="#quintessence/BulletPhysics/Examples/Basic.q.yml">quintessence/BulletPhysics/Examples/Basic.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/Examples/Mesh.q.yml">quintessence/BulletPhysics/Examples/Mesh.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Game/Configurations/Main.q.yml">quintessence/BulletPhysics/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml">quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Gameplay/Level.q.yml">quintessence/BulletPhysics/Gameplay/Level.q.yml</a></li>
@@ -321,6 +322,188 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Random&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Random.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/Examples/Mesh.q.yml">quintessence/BulletPhysics/Examples/Mesh.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">collision_configuration</td>
+  <td class="property">btDefaultCollisionConfiguration</td>
+</tr>
+<tr>
+  <td class="property">dispatcher</td>
+  <td class="property">btCollisionDispatcher</td>
+</tr>
+<tr>
+  <td class="property">broadphase</td>
+  <td class="property">btDbvtBroadphase</td>
+</tr>
+<tr>
+  <td class="property">solver</td>
+  <td class="property">btSequentialImpulseConstraintSolver</td>
+</tr>
+<tr>
+  <td class="property">dynamics_world</td>
+  <td class="property">btDiscreteDynamicsWorld*</td>
+</tr>
+<tr>
+  <td class="property">sphere_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">sphere_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">cube_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">cube_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">cubes</td>
+  <td class="property">std::vector&lt;std::pair&lt;btRigidBody*, btCollisionShape*&gt;&gt;</td>
+</tr>
+<tr>
+  <td class="property">shape_model</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">shapes</td>
+  <td class="property">std::vector&lt;std::pair&lt;btRigidBody*, btCollisionShape*&gt;&gt;</td>
+</tr>
+<tr>
+  <td class="property">ground_body</td>
+  <td class="property">btRigidBody*</td>
+</tr>
+<tr>
+  <td class="property">ground_shape</td>
+  <td class="property">btCollisionShape*</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destroyed</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">int</td>
+  <td class="method"><b>num_cubes</b>()</td>
+</tr>
+<tr>
+  <td class="method">int</td>
+  <td class="method"><b>num_shapes</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">btConvexHullShape*</td>
+  <td class="private_method"><b>create_convex_shape</b>(AllegroFlare::Model3D* model=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">std::pair&lt;btRigidBody*, btCollisionShape*&gt;</td>
+  <td class="method"><b>create_dynamic_mesh_shape</b>(AllegroFlare::Model3D* model=nullptr, float x=0.0f, float y=50.0f, float z=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>step_physics</b>(double time_step=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>output_body_positions_and_rotations</b>(double time_step=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_sphere_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>build_transform_bullet</b>(ALLEGRO_TRANSFORM* transform=nullptr, AllegroFlare::Placement3D* placement_3d=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_cube_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int cube_index=-1)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_shape_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int shape_index=-1)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_rigid_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, btRigidBody* rigid_body=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;bullet_physics_common&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDiscreteDynamicsWorld&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btRigidBody&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btCollisionShape&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btCollisionDispatcher&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDbvtBroadphase&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDefaultCollisionConfiguration&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btSequentialImpulseConstraintSolver&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_TRANSFORM&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Placement3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Placement3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Random&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Random.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btConvexHullShape&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -760,52 +943,71 @@ table td
 {
   "bullet_physics_common": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDiscreteDynamicsWorld": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btRigidBody": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionShape": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Logger": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDbvtBroadphase": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDefaultCollisionConfiguration": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Vec3D": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "ALLEGRO_TRANSFORM": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Placement3D": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Random": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "AllegroFlare/Model3D": [
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btConvexHullShape": [
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"

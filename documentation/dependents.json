@@ -1,52 +1,71 @@
 {
   "bullet_physics_common": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDiscreteDynamicsWorld": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btRigidBody": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionShape": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Logger": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDbvtBroadphase": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btDefaultCollisionConfiguration": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Vec3D": [
     "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "ALLEGRO_TRANSFORM": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Placement3D": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Random": [
-    "BulletPhysics/Examples/Cubes"
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "AllegroFlare/Model3D": [
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btConvexHullShape": [
+    "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
