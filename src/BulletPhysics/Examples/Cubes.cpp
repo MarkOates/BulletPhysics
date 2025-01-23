@@ -141,7 +141,7 @@ void Cubes::initialize()
 
 
    // Create multiple cubes
-   int num_cubes = 12;
+   int num_cubes = 11;
    for (int i=0; i<num_cubes; i++)
    {
       // Create a falling cube
@@ -173,6 +173,20 @@ void Cubes::initialize()
          //std::pair<cube_body, cube_shape>
       );
       //type: std::vector<std::pair<btRigidBody*, btCollisionShape*>>
+
+
+      // Set initial linear velocity
+      btVector3 initial_velocity(0.124, 0, 0); // Move along the x-axis
+      cube_body->setLinearVelocity(initial_velocity);
+
+      // Set initial angular velocity
+      btVector3 initial_angular_velocity(
+         random.get_random_int(-10, 10),
+         random.get_random_int(-10, 10),
+         random.get_random_int(-10, 10)
+      ); // Spin around the y-axis
+      cube_body->setAngularVelocity(initial_angular_velocity);
+
    }
 
 
@@ -311,6 +325,7 @@ void Cubes::capture_cube_body_position_and_rotation(AllegroFlare::Vec3D* positio
 
    //btQuaternion rotation_quarternion =
    rotation_quarternion.getEulerZYX(yawZ, pitchY, rollX);
+   //rotation_quarternion.getEulerXYZ(yawZ, pitchY, rollX);
    //getEulerZYX(origin.getX()kbtScalar &yawZ, btScalar &pitchY, btScalar &rollX) const
 
    //rotation_euler->x = rollX / (3.14159);

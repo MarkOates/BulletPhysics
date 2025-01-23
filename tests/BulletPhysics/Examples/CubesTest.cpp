@@ -84,7 +84,7 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
    physics.initialize();
 
    // Setup the camera
-   camera.stepout = AllegroFlare::Vec3D(0, 1.25, 12);
+   camera.stepout = AllegroFlare::Vec3D(0, 1.25, 18);
    camera.tilt = 0.5;
    camera.spin = 1.25;
    camera.near_plane = 0.25;
@@ -122,7 +122,7 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
          case ALLEGRO_EVENT_TIMER:
          {
             // Step the physics
-            physics.step_physics(1.0 / 60.0);
+            physics.step_physics(1.0 / 60.0 * 2.0);
             camera.spin -= 0.0125 * 0.5;
 
             // Synchronize the physics with the visual
