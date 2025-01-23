@@ -45,6 +45,9 @@
   "AllegroFlare/Placement3D": [
     "BulletPhysics/Examples/Cubes"
   ],
+  "AllegroFlare/Random": [
+    "BulletPhysics/Examples/Cubes"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

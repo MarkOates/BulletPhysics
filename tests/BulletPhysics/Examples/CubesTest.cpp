@@ -76,16 +76,17 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
    model_bin.set_full_path(get_data_folder_path() + "models");
 
    AllegroFlare::Model3D *sphere_model = model_bin.auto_get("unit_sphere-01.obj");
-   AllegroFlare::Model3D *cube_model = model_bin.auto_get("centered_unit_cube-02.obj");
-   cube_model->set_texture(get_bitmap_bin_ref().auto_get("centered_unit_cube-03-faces.png"));
+   AllegroFlare::Model3D *cube_model = model_bin.auto_get("centered_unit_cube-03.obj");
+   //cube_model->set_texture(get_bitmap_bin_ref().auto_get("centered_unit_cube-03-faces.png"));
+   cube_model->set_texture(get_bitmap_bin_ref().auto_get("dice_faces-04.png"));
 
    // Initialize the physics
    physics.initialize();
 
    // Setup the camera
-   camera.stepout = AllegroFlare::Vec3D(3, 2.25, 14);
+   camera.stepout = AllegroFlare::Vec3D(0, 1.25, 12);
    camera.tilt = 0.5;
-   camera.spin = 0.125;
+   camera.spin = 1.25;
    camera.near_plane = 0.25;
    camera.far_plane = 500.0;
 
@@ -121,24 +122,26 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
          case ALLEGRO_EVENT_TIMER:
          {
             // Step the physics
-            physics.step_physics(1.0 / 60.0 * 0.5);
+            physics.step_physics(1.0 / 60.0);
+            camera.spin -= 0.0125 * 0.5;
 
             // Synchronize the physics with the visual
             physics.capture_sphere_body_position_and_rotation(&sphere_body_position, &sphere_body_rotation);
             physics.capture_cube_body_position_and_rotation(&cube_body_position, &cube_body_rotation);
-            cube_body_placement.scale = {2, 2, 2};
+            //cube_body_placement.scale = {2, 2, 2};
             for (int i=0; i<num_cubes; i++)
             {
                physics.capture_cube_body_position_and_rotation(&cube_body_positions[i], &cube_body_rotations[i], i);
                cube_body_placements[i].position = cube_body_positions[i];
                cube_body_placements[i].rotation = cube_body_rotations[i];
-               cube_body_placements[i].scale = {2, 2, 2};
+               //cube_body_placements[i].scale = {2, 2, 2};
             }
             
 
             // Update the sphere and cube placements
             sphere_body_placement.position = sphere_body_position;
             sphere_body_placement.rotation = sphere_body_rotation;
+            sphere_body_placement.scale = { 2, 2, 2 };
             cube_body_placement.position = cube_body_position;
             cube_body_placement.rotation = cube_body_rotation;
 
@@ -147,12 +150,12 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
             camera.setup_projection_on(al_get_target_bitmap());
 
             // Draw the sphere and cube positions with crosshairs
-            AllegroFlare::draw_crosshair(sphere_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
-            AllegroFlare::draw_crosshair(cube_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
+            //AllegroFlare::draw_crosshair(sphere_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
+            //AllegroFlare::draw_crosshair(cube_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
 
             // Draw the sphere and cube objects
             sphere_body_placement.start_transform();
-            sphere_model->draw();
+            //sphere_model->draw();
             sphere_body_placement.restore_transform();
 
 

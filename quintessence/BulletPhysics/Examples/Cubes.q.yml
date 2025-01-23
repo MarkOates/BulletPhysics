@@ -117,14 +117,14 @@ methods:
       // Make the sphere body bouncy
       sphere_body->setRestitution(0.8);
 
-      dynamics_world->addRigidBody(sphere_body);
+      //dynamics_world->addRigidBody(sphere_body);
 
       // Create a falling cube
-      btVector3 half_extents(1, 1, 1); // Half-dimensions of the cube (1x1x1 cube)
+      btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
       cube_shape = new btBoxShape(half_extents);
       btDefaultMotionState *cube_motion_state = new btDefaultMotionState(
          btTransform(btQuaternion(0, 0, 0, 1),
-         btVector3(2.5, 12, 0)) // Starting at position
+         btVector3(0, 12, 0)) // Starting at position
       );
       btScalar cube_mass = 1;
       btVector3 cube_inertia;
@@ -143,17 +143,20 @@ methods:
       dynamics_world->addRigidBody(cube_body);
 
 
+      AllegroFlare::Random random;
+
+
       // Create multiple cubes
-      int num_cubes = 1;
+      int num_cubes = 12;
       for (int i=0; i<num_cubes; i++)
       {
          // Create a falling cube
-         btVector3 half_extents(1, 1, 1); // Half-dimensions of the cube (1x1x1 cube)
+         btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
          btCollisionShape *cube_shape = new btBoxShape(half_extents);
          btDefaultMotionState *cube_motion_state = new btDefaultMotionState(
-            btTransform(btQuaternion(0, 0, 0, 1),
+            btTransform(btQuaternion(0.125, random.get_random_float(0, 3.125), random.get_random_float(0, 3.125), 1),
             //btVector3(-3 + 1.5*i, 14, 0)) // Starting at position
-            btVector3(4.0 + 1.5*i, 15, 0)) // Starting at position
+            btVector3((-2.5 + 1.5*i)/2 + random.get_random_float(-1, 1), 15+0.75 * i, 0)) // Starting at position
          );
          btScalar cube_mass = 1;
          btVector3 cube_inertia;
@@ -167,7 +170,7 @@ methods:
          btRigidBody *cube_body = new btRigidBody(cube_body_ci);
 
          // Make the cube body bouncy
-         cube_body->setRestitution(0.0);
+         cube_body->setRestitution(0.6);
 
          dynamics_world->addRigidBody(cube_body);
 
@@ -183,6 +186,7 @@ methods:
       return;
     body_dependency_symbols:
       - bullet_physics_common
+      - AllegroFlare::Random
 
 
   - name: step_physics
@@ -272,9 +276,11 @@ methods:
       al_translate_transform_3d(transform, anchor.x, anchor.y, anchor.z);
 
       // rotate
-      al_rotate_transform_3d(transform, 0, 0, 1, rotation.z);
-      al_rotate_transform_3d(transform, 0, 1, 0, rotation.y);
+      //al_rotate_transform_3d(transform, 0, 0, 1, rotation.z);
+      //al_rotate_transform_3d(transform, 0, 1, 0, rotation.y);
       al_rotate_transform_3d(transform, 1, 0, 0, rotation.x);
+      al_rotate_transform_3d(transform, 0, 1, 0, rotation.y);
+      al_rotate_transform_3d(transform, 0, 0, 1, rotation.z);
       //al_rotate_transform_3d(transform, 0, 0, 1, rotation.z);
 
       // translate
@@ -329,6 +335,10 @@ methods:
       //rotation_euler->x = yawZ; // * RAD_TO_TAU;
       //rotation_euler->y = pitchY; // * RAD_TO_TAU;
       //rotation_euler->y = yawZ; // * RAD_TO_TAU;
+
+      rotation_euler->y = pitchY; // * RAD_TO_TAU;
+
+      rotation_euler->x = rollX; // * RAD_TO_TAU; // "confirmed"
       rotation_euler->z = yawZ; // * RAD_TO_TAU; // "confirmed"
 
       return;
@@ -399,5 +409,7 @@ dependencies:
     headers: [ allegro5/allegro.h ]
   - symbol: AllegroFlare::Placement3D
     headers: [ AllegroFlare/Placement3D.hpp ]
+  - symbol: AllegroFlare::Random
+    headers: [ AllegroFlare/Random.hpp ]
 
 
