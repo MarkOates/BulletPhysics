@@ -39,6 +39,12 @@
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes"
   ],
+  "ALLEGRO_TRANSFORM": [
+    "BulletPhysics/Examples/Cubes"
+  ],
+  "AllegroFlare/Placement3D": [
+    "BulletPhysics/Examples/Cubes"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

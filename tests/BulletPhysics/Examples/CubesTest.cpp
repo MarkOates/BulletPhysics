@@ -83,7 +83,7 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
    physics.initialize();
 
    // Setup the camera
-   camera.stepout = AllegroFlare::Vec3D(0, 2.25, 14);
+   camera.stepout = AllegroFlare::Vec3D(3, 2.25, 14);
    camera.tilt = 0.5;
    camera.spin = 0.125;
    camera.near_plane = 0.25;
@@ -92,8 +92,25 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
    // Create some scene "entity" variables
    AllegroFlare::Vec3D sphere_body_position;
    AllegroFlare::Vec3D cube_body_position;
+   AllegroFlare::Vec3D sphere_body_rotation;
+   AllegroFlare::Vec3D cube_body_rotation;
    AllegroFlare::Placement3D sphere_body_placement;
    AllegroFlare::Placement3D cube_body_placement;
+
+   std::vector<AllegroFlare::Vec3D> cube_body_positions;
+   std::vector<AllegroFlare::Vec3D> cube_body_rotations;
+   std::vector<AllegroFlare::Placement3D> cube_body_placements;
+
+   int num_cubes = physics.num_cubes();
+   cube_body_positions.resize(num_cubes);
+   cube_body_rotations.resize(num_cubes);
+   cube_body_placements.resize(num_cubes);
+
+   int presteps = 60;
+   for (int i=0; i<presteps; i++)
+   {
+      physics.step_physics(1.0 / 60.0);
+   }
 
    while(interactive_test_wait_for_event())
    {
@@ -104,15 +121,26 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
          case ALLEGRO_EVENT_TIMER:
          {
             // Step the physics
-            physics.step_physics(1.0 / 60.0 * 2);
+            physics.step_physics(1.0 / 60.0 * 0.5);
 
             // Synchronize the physics with the visual
-            physics.capture_sphere_body_position_and_rotation(&sphere_body_position);
-            physics.capture_cube_body_position_and_rotation(&cube_body_position);
+            physics.capture_sphere_body_position_and_rotation(&sphere_body_position, &sphere_body_rotation);
+            physics.capture_cube_body_position_and_rotation(&cube_body_position, &cube_body_rotation);
+            cube_body_placement.scale = {2, 2, 2};
+            for (int i=0; i<num_cubes; i++)
+            {
+               physics.capture_cube_body_position_and_rotation(&cube_body_positions[i], &cube_body_rotations[i], i);
+               cube_body_placements[i].position = cube_body_positions[i];
+               cube_body_placements[i].rotation = cube_body_rotations[i];
+               cube_body_placements[i].scale = {2, 2, 2};
+            }
+            
 
             // Update the sphere and cube placements
             sphere_body_placement.position = sphere_body_position;
+            sphere_body_placement.rotation = sphere_body_rotation;
             cube_body_placement.position = cube_body_position;
+            cube_body_placement.rotation = cube_body_rotation;
 
             // Render
             clear();
@@ -127,9 +155,60 @@ TEST_F(BulletPhysics_Examples_CubesTestWithInteractionFixture, will_work_with_th
             sphere_model->draw();
             sphere_body_placement.restore_transform();
 
-            cube_body_placement.start_transform();
-            cube_model->draw();
-            cube_body_placement.restore_transform();
+
+            {
+               ALLEGRO_TRANSFORM previous_transform;
+
+               if (!al_get_current_transform()) return;
+               al_copy_transform(&previous_transform, al_get_current_transform());
+
+               //this->build_transform(&transform);
+
+               //al_compose_transform(&transform, &previous_transform);
+               //al_use_transform(&transform);
+               
+               ALLEGRO_TRANSFORM transform;
+               BulletPhysics::Examples::Cubes::build_transform_bullet(&transform, &cube_body_placement);
+               al_compose_transform(&transform, &previous_transform);
+               al_use_transform(&transform);
+               //cube_body_placement.start_transform();
+
+
+               cube_model->draw();
+
+
+               //cube_body_placement.restore_transform();
+               al_use_transform(&previous_transform);
+            }
+
+
+            int num_cubes = physics.num_cubes();
+            for (int i=0; i<num_cubes; i++)
+            {
+               ALLEGRO_TRANSFORM previous_transform;
+
+               if (!al_get_current_transform()) return;
+               al_copy_transform(&previous_transform, al_get_current_transform());
+
+               //this->build_transform(&transform);
+
+               //al_compose_transform(&transform, &previous_transform);
+               //al_use_transform(&transform);
+               
+               ALLEGRO_TRANSFORM transform;
+               BulletPhysics::Examples::Cubes::build_transform_bullet(&transform, &cube_body_placements[i]);
+               al_compose_transform(&transform, &previous_transform);
+               al_use_transform(&transform);
+               //cube_body_placement.start_transform();
+
+
+               cube_model->draw();
+
+
+               //cube_body_placement.restore_transform();
+               al_use_transform(&previous_transform);
+            }
+
 
             //cube_body_placement.position = cube_body_position;
 

@@ -222,6 +222,10 @@ table td
   <td class="property">btCollisionShape*</td>
 </tr>
 <tr>
+  <td class="property">cubes</td>
+  <td class="property">std::vector&lt;std::pair&lt;btRigidBody*, btCollisionShape*&gt;&gt;</td>
+</tr>
+<tr>
   <td class="property">ground_body</td>
   <td class="property">btRigidBody*</td>
 </tr>
@@ -241,6 +245,10 @@ table td
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
+  <td class="method">int</td>
+  <td class="method"><b>num_cubes</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
 </tr>
@@ -258,7 +266,11 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>capture_cube_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr)</td>
+  <td class="method"><b>build_transform_bullet</b>(ALLEGRO_TRANSFORM* transform=nullptr, AllegroFlare::Placement3D* placement_3d=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>capture_cube_body_position_and_rotation</b>(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int cube_index=-1)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -300,6 +312,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_TRANSFORM&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Placement3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Placement3D.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -775,6 +793,12 @@ table td
   ],
   "AllegroFlare/Vec3D": [
     "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes"
+  ],
+  "ALLEGRO_TRANSFORM": [
+    "BulletPhysics/Examples/Cubes"
+  ],
+  "AllegroFlare/Placement3D": [
     "BulletPhysics/Examples/Cubes"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
