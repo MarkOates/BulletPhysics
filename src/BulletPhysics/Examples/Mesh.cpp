@@ -155,7 +155,7 @@ void Mesh::initialize()
 
 
    // Create multiple cubes
-   int num_cubes = 8;
+   int num_cubes = 0;
    for (int i=0; i<num_cubes; i++)
    {
       // Create a falling cube

@@ -68,7 +68,7 @@ TEST_F(BulletPhysics_Examples_MeshTest, DISABLED__step_physics__will_step_the_si
 
 
 
-TEST_F(BulletPhysics_Examples_MeshTestWithInteractionFixture, will_work_with_the_expected_context)
+TEST_F(BulletPhysics_Examples_MeshTestWithInteractionFixture, CAPTURE__will_work_with_the_expected_context)
 {
    BulletPhysics::Examples::Mesh physics;
    AllegroFlare::Camera3D camera;
@@ -77,10 +77,15 @@ TEST_F(BulletPhysics_Examples_MeshTestWithInteractionFixture, will_work_with_the
 
    AllegroFlare::Model3D *sphere_model = model_bin.auto_get("unit_sphere-01.obj");
    AllegroFlare::Model3D *cube_model = model_bin.auto_get("centered_unit_cube-03.obj");
-   AllegroFlare::Model3D *shape_model = model_bin.auto_get("obscure_unit_tetrahedron-02.obj");
-   //cube_model->set_texture(get_bitmap_bin_ref().auto_get("centered_unit_cube-03-faces.png"));
+   //AllegroFlare::Model3D *shape_model = model_bin.auto_get("obscure_unit_tetrahedron-02.obj");
+   AllegroFlare::Model3D *shape_model = model_bin.auto_get("fancy_dice-01.obj");
+   //AllegroFlare::Model3D *shape_model = model_bin.auto_get("dice_v-01.obj");
    cube_model->set_texture(get_bitmap_bin_ref().auto_get("dice_faces-04.png"));
-   shape_model->set_texture(get_bitmap_bin_ref().auto_get("obscure_unit_tetrahedron-02.png"));
+   //shape_model->set_texture(get_bitmap_bin_ref().auto_get("obscure_unit_tetrahedron-02.png"));
+   shape_model->set_texture(get_bitmap_bin_ref().auto_get("fancy_dice-02.png"));
+   shape_model->set_texture(get_bitmap_bin_ref().auto_get("fancy_neopets_dice-01.png"));
+   shape_model->set_texture(get_bitmap_bin_ref().auto_get("6_dice_sides-01b.png"));
+
 
    // Initialize the physics
    physics.set_shape_model(shape_model);
