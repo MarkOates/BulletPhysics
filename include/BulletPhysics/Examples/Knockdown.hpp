@@ -46,6 +46,7 @@ namespace BulletPhysics
          int num_cubes();
          int num_shapes();
          void create_multiple_cubes();
+         void create_stacked_cubes();
          void create_multiple_shapes();
          void initialize();
          std::pair<btRigidBody*, btCollisionShape*> create_dynamic_mesh_shape(AllegroFlare::Model3D* model=nullptr, float x=0.0f, float y=50.0f, float z=0.0f);

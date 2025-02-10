@@ -91,7 +91,7 @@ methods:
       AllegroFlare::Random random;
       random.set_seed(123456+2);
 
-      int num_cubes = 0;
+      int num_cubes = 20;
       //btRigidBody* cube_body = nullptr;
 
       for (int i=0; i<num_cubes; i++)
@@ -144,6 +144,75 @@ methods:
       return;
 
 
+  - name: create_stacked_cubes
+    body: |
+      //AllegroFlare::Random random;
+      //random.set_seed(123456+2);
+
+      //int num_cubes = 20;
+      //btRigidBody* cube_body = nullptr;
+
+      int num_rows = 4;
+      int num_columns= 3;
+      
+
+      for (int y=0; y<num_columns; y++)
+      {
+         for (int x=0; x<num_rows; x++)
+         {
+            // Create a falling cube
+            btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
+            btCollisionShape *cube_shape = new btBoxShape(half_extents);
+            btDefaultMotionState *cube_motion_state = new btDefaultMotionState(
+               btTransform(btQuaternion(0.0, 0.0, 0.0, 1),
+               //btTransform(btQuaternion(0.125, random.get_random_float(0, 3.125), random.get_random_float(0, 3.125), 1),
+               //btVector3(-3 + 1.5*i, 14, 0)) // Starting at position
+               btVector3(x, y+1.5, 0)) // Starting at position
+               //btVector3((-2.5 + 1.5*i)/2 + random.get_random_float(-1, 1), 15+0.75 * i, 0)) // Starting at position
+            );
+            btScalar cube_mass = 1;
+            btVector3 cube_inertia;
+            cube_shape->calculateLocalInertia(cube_mass, cube_inertia); // Calculate the cube's inertia tensor
+            btRigidBody::btRigidBodyConstructionInfo cube_body_ci(
+               cube_mass,
+               cube_motion_state,
+               cube_shape,
+               cube_inertia
+            );
+            btRigidBody *cube_body = new btRigidBody(cube_body_ci);
+
+            // Make the cube body bouncy
+            cube_body->setRestitution(0.6);
+
+            dynamics_world->addRigidBody(cube_body);
+
+            cubes.push_back(
+               std::pair<btRigidBody*, btCollisionShape*>(cube_body, cube_shape)
+               //std::pair<cube_body, cube_shape>
+            );
+            //type: std::vector<std::pair<btRigidBody*, btCollisionShape*>>
+
+
+            // Set initial linear velocity
+            btVector3 initial_velocity(0, 0, 0); // Move along the x-axis
+            //btVector3 initial_velocity(0.124, 0, 0); // Move along the x-axis
+            cube_body->setLinearVelocity(initial_velocity);
+
+            // Set initial angular velocity
+            btVector3 initial_angular_velocity(
+               0, 0, 0
+               //random.get_random_int(-10, 10),
+               //random.get_random_int(-10, 10),
+               //random.get_random_int(-10, 10)
+            ); // Spin around the y-axis
+            cube_body->setAngularVelocity(initial_angular_velocity);
+
+         }
+      }
+
+      return;
+
+
   - name: create_multiple_shapes
     body: |
       AllegroFlare::Random random;
@@ -151,7 +220,7 @@ methods:
 
       // Create multiple shapes
       //int num_shapes = 11;
-      int num_shapes = 8;
+      int num_shapes = 0;
       float shape_spacing = 2.25;
       for (int i=0; i<num_shapes; i++)
       {
@@ -254,10 +323,13 @@ methods:
 
 
 
-      create_multiple_cubes();
+      // Add some cubes to the scene
+      //create_multiple_cubes();
+      create_stacked_cubes();
 
 
 
+      // Add some shapes to the scene
       create_multiple_shapes();
 
 

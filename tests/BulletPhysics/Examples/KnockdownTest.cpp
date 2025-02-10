@@ -131,7 +131,6 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
    for (int i=0; i<presteps; i++)
    {
       screen.primary_update_func(al_get_time(), 1.0 / 60.0);
-      //physics.step_physics(1.0 / 60.0);
    }
 
    while(interactive_test_wait_for_event())
@@ -148,7 +147,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
          {
             // Step the physics
             //physics.step_physics(1.0 / 60.0 * 2.0f); // * 0.125);
-            double step_duration = 1.0 / 60.0 * 2.0f;
+            double step_duration = 1.0 / 60.0 * 0.25f;
             screen.primary_update_func(al_get_time(), step_duration);
             camera.spin -= 0.0125 * 0.25;
 
