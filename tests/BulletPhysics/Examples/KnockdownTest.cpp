@@ -285,13 +285,16 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
             int num_cubes_knocked_down = screen.count_cubes_knocked_down();
             hud_camera.setup_dimensional_projection(al_get_target_bitmap());
 
-            al_draw_textf(
-               get_any_font(),
+            ALLEGRO_FONT *font = get_any_font();
+            al_draw_multiline_textf(
+               font,
                ALLEGRO_COLOR{1, 1, 1, 1},
                1920/2,
                80,
+               1920,
+               al_get_font_line_height(font),
                ALLEGRO_ALIGN_CENTER,
-               "%d",
+               "KNOCKED DOWN\n%d",
                   num_cubes_knocked_down
             );
              
