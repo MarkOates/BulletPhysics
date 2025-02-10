@@ -105,7 +105,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 
    // Create some scene "entity" variables
    AllegroFlare::Vec3D sphere_body_position;
-   AllegroFlare::Vec3D cube_body_position;
+   //AllegroFlare::Vec3D cube_body_position;
    AllegroFlare::Vec3D sphere_body_rotation;
    AllegroFlare::Vec3D cube_body_rotation;
    AllegroFlare::Placement3D sphere_body_placement;
@@ -154,7 +154,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 
             // Synchronize the physics with the visual
             screen.capture_sphere_body_position_and_rotation(&sphere_body_position, &sphere_body_rotation);
-            screen.capture_cube_body_position_and_rotation(&cube_body_position, &cube_body_rotation);
+            //screen.capture_cube_body_position_and_rotation(&cube_body_position, &cube_body_rotation);
             //cube_body_placement.scale = {2, 2, 2};
             for (int i=0; i<num_cubes; i++)
             {
@@ -177,8 +177,8 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
             sphere_body_placement.position = sphere_body_position;
             sphere_body_placement.rotation = sphere_body_rotation;
             sphere_body_placement.scale = { 2, 2, 2 };
-            cube_body_placement.position = cube_body_position;
-            cube_body_placement.rotation = cube_body_rotation;
+            //cube_body_placement.position = cube_body_position;
+            //cube_body_placement.rotation = cube_body_rotation;
 
             // Render
             clear();
@@ -194,6 +194,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
             //sphere_body_placement.restore_transform();
 
 
+            /*
             {
                ALLEGRO_TRANSFORM previous_transform;
 
@@ -218,6 +219,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
                //cube_body_placement.restore_transform();
                al_use_transform(&previous_transform);
             }
+            */
 
 
             int num_cubes = screen.num_cubes();

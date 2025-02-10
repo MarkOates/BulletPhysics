@@ -25,7 +25,6 @@ namespace BulletPhysics
          btDiscreteDynamicsWorld* dynamics_world;
          btRigidBody* sphere_body;
          btCollisionShape* sphere_shape;
-         btRigidBody* cube_body;
          btCollisionShape* cube_shape;
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> cubes;
          AllegroFlare::Model3D* shape_model;

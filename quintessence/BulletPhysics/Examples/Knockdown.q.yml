@@ -37,10 +37,6 @@ properties:
     type: btCollisionShape*
     init_with: nullptr
 
-  - name: cube_body
-    type: btRigidBody*
-    init_with: nullptr
-
   - name: cube_shape
     type: btCollisionShape*
     init_with: nullptr
@@ -137,6 +133,7 @@ methods:
 
       //dynamics_world->addRigidBody(sphere_body);
 
+      /*
       // Create a falling cube
       btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
       cube_shape = new btBoxShape(half_extents);
@@ -159,6 +156,7 @@ methods:
       cube_body->setRestitution(0.0);
 
       dynamics_world->addRigidBody(cube_body);
+      */
 
 
       AllegroFlare::Random random;
@@ -167,6 +165,8 @@ methods:
 
       // Create multiple cubes
       int num_cubes = 0;
+      //btRigidBody* cube_body = nullptr;
+
       for (int i=0; i<num_cubes; i++)
       {
          // Create a falling cube
@@ -472,10 +472,11 @@ methods:
       - name: cube_index
         type: int
         default_argument: -1
-    guards: [ position, rotation_euler ]
+    guards: [ position, rotation_euler, (cube_index >= 0), (cube_index < cubes.size()) ]
     body: |
-      btRigidBody* cube_body = this->cube_body;
-      if (cube_index >= 0) cube_body = cubes[cube_index].first;
+      btRigidBody* cube_body = cubes[cube_index].first;
+      //if (cube_index >= 0) cube_body = cubes[cube_index].first;
+      //if (cube_index >= 0) cube_body = cubes[cube_index].first;
       
       btTransform bullet_transform;
       cube_body->getMotionState()->getWorldTransform(bullet_transform);
@@ -578,9 +579,11 @@ methods:
       delete sphere_body;
       delete sphere_shape;
 
+      /*
       dynamics_world->removeRigidBody(cube_body);
       delete cube_body->getMotionState();
       delete cube_body;
+      */
       delete cube_shape;
 
       dynamics_world->removeRigidBody(ground_body);

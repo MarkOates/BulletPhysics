@@ -26,7 +26,6 @@ Knockdown::Knockdown()
    , dynamics_world(nullptr)
    , sphere_body(nullptr)
    , sphere_shape(nullptr)
-   , cube_body(nullptr)
    , cube_shape(nullptr)
    , cubes({})
    , shape_model(nullptr)
@@ -128,6 +127,7 @@ void Knockdown::initialize()
 
    //dynamics_world->addRigidBody(sphere_body);
 
+   /*
    // Create a falling cube
    btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
    cube_shape = new btBoxShape(half_extents);
@@ -150,6 +150,7 @@ void Knockdown::initialize()
    cube_body->setRestitution(0.0);
 
    dynamics_world->addRigidBody(cube_body);
+   */
 
 
    AllegroFlare::Random random;
@@ -158,6 +159,8 @@ void Knockdown::initialize()
 
    // Create multiple cubes
    int num_cubes = 0;
+   //btRigidBody* cube_body = nullptr;
+
    for (int i=0; i<num_cubes; i++)
    {
       // Create a falling cube
@@ -451,8 +454,23 @@ void Knockdown::capture_cube_body_position_and_rotation(AllegroFlare::Vec3D* pos
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"rotation_euler\" not met");
    }
-   btRigidBody* cube_body = this->cube_body;
-   if (cube_index >= 0) cube_body = cubes[cube_index].first;
+   if (!((cube_index >= 0)))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index >= 0)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index >= 0)\" not met");
+   }
+   if (!((cube_index < cubes.size())))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < cubes.size())\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < cubes.size())\" not met");
+   }
+   btRigidBody* cube_body = cubes[cube_index].first;
+   //if (cube_index >= 0) cube_body = cubes[cube_index].first;
+   //if (cube_index >= 0) cube_body = cubes[cube_index].first;
 
    btTransform bullet_transform;
    cube_body->getMotionState()->getWorldTransform(bullet_transform);
@@ -580,9 +598,11 @@ void Knockdown::destroy()
    delete sphere_body;
    delete sphere_shape;
 
+   /*
    dynamics_world->removeRigidBody(cube_body);
    delete cube_body->getMotionState();
    delete cube_body;
+   */
    delete cube_shape;
 
    dynamics_world->removeRigidBody(ground_body);
