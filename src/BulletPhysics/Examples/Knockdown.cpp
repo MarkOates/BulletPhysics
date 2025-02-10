@@ -30,6 +30,7 @@ Knockdown::Knockdown()
    , sphere_shape(nullptr)
    , cube_shape(nullptr)
    , cubes({})
+   , cube_initial_heights({})
    , shape_model(nullptr)
    , shapes({})
    , ground_body(nullptr)
@@ -143,14 +144,17 @@ void Knockdown::create_stacked_cubes()
    {
       for (int x=0; x<num_rows; x++)
       {
-         // Create a falling cube
+         // Define a cube height
+         float cube_height = y + 1.5;
+
+         // Create a cube
          btVector3 half_extents(0.5, 0.5, 0.5); // Half-dimensions of the cube (1x1x1 cube)
          btCollisionShape *cube_shape = new btBoxShape(half_extents);
          btDefaultMotionState *cube_motion_state = new btDefaultMotionState(
             btTransform(btQuaternion(0.0, 0.0, 0.0, 1),
             //btTransform(btQuaternion(0.125, random.get_random_float(0, 3.125), random.get_random_float(0, 3.125), 1),
             //btVector3(-3 + 1.5*i, 14, 0)) // Starting at position
-            btVector3(x, y+1.5, 0)) // Starting at position
+            btVector3(x, cube_height, 0)) // Starting at position
             //btVector3((-2.5 + 1.5*i)/2 + random.get_random_float(-1, 1), 15+0.75 * i, 0)) // Starting at position
          );
          btScalar cube_mass = 1;
@@ -173,6 +177,7 @@ void Knockdown::create_stacked_cubes()
             std::pair<btRigidBody*, btCollisionShape*>(cube_body, cube_shape)
             //std::pair<cube_body, cube_shape>
          );
+         cube_initial_heights.push_back(cube_height);
          //type: std::vector<std::pair<btRigidBody*, btCollisionShape*>>
 
 
@@ -400,6 +405,39 @@ void Knockdown::launch_ball(btVector3* position_, btVector3* velocity_)
    sphere_body->applyCentralImpulse(velocity);
    //}
    return;
+}
+
+bool Knockdown::is_cube_knocked_down(btRigidBody* cube, float initial_height, float threshold)
+{
+   if (!(cube))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::is_cube_knocked_down]: error: guard \"cube\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::is_cube_knocked_down]: error: guard \"cube\" not met");
+   }
+   //bool is_block_knocked_down(btRigidBody* block, float initial_height, float threshold = 0.8f)
+   //{
+      btVector3 position = cube->getCenterOfMassPosition();
+      return position.getY() < (initial_height * threshold);
+   //}
+}
+
+int Knockdown::count_cubes_knocked_down()
+{
+   if (!((cubes.size() == cube_initial_heights.size())))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::count_cubes_knocked_down]: error: guard \"(cubes.size() == cube_initial_heights.size())\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::count_cubes_knocked_down]: error: guard \"(cubes.size() == cube_initial_heights.size())\" not met");
+   }
+   int cubes_knocked_down = 0;
+   for (int i=0; i<(int)cubes.size(); i++)
+   {
+      if (is_cube_knocked_down(cubes[i].first, cube_initial_heights[i])) cubes_knocked_down++;
+   }
+   return cubes_knocked_down;
 }
 
 btConvexHullShape* Knockdown::create_convex_shape(AllegroFlare::Model3D* model)

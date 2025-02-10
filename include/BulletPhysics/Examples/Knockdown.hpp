@@ -29,6 +29,7 @@ namespace BulletPhysics
          btCollisionShape* sphere_shape;
          btCollisionShape* cube_shape;
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> cubes;
+         std::vector<float> cube_initial_heights;
          AllegroFlare::Model3D* shape_model;
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> shapes;
          btRigidBody* ground_body;
@@ -52,6 +53,8 @@ namespace BulletPhysics
          void create_multiple_shapes();
          void initialize();
          void launch_ball(btVector3* position_=nullptr, btVector3* velocity_=nullptr);
+         bool is_cube_knocked_down(btRigidBody* cube=nullptr, float initial_height=0.0f, float threshold=0.8f);
+         int count_cubes_knocked_down();
          std::pair<btRigidBody*, btCollisionShape*> create_dynamic_mesh_shape(AllegroFlare::Model3D* model=nullptr, float x=0.0f, float y=50.0f, float z=0.0f);
          void step_physics(double time_step=1.0 / 60.0);
          void output_body_positions_and_rotations(double time_step=1.0 / 60.0);

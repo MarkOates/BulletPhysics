@@ -380,6 +380,10 @@ table td
   <td class="property">std::vector&lt;std::pair&lt;btRigidBody*, btCollisionShape*&gt;&gt;</td>
 </tr>
 <tr>
+  <td class="property">cube_initial_heights</td>
+  <td class="property">std::vector&lt;float&gt;</td>
+</tr>
+<tr>
   <td class="property">shape_model</td>
   <td class="property">AllegroFlare::Model3D*</td>
 </tr>
@@ -433,6 +437,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>launch_ball</b>(btVector3* position_=nullptr, btVector3* velocity_=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_cube_knocked_down</b>(btRigidBody* cube=nullptr, float initial_height=0.0f, float threshold=0.8f)</td>
+</tr>
+<tr>
+  <td class="method">int</td>
+  <td class="method"><b>count_cubes_knocked_down</b>()</td>
 </tr>
 <tr>
   <td class="private_method">btConvexHullShape*</td>

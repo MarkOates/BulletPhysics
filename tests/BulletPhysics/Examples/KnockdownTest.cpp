@@ -3,6 +3,7 @@
 
 #include <BulletPhysics/Examples/Knockdown.hpp>
 #include <AllegroFlare/Camera3D.hpp>
+#include <AllegroFlare/Camera2D.hpp>
 #include <AllegroFlare/Testing/WithInteractionFixture.hpp>
 #include <AllegroFlare/Useful.hpp> // For draw_crosshair
 #include <AllegroFlare/ModelBin.hpp>
@@ -72,6 +73,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 {
    BulletPhysics::Examples::Knockdown screen;
    AllegroFlare::Camera3D camera;
+   AllegroFlare::Camera2D hud_camera;
    AllegroFlare::ModelBin model_bin;
    model_bin.set_full_path(get_data_folder_path() + "models");
 
@@ -278,6 +280,21 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 
 
             //cube_body_placement.position = cube_body_position;
+            //camera.setup_projection_on(al_get_target_bitmap());
+            //hud_camera.setup_projection_on(al_get_target_bitmap());
+            int num_cubes_knocked_down = screen.count_cubes_knocked_down();
+            hud_camera.setup_dimensional_projection(al_get_target_bitmap());
+
+            al_draw_textf(
+               get_any_font(),
+               ALLEGRO_COLOR{1, 1, 1, 1},
+               1920/2,
+               80,
+               ALLEGRO_ALIGN_CENTER,
+               "%d",
+                  num_cubes_knocked_down
+            );
+             
 
             // Finish the interactive rendering
             interactive_test_render_status();
