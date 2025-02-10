@@ -189,9 +189,9 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
             //AllegroFlare::draw_crosshair(cube_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
 
             // Draw the sphere and cube objects
-            sphere_body_placement.start_transform();
+            //sphere_body_placement.start_transform();
             //sphere_model->draw();
-            sphere_body_placement.restore_transform();
+            //sphere_body_placement.restore_transform();
 
 
             {
