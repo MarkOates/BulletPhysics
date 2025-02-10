@@ -1,10 +1,5 @@
 properties:
 
-# TODO: Fit these into member variables
-      #//btDefaultCollisionConfiguration collision_configuration;
-      #//btCollisionDispatcher dispatcher(&collision_configuration);
-      #//btDbvtBroadphase broadphase;
-      #//btSequentialImpulseConstraintSolver solver;
 
   - name: collision_configuration
     type: btDefaultCollisionConfiguration
