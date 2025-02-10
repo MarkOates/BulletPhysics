@@ -37,6 +37,10 @@ properties:
     type: float
     init_with: 1.0f
 
+  - name: sphere_initial_position
+    type: btVector3
+    init_with: 'btVector3(1, sphere_diameter * 2, 4)'
+
   - name: sphere_shape
     type: btCollisionShape*
     init_with: nullptr
@@ -308,8 +312,11 @@ methods:
       double diameter = sphere_diameter;
       sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
       btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
-         btTransform(btQuaternion(0, 0, 0, 1),
-         btVector3(5, diameter * 2, 0))
+         btTransform(
+            btQuaternion(0, 0, 0, 1),
+            //btVector3(5, diameter * 2, 0)
+            sphere_initial_position
+         )
       );
       btScalar sphere_mass = 1;
       btVector3 sphere_inertia;
@@ -354,10 +361,10 @@ methods:
             } break;
 
             case ALLEGRO_KEY_SPACE: {
-               btVector3 initial_position(1, sphere_diameter * 2, 4);
+               //btVector3 initial_position(1, sphere_diameter * 2, 4);
                btVector3 velocity(1, 0, -12);
                launch_ball(
-                  &initial_position,
+                  &sphere_initial_position,
                   &velocity
                );
             } break;

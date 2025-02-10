@@ -25,6 +25,7 @@ namespace BulletPhysics
          btDiscreteDynamicsWorld* dynamics_world;
          btRigidBody* sphere_body;
          float sphere_diameter;
+         btVector3 sphere_initial_position;
          btCollisionShape* sphere_shape;
          btCollisionShape* cube_shape;
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> cubes;

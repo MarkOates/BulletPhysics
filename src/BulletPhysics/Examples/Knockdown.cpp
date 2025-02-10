@@ -26,6 +26,7 @@ Knockdown::Knockdown()
    , dynamics_world(nullptr)
    , sphere_body(nullptr)
    , sphere_diameter(1.0f)
+   , sphere_initial_position(btVector3(1, sphere_diameter * 2, 4))
    , sphere_shape(nullptr)
    , cube_shape(nullptr)
    , cubes({})
@@ -299,8 +300,11 @@ void Knockdown::initialize()
    double diameter = sphere_diameter;
    sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
    btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
-      btTransform(btQuaternion(0, 0, 0, 1),
-      btVector3(5, diameter * 2, 0))
+      btTransform(
+         btQuaternion(0, 0, 0, 1),
+         //btVector3(5, diameter * 2, 0)
+         sphere_initial_position
+      )
    );
    btScalar sphere_mass = 1;
    btVector3 sphere_inertia;
@@ -345,10 +349,10 @@ void Knockdown::initialize()
          } break;
 
          case ALLEGRO_KEY_SPACE: {
-            btVector3 initial_position(1, sphere_diameter * 2, 4);
+            //btVector3 initial_position(1, sphere_diameter * 2, 4);
             btVector3 velocity(1, 0, -12);
             launch_ball(
-               &initial_position,
+               &sphere_initial_position,
                &velocity
             );
          } break;
