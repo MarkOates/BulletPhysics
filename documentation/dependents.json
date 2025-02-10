@@ -2,70 +2,93 @@
   "bullet_physics_common": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btDiscreteDynamicsWorld": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btRigidBody": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionShape": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Logger": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btDbvtBroadphase": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btDefaultCollisionConfiguration": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Vec3D": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "ALLEGRO_TRANSFORM": [
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Placement3D": [
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/Random": [
     "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
+  "AllegroFlare/Screens/Gameplay": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Game/Configurations/Main",
+    "BulletPhysics/Gameplay/Screen"
+  ],
   "AllegroFlare/Model3D": [
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btConvexHullShape": [
+    "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
+  ],
+  "AllegroFlare/PlayerInputControllers/Generic": [
+    "BulletPhysics/Examples/Knockdown"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
@@ -116,10 +139,6 @@
     "BulletPhysics/Game/Configurations/Main"
   ],
   "BulletPhysics/Gameplay/Screen": [
-    "BulletPhysics/Game/Configurations/Main",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/Screens/Gameplay": [
     "BulletPhysics/Game/Configurations/Main",
     "BulletPhysics/Gameplay/Screen"
   ],
