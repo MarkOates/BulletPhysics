@@ -35,7 +35,7 @@ properties:
 
   - name: sphere_diameter
     type: float
-    init_with: 1.0f
+    init_with: 1.25f
 
   - name: sphere_initial_position
     type: btVector3
@@ -369,8 +369,12 @@ methods:
             } break;
 
             case ALLEGRO_KEY_SPACE: {
+               AllegroFlare::Random random;
+               random.set_seed(al_get_time() * 1000);
                //btVector3 initial_position(1, sphere_diameter * 2, 4);
-               btVector3 velocity(1, 0, -12);
+               float x_vel = random.get_random_float(-5, 5);
+
+               btVector3 velocity(x_vel, 0, -18);
                launch_ball(
                   &sphere_initial_position,
                   &velocity
