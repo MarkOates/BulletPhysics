@@ -7,6 +7,7 @@
 #include <AllegroFlare/Vec3D.hpp>
 #include <allegro5/allegro.h>
 #include <btBulletDynamicsCommon.h>
+#include <cstdint>
 #include <utility>
 #include <vector>
 
@@ -18,6 +19,14 @@ namespace BulletPhysics
       class Knockdown : public AllegroFlare::Screens::Gameplay
       {
       private:
+         enum State
+         {
+            STATE_UNDEF = 0,
+            STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
+            STATE_IN_SIMULATION,
+            STATE_TALLYING_SCORE,
+            STATE_SCORE_TALLIED,
+         };
          btDefaultCollisionConfiguration collision_configuration;
          btCollisionDispatcher dispatcher;
          btDbvtBroadphase broadphase;
@@ -36,6 +45,9 @@ namespace BulletPhysics
          btCollisionShape* ground_shape;
          bool initialized;
          bool destroyed;
+         uint32_t state;
+         bool state_is_busy;
+         float state_changed_at;
          btConvexHullShape* create_convex_shape(AllegroFlare::Model3D* model=nullptr);
 
       protected:
@@ -46,6 +58,7 @@ namespace BulletPhysics
          ~Knockdown();
 
          void set_shape_model(AllegroFlare::Model3D* shape_model);
+         uint32_t get_state() const;
          int num_cubes();
          int num_shapes();
          void create_multiple_cubes();
@@ -65,6 +78,12 @@ namespace BulletPhysics
          void capture_rigid_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, btRigidBody* rigid_body=nullptr);
          void destroy();
          void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0);
+         void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
+         void update_state(float time_now=al_get_time());
+         static bool is_valid_state(uint32_t state=STATE_UNDEF);
+         bool is_state(uint32_t possible_state=STATE_UNDEF);
+         float infer_current_state_age(float time_now=al_get_time());
+         bool showing_final_score();
       };
    }
 }

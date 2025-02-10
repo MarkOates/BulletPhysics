@@ -7,6 +7,7 @@
 #include <AllegroFlare/Random.hpp>
 #include <btBulletDynamicsCommon.h>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -37,6 +38,9 @@ Knockdown::Knockdown()
    , ground_shape(nullptr)
    , initialized(false)
    , destroyed(false)
+   , state(STATE_UNDEF)
+   , state_is_busy(false)
+   , state_changed_at(0.0f)
 {
 }
 
@@ -57,6 +61,12 @@ Knockdown::~Knockdown()
 void Knockdown::set_shape_model(AllegroFlare::Model3D* shape_model)
 {
    this->shape_model = shape_model;
+}
+
+
+uint32_t Knockdown::get_state() const
+{
+   return state;
 }
 
 
@@ -371,6 +381,12 @@ void Knockdown::initialize()
 
 
    initialized = true;
+
+
+   // Start the game
+   set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+
+
    return;
 }
 
@@ -407,6 +423,10 @@ void Knockdown::launch_ball(btVector3* position_, btVector3* velocity_)
 
    // Apply an impulse to "throw" the ball
    sphere_body->applyCentralImpulse(velocity);
+
+
+   set_state(STATE_IN_SIMULATION);
+
    //}
    return;
 }
@@ -782,6 +802,7 @@ void Knockdown::primary_update_func(double time_now, double time_step)
    if (get_gameplay_suspended()) return;
 
    step_physics(time_step);
+   update_state();
    // Simulate physics
    //for (int i = 0; i < 150; i++)
    //{
@@ -793,6 +814,140 @@ void Knockdown::primary_update_func(double time_now, double time_step)
       //std::cout << "Sphere height at step " << i << ": " << trans.getOrigin().getY() << std::endl;
    //}
    return;
+}
+
+void Knockdown::set_state(uint32_t state, bool override_if_busy)
+{
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::set_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::set_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   if (this->state == state) return;
+   if (!override_if_busy && state_is_busy) return;
+   uint32_t previous_state = this->state;
+
+   this->state = state;
+   state_changed_at = al_get_time();
+
+   switch (state)
+   {
+      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
+      break;
+
+      case STATE_IN_SIMULATION:
+      break;
+
+      case STATE_TALLYING_SCORE:
+      break;
+
+      case STATE_SCORE_TALLIED:
+      break;
+
+      /*
+      case STATE_REVEALING:
+      break;
+
+      case STATE_AWAITING_USER_INPUT:
+      break;
+
+      case STATE_CLOSING_DOWN:
+      break;
+      */
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::set_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      break;
+   }
+
+   //this->state = state;
+   //state_changed_at = al_get_time();
+
+   return;
+}
+
+void Knockdown::update_state(float time_now)
+{
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::update_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::update_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   float age = infer_current_state_age(time_now);
+
+   switch (state)
+   {
+      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
+      break;
+
+      case STATE_IN_SIMULATION: {
+         if (age > 4.0) set_state(STATE_TALLYING_SCORE);
+      } break;
+
+      case STATE_TALLYING_SCORE:
+         set_state(STATE_SCORE_TALLIED);
+      break;
+
+      case STATE_SCORE_TALLIED:
+      break;
+
+      /*
+      case STATE_REVEALING:
+      break;
+
+      case STATE_AWAITING_USER_INPUT:
+      break;
+
+      case STATE_CLOSING_DOWN:
+      break;
+      */
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::update_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      break;
+   }
+
+   return;
+}
+
+bool Knockdown::is_valid_state(uint32_t state)
+{
+   std::set<uint32_t> valid_states =
+   {
+      STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
+      STATE_IN_SIMULATION,
+      STATE_TALLYING_SCORE,
+      STATE_SCORE_TALLIED,
+      //STATE_REVEALING,
+      //STATE_AWAITING_USER_INPUT,
+      //STATE_CLOSING_DOWN,
+   };
+   return (valid_states.count(state) > 0);
+}
+
+bool Knockdown::is_state(uint32_t possible_state)
+{
+   return (state == possible_state);
+}
+
+float Knockdown::infer_current_state_age(float time_now)
+{
+   return (time_now - state_changed_at);
+}
+
+bool Knockdown::showing_final_score()
+{
+   return is_state(STATE_SCORE_TALLIED);
 }
 
 

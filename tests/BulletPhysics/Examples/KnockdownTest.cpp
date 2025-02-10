@@ -135,6 +135,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
       //screen.primary_update_func(al_get_time(), 1.0 / 60.0);
    //}
 
+
    while(interactive_test_wait_for_event())
    {
       ALLEGRO_EVENT &current_event = *interactive_test_get_current_event();
@@ -297,6 +298,42 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
                "KNOCKED DOWN\n%d",
                   num_cubes_knocked_down
             );
+
+
+               ALLEGRO_FONT *font_x = get_font_bin_ref().auto_get("Oswald-Medium.ttf -262");
+            if (screen.showing_final_score())
+            {
+               ALLEGRO_FONT *font = font_x;
+               al_draw_multiline_textf(
+                  font,
+                  ALLEGRO_COLOR{0.4, 0.72, 0.8, 1},
+                  1920/2,
+                  1080/2 - al_get_font_line_height(font),
+                  1920,
+                  al_get_font_line_height(font),
+                  ALLEGRO_ALIGN_CENTER,
+                  "KNOCKED DOWN\n%d",
+                     num_cubes_knocked_down
+               );
+            }
+
+
+
+            // For debugging, show state
+            al_draw_multiline_textf(
+               font,
+               ALLEGRO_COLOR{1, 1, 1, 1},
+               1920/2,
+               1080-80*2,
+               1920,
+               al_get_font_line_height(font),
+               ALLEGRO_ALIGN_CENTER,
+               "STATE: %d",
+                  screen.get_state()
+            );
+
+
+            
              
 
             // Finish the interactive rendering
