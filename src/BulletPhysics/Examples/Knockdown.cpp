@@ -27,7 +27,7 @@ Knockdown::Knockdown()
    , dynamics_world(nullptr)
    , sphere_body(nullptr)
    , sphere_diameter(1.25f)
-   , sphere_initial_position(btVector3(1, sphere_diameter * 2, 4))
+   , sphere_initial_position(btVector3(0, sphere_diameter * 2, 6))
    , sphere_shape(nullptr)
    , cube_shape(nullptr)
    , cubes({})
@@ -87,6 +87,7 @@ void Knockdown::create_multiple_cubes()
 
    int num_cubes = 20;
    //btRigidBody* cube_body = nullptr;
+
 
    for (int i=0; i<num_cubes; i++)
    {
@@ -154,6 +155,7 @@ void Knockdown::create_stacked_cubes()
    {
       for (int x=0; x<num_rows; x++)
       {
+         float pos_x = x - (num_rows * 0.5) + 0.5;
          // Define a cube height
          float cube_height = y + 1.5;
 
@@ -164,7 +166,7 @@ void Knockdown::create_stacked_cubes()
             btTransform(btQuaternion(0.0, 0.0, 0.0, 1),
             //btTransform(btQuaternion(0.125, random.get_random_float(0, 3.125), random.get_random_float(0, 3.125), 1),
             //btVector3(-3 + 1.5*i, 14, 0)) // Starting at position
-            btVector3(x, cube_height, 0)) // Starting at position
+            btVector3(pos_x, cube_height, 0)) // Starting at position
             //btVector3((-2.5 + 1.5*i)/2 + random.get_random_float(-1, 1), 15+0.75 * i, 0)) // Starting at position
          );
          btScalar cube_mass = 1;
@@ -369,7 +371,7 @@ void Knockdown::initialize()
             //btVector3 initial_position(1, sphere_diameter * 2, 4);
             float x_vel = random.get_random_float(-5, 5);
 
-            btVector3 velocity(x_vel, 0, -18);
+            btVector3 velocity(x_vel, 0, -20);
             launch_ball(
                &sphere_initial_position,
                &velocity
