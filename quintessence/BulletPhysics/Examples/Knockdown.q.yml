@@ -33,6 +33,10 @@ properties:
     type: btRigidBody*
     init_with: nullptr
 
+  - name: sphere_diameter
+    type: float
+    init_with: 1.0f
+
   - name: sphere_shape
     type: btCollisionShape*
     init_with: nullptr
@@ -299,11 +303,13 @@ methods:
       // Make the ground floor body bouncy
       ground_body->setRestitution(0.8);
 
-      // Create a falling sphere
-      sphere_shape = new btSphereShape(1);
+
+      // Create the sphere
+      double diameter = sphere_diameter;
+      sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
       btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
          btTransform(btQuaternion(0, 0, 0, 1),
-         btVector3(0, 10, 0))
+         btVector3(5, diameter * 2, 0))
       );
       btScalar sphere_mass = 1;
       btVector3 sphere_inertia;
@@ -319,7 +325,7 @@ methods:
       // Make the sphere body bouncy
       sphere_body->setRestitution(0.8);
 
-      //dynamics_world->addRigidBody(sphere_body);
+      dynamics_world->addRigidBody(sphere_body);
 
 
 
@@ -346,6 +352,15 @@ methods:
                   else suspend_gameplay();
                }
             } break;
+
+            case ALLEGRO_KEY_SPACE: {
+               btVector3 initial_position(1, sphere_diameter * 2, 4);
+               btVector3 velocity(1, 0, -12);
+               launch_ball(
+                  &initial_position,
+                  &velocity
+               );
+            } break;
          }
       });
       set_player_input_controller(generic_player_input_controller);
@@ -357,6 +372,39 @@ methods:
       - bullet_physics_common
       - AllegroFlare::Random
       - AllegroFlare::PlayerInputControllers::Generic
+
+
+  - name: launch_ball
+    parameters:
+      - name: position_
+        type: btVector3*
+        default_argument: nullptr
+      - name: velocity_
+        type: btVector3*
+        default_argument: nullptr
+    guards: [ position_, velocity_ ]
+    body: |
+      const btVector3 &position = *position_;
+      const btVector3 &velocity = *velocity_;
+      //void MyClass::launch_ball(const btVector3 &position, const btVector3 &velocity)
+      //{
+      // Wake up the object if it's sleeping
+      sphere_body->setActivationState(ACTIVE_TAG);
+
+      // Reset the sphere's position
+      sphere_body->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), position));
+      sphere_body->getMotionState()->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), position));
+
+      // Clear any previous velocity
+      sphere_body->setLinearVelocity(btVector3(0, 0, 0));
+      sphere_body->setAngularVelocity(btVector3(0, 0, 0));
+
+      // Apply an impulse to "throw" the ball
+      sphere_body->applyCentralImpulse(velocity);
+      //}
+      return;
+    body_dependency_symbols:
+      - btVector3
 
 
   - name: create_convex_shape
@@ -697,6 +745,8 @@ dependencies:
   - symbol: AllegroFlare::Screens::Gameplay
     headers: [ AllegroFlare/Screens/Gameplay.hpp ]
   - symbol: bullet_physics_common
+    headers: [ btBulletDynamicsCommon.h ]
+  - symbol: btVector3
     headers: [ btBulletDynamicsCommon.h ]
   - symbol: btDiscreteDynamicsWorld
     headers: [ btBulletDynamicsCommon.h ]

@@ -79,6 +79,9 @@
     "BulletPhysics/Game/Configurations/Main",
     "BulletPhysics/Gameplay/Screen"
   ],
+  "btVector3": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
   "AllegroFlare/Model3D": [
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"

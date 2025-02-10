@@ -24,6 +24,7 @@ namespace BulletPhysics
          btSequentialImpulseConstraintSolver solver;
          btDiscreteDynamicsWorld* dynamics_world;
          btRigidBody* sphere_body;
+         float sphere_diameter;
          btCollisionShape* sphere_shape;
          btCollisionShape* cube_shape;
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> cubes;
@@ -49,6 +50,7 @@ namespace BulletPhysics
          void create_stacked_cubes();
          void create_multiple_shapes();
          void initialize();
+         void launch_ball(btVector3* position_=nullptr, btVector3* velocity_=nullptr);
          std::pair<btRigidBody*, btCollisionShape*> create_dynamic_mesh_shape(AllegroFlare::Model3D* model=nullptr, float x=0.0f, float y=50.0f, float z=0.0f);
          void step_physics(double time_step=1.0 / 60.0);
          void output_body_positions_and_rotations(double time_step=1.0 / 60.0);

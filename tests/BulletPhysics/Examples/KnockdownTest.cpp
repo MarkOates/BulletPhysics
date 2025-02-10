@@ -127,11 +127,11 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
    shape_body_rotations.resize(num_shapes);
    shape_body_placements.resize(num_shapes);
 
-   int presteps = 60;
-   for (int i=0; i<presteps; i++)
-   {
-      screen.primary_update_func(al_get_time(), 1.0 / 60.0);
-   }
+   //int presteps = 60;
+   //for (int i=0; i<presteps; i++)
+   //{
+      //screen.primary_update_func(al_get_time(), 1.0 / 60.0);
+   //}
 
    while(interactive_test_wait_for_event())
    {
@@ -147,7 +147,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
          {
             // Step the physics
             //physics.step_physics(1.0 / 60.0 * 2.0f); // * 0.125);
-            double step_duration = 1.0 / 60.0 * 0.25f;
+            double step_duration = 1.0 / 60.0 * 2.0;
             screen.primary_update_func(al_get_time(), step_duration);
             camera.spin -= 0.0125 * 0.25;
 
@@ -188,9 +188,9 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
             //AllegroFlare::draw_crosshair(cube_body_position, ALLEGRO_COLOR{1, 1, 1, 1});
 
             // Draw the sphere and cube objects
-            //sphere_body_placement.start_transform();
-            //sphere_model->draw();
-            //sphere_body_placement.restore_transform();
+            sphere_body_placement.start_transform();
+            sphere_model->draw();
+            sphere_body_placement.restore_transform();
 
 
             /*

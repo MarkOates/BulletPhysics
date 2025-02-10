@@ -360,6 +360,10 @@ table td
   <td class="property">btRigidBody*</td>
 </tr>
 <tr>
+  <td class="property">sphere_diameter</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">sphere_shape</td>
   <td class="property">btCollisionShape*</td>
 </tr>
@@ -423,6 +427,10 @@ table td
   <td class="method"><b>initialize</b>()</td>
 </tr>
 <tr>
+  <td class="method">void</td>
+  <td class="method"><b>launch_ball</b>(btVector3* position_=nullptr, btVector3* velocity_=nullptr)</td>
+</tr>
+<tr>
   <td class="private_method">btConvexHullShape*</td>
   <td class="private_method"><b>create_convex_shape</b>(AllegroFlare::Model3D* model=nullptr)</td>
 </tr>
@@ -478,6 +486,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;bullet_physics_common&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btVector3&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDiscreteDynamicsWorld&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
@@ -1221,6 +1232,9 @@ table td
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main",
     "BulletPhysics/Gameplay/Screen"
+  ],
+  "btVector3": [
+    "BulletPhysics/Examples/Knockdown"
   ],
   "AllegroFlare/Model3D": [
     "BulletPhysics/Examples/Knockdown",

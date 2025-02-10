@@ -25,6 +25,7 @@ Knockdown::Knockdown()
    , solver()
    , dynamics_world(nullptr)
    , sphere_body(nullptr)
+   , sphere_diameter(1.0f)
    , sphere_shape(nullptr)
    , cube_shape(nullptr)
    , cubes({})
@@ -293,11 +294,13 @@ void Knockdown::initialize()
    // Make the ground floor body bouncy
    ground_body->setRestitution(0.8);
 
-   // Create a falling sphere
-   sphere_shape = new btSphereShape(1);
+
+   // Create the sphere
+   double diameter = sphere_diameter;
+   sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
    btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
       btTransform(btQuaternion(0, 0, 0, 1),
-      btVector3(0, 10, 0))
+      btVector3(5, diameter * 2, 0))
    );
    btScalar sphere_mass = 1;
    btVector3 sphere_inertia;
@@ -313,7 +316,7 @@ void Knockdown::initialize()
    // Make the sphere body bouncy
    sphere_body->setRestitution(0.8);
 
-   //dynamics_world->addRigidBody(sphere_body);
+   dynamics_world->addRigidBody(sphere_body);
 
 
 
@@ -340,12 +343,58 @@ void Knockdown::initialize()
                else suspend_gameplay();
             }
          } break;
+
+         case ALLEGRO_KEY_SPACE: {
+            btVector3 initial_position(1, sphere_diameter * 2, 4);
+            btVector3 velocity(1, 0, -12);
+            launch_ball(
+               &initial_position,
+               &velocity
+            );
+         } break;
       }
    });
    set_player_input_controller(generic_player_input_controller);
 
 
    initialized = true;
+   return;
+}
+
+void Knockdown::launch_ball(btVector3* position_, btVector3* velocity_)
+{
+   if (!(position_))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::launch_ball]: error: guard \"position_\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::launch_ball]: error: guard \"position_\" not met");
+   }
+   if (!(velocity_))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::launch_ball]: error: guard \"velocity_\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::launch_ball]: error: guard \"velocity_\" not met");
+   }
+   const btVector3 &position = *position_;
+   const btVector3 &velocity = *velocity_;
+   //void MyClass::launch_ball(const btVector3 &position, const btVector3 &velocity)
+   //{
+   // Wake up the object if it's sleeping
+   sphere_body->setActivationState(ACTIVE_TAG);
+
+   // Reset the sphere's position
+   sphere_body->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), position));
+   sphere_body->getMotionState()->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), position));
+
+   // Clear any previous velocity
+   sphere_body->setLinearVelocity(btVector3(0, 0, 0));
+   sphere_body->setAngularVelocity(btVector3(0, 0, 0));
+
+   // Apply an impulse to "throw" the ball
+   sphere_body->applyCentralImpulse(velocity);
+   //}
    return;
 }
 
