@@ -93,6 +93,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_on_paused_callback_func([runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
       runner->get_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
    });
+   result->initialize();
 
    primary_gameplay_screen = result;
 
