@@ -104,6 +104,60 @@ int Knockdown::num_shapes()
    return shapes.size();
 }
 
+void Knockdown::clear()
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::clear]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::clear]: error: guard \"initialized\" not met");
+   }
+   // Delete the memory elements of the cubes
+   for (auto &cube : cubes)
+   {
+      dynamics_world->removeRigidBody(cube.first);
+      delete cube.first->getMotionState(); // delete btDefaultMotionState
+      delete cube.first; // delete btRigidBody
+      delete cube.second; // delete btCollisionShape
+   }
+
+   // Clear the vectors
+   cubes.clear();
+   cube_initial_heights.clear();
+
+   // Clear the ground plane
+   dynamics_world->removeRigidBody(ground_body);
+   delete ground_body->getMotionState(); // Delete the motion state
+   delete ground_body; // Delete the rigid body
+   delete ground_shape; // Delete the collision shape
+   ground_body = nullptr;
+   ground_shape = nullptr;
+
+   // Clear the player_sphere
+   dynamics_world->removeRigidBody(sphere_body); // Remove from the physics world
+   delete sphere_body->getMotionState(); // Delete the motion state
+   delete sphere_body; // Delete the rigid body
+   delete sphere_shape; // Delete the collision shape
+   sphere_body = nullptr;
+   sphere_shape = nullptr;
+
+   // For debugging purposes, output the number of bodies remaining in the dynamics_world
+   int num_bodies = dynamics_world->getNumCollisionObjects();
+   AllegroFlare::Logger::info_from(
+      "BulletPhysics::Examples::Knockdown::clear",
+       "Number of remaining rigid bodies in the dynamic_world: " + std::to_string(num_bodies)
+   );
+
+   // Delete the dynamics_world object
+   // TODO: See if the injected elements need to be destroyed as well, or even if they can be re-used to
+   // create another dynamics_world after this one is deleted
+   delete dynamics_world;
+   dynamics_world = nullptr;
+
+   return;
+}
+
 void Knockdown::create_multiple_cubes()
 {
    AllegroFlare::Random random;
@@ -315,6 +369,7 @@ void Knockdown::create_shapes_from_tmj_file()
 BulletPhysics::Examples::Knockdown* Knockdown::create()
 {
    BulletPhysics::Examples::Knockdown *result = new BulletPhysics::Examples::Knockdown();
+   // TODO: Put together required pieces
    return result;
 }
 
@@ -334,6 +389,8 @@ void Knockdown::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::initialize]: error: guard \"(!destroyed)\" not met");
    }
+   // TODO: Separate the "initializing" from the creation of the elements in the world and their destruction.
+
    // Create a dynamics world
    //btDefaultCollisionConfiguration collision_configuration;
    //btCollisionDispatcher dispatcher(&collision_configuration);
@@ -830,30 +887,31 @@ void Knockdown::destroy()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::destroy]: error: guard \"initialized\" not met");
    }
+   clear();
    // Cleanup
-   dynamics_world->removeRigidBody(sphere_body);
-   delete sphere_body->getMotionState();
-   delete sphere_body;
-   delete sphere_shape;
+   //dynamics_world->removeRigidBody(sphere_body);
+   //delete sphere_body->getMotionState();
+   //delete sphere_body;
+   //delete sphere_shape;
 
    /*
    dynamics_world->removeRigidBody(cube_body);
    delete cube_body->getMotionState();
    delete cube_body;
    */
-   delete cube_shape;
+   //delete cube_shape;
 
-   dynamics_world->removeRigidBody(ground_body);
-   delete ground_body->getMotionState();
-   delete ground_body;
-   delete ground_shape;
+   //dynamics_world->removeRigidBody(ground_body);
+   //delete ground_body->getMotionState();
+   //delete ground_body;
+   //delete ground_shape;
 
    // TODO: Delete properties of cubes
 
    // Destroy the rendering
    destroy_render();
 
-   delete dynamics_world;
+   //delete dynamics_world;
    destroyed = true;
    return;
 }
