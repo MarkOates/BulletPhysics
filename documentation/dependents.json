@@ -100,6 +100,28 @@
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/Camera3D": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
+  "AllegroFlare/Camera2D": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
+  "AllegroFlare/ModelBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],
@@ -177,22 +199,10 @@
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
   ],
-  "ALLEGRO_FONT": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "ALLEGRO_EVENT": [
     "BulletPhysics/Gameplay/Screen"
   ],
-  "AllegroFlare/BitmapBin": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "AllegroFlare/EventEmitter": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/FontBin": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/ModelBin": [
     "BulletPhysics/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [

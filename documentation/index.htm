@@ -423,6 +423,26 @@ table td
   <td class="property">state_changed_at</td>
   <td class="property">float</td>
 </tr>
+<tr>
+  <td class="property">camera3d</td>
+  <td class="property">AllegroFlare::Camera3D</td>
+</tr>
+<tr>
+  <td class="property">hud_camera</td>
+  <td class="property">AllegroFlare::Camera2D</td>
+</tr>
+<tr>
+  <td class="property">model_bin</td>
+  <td class="property">AllegroFlare::ModelBin</td>
+</tr>
+<tr>
+  <td class="property">bitmap_bin</td>
+  <td class="property">AllegroFlare::BitmapBin</td>
+</tr>
+<tr>
+  <td class="property">font_bin</td>
+  <td class="property">AllegroFlare::FontBin</td>
+</tr>
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
@@ -516,11 +536,23 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>initialize_render</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy_render</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>primary_update_func</b>(double time_now=al_get_time(), double time_step=1.0 / 60.0)</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>primary_render_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>get_any_font</b>(AllegroFlare::FontBin* font_bin=nullptr, int size=-30)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -608,6 +640,24 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Examples::Knockdown&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Examples/Knockdown.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Camera3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Camera3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Camera2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Camera2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::FontBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/FontBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1331,6 +1381,28 @@ table td
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/Camera3D": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
+  "AllegroFlare/Camera2D": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
+  "AllegroFlare/ModelBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],
@@ -1408,22 +1480,10 @@ table td
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
   ],
-  "ALLEGRO_FONT": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "ALLEGRO_EVENT": [
     "BulletPhysics/Gameplay/Screen"
   ],
-  "AllegroFlare/BitmapBin": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "AllegroFlare/EventEmitter": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/FontBin": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/ModelBin": [
     "BulletPhysics/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [

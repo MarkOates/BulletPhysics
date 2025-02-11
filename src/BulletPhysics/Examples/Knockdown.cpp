@@ -2,7 +2,12 @@
 
 #include <BulletPhysics/Examples/Knockdown.hpp>
 
+#include <AllegroFlare/BitmapBin.hpp>
+#include <AllegroFlare/Camera2D.hpp>
+#include <AllegroFlare/Camera3D.hpp>
+#include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
 #include <AllegroFlare/Random.hpp>
 #include <AllegroFlare/Tiled/TMJDataLoader.hpp>
@@ -43,6 +48,11 @@ Knockdown::Knockdown()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
+   , camera3d({})
+   , hud_camera({})
+   , model_bin({})
+   , bitmap_bin({})
+   , font_bin({})
 {
 }
 
@@ -424,6 +434,11 @@ void Knockdown::initialize()
 
 
    initialized = true;
+
+
+
+   // Initialize the rendering
+   initialize_render();
 
 
    // Start the game
@@ -835,15 +850,72 @@ void Knockdown::destroy()
 
    // TODO: Delete properties of cubes
 
+   // Destroy the rendering
+   destroy_render();
+
    delete dynamics_world;
    destroyed = true;
    return;
 }
 
+void Knockdown::initialize_render()
+{
+   set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+
+   static bool rendering_setup = false;
+   if (!rendering_setup)
+   {
+      //camera3d
+      camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
+      camera3d.tilt = 0.65;
+      camera3d.spin = 1.25;
+      camera3d.near_plane = 0.25;
+      camera3d.far_plane = 500.0;
+
+      //hud_camera
+      // NOTE: Nothing to do
+
+      //model_bin
+      model_bin.set_full_path(data_folder_path + "models");
+
+      //bitmap_bin
+      bitmap_bin.set_full_path(data_folder_path + "bitmaps");
+
+      //font_bin
+      font_bin.set_full_path(data_folder_path + "fonts");
+
+      rendering_setup = true;
+   }
+   return;
+}
+
+void Knockdown::destroy_render()
+{
+   //model_bin
+   model_bin.clear();
+
+   //bitmap_bin
+   bitmap_bin.clear();
+
+   //font_bin
+   font_bin.clear();
+   return;
+}
+
 void Knockdown::primary_update_func(double time_now, double time_step)
 {
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::primary_update_func]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::primary_update_func]: error: guard \"initialized\" not met");
+   }
+   //AllegroFlare::Screens::Gameplay::primary_update_func(time_now, time_step);
+   //throw std::runtime_error("jasdiofajsiodfjasdiof");
    if (get_gameplay_suspended()) return;
 
+   //throw std::runtime_error("jasdiofajsiodfjasdiof");
    step_physics(time_step);
    update_state();
    // Simulate physics
@@ -861,18 +933,65 @@ void Knockdown::primary_update_func(double time_now, double time_step)
 
 void Knockdown::primary_render_func()
 {
-   // Will need font bin
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met");
+   }
+   //AllegroFlare::Screens::Gameplay::primary_render_func();
    if (get_gameplay_suspended())
    {
-      //ALLEGRO_
-      //al_draw_text(font, ALLEGRO_COLOR{1, 1, 1, 1}, 20, 20, ALLEGRO_ALIGN_LEFT, "paused");
-      //return;
-      //camera.spin -= 0.0125 * 0.25;
+      //throw std::runtime_error("--- gameplay is suspended, this case is unhandled ---");
    }
 
-   //camera.spin -= 0.0125 * 0.25;
+   // Setup the 3d scene projection
+   //camera3d.setup_projection_on(al_get_target_bitmap());
+
+
+   // Setup the hud projection
+   hud_camera.setup_dimensional_projection(al_get_target_bitmap());
+
+   // For debugging, show state
+   //ALLEGRO_FONT *font = font_bin["Oswald-Medium.ttf -262"];
+   ALLEGRO_FONT *font = get_any_font(&font_bin);
+   //get_any_font
+   al_draw_multiline_textf(
+      font,
+      ALLEGRO_COLOR{1, 1, 1, 1},
+      1920/2,
+      1080-80*2,
+      1920,
+      al_get_font_line_height(font),
+      ALLEGRO_ALIGN_CENTER,
+      "STATE: %d",
+         state
+   );
+
 
    return;
+}
+
+ALLEGRO_FONT* Knockdown::get_any_font(AllegroFlare::FontBin* font_bin, int size)
+{
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::get_any_font]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::get_any_font]: error: guard \"font_bin\" not met");
+   }
+   if (!((size != 0)))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::get_any_font]: error: guard \"(size != 0)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::get_any_font]: error: guard \"(size != 0)\" not met");
+   }
+   std::stringstream ss;
+   ss << "Inter-Regular.ttf " << size;
+   return font_bin->auto_get(ss.str());
 }
 
 void Knockdown::set_state(uint32_t state, bool override_if_busy)

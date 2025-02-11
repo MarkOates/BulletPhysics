@@ -103,6 +103,29 @@ properties:
     init_with: 0.0f
 
 
+# Rendering-dependent properties
+
+  - name: camera3d
+    type: AllegroFlare::Camera3D
+    init_with: '{}'
+
+  - name: hud_camera
+    type: AllegroFlare::Camera2D
+    init_with: '{}'
+
+  - name: model_bin
+    type: AllegroFlare::ModelBin
+    init_with: '{}'
+
+  - name: bitmap_bin
+    type: AllegroFlare::BitmapBin
+    init_with: '{}'
+
+  - name: font_bin
+    type: AllegroFlare::FontBin
+    init_with: '{}'
+
+
 enums:
 
 
@@ -450,6 +473,11 @@ methods:
 
 
       initialized = true;
+
+
+
+      // Initialize the rendering
+      initialize_render();
 
 
       // Start the game
@@ -832,12 +860,59 @@ methods:
 
       // TODO: Delete properties of cubes
 
+      // Destroy the rendering
+      destroy_render();
+
       delete dynamics_world;
       destroyed = true;
       return;
 
 
 # Overrides to Gameplay::Screens
+
+
+  - name: initialize_render
+    body: |
+      set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+
+      static bool rendering_setup = false;
+      if (!rendering_setup)
+      {
+         //camera3d
+         camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
+         camera3d.tilt = 0.65;
+         camera3d.spin = 1.25;
+         camera3d.near_plane = 0.25;
+         camera3d.far_plane = 500.0;
+
+         //hud_camera
+         // NOTE: Nothing to do
+
+         //model_bin
+         model_bin.set_full_path(data_folder_path + "models");
+
+         //bitmap_bin
+         bitmap_bin.set_full_path(data_folder_path + "bitmaps");
+
+         //font_bin
+         font_bin.set_full_path(data_folder_path + "fonts");
+
+         rendering_setup = true;
+      }
+      return;
+
+
+  - name: destroy_render
+    body: |
+      //model_bin
+      model_bin.clear();
+
+      //bitmap_bin
+      bitmap_bin.clear();
+
+      //font_bin
+      font_bin.clear();
+      return;
 
 
   - name: primary_update_func
@@ -850,9 +925,13 @@ methods:
       - name: time_step
         type: double
         default_argument: 1.0 / 60.0
+    guards: [ initialized ]
     body: |
+      //AllegroFlare::Screens::Gameplay::primary_update_func(time_now, time_step);
+      //throw std::runtime_error("jasdiofajsiodfjasdiof");
       if (get_gameplay_suspended()) return;
       
+      //throw std::runtime_error("jasdiofajsiodfjasdiof");
       step_physics(time_step);
       update_state();
       // Simulate physics
@@ -871,19 +950,61 @@ methods:
   - name: primary_render_func
     virtual: true
     override: true
+    guards: [ initialized ]
     body: |
-      // Will need font bin
+      //AllegroFlare::Screens::Gameplay::primary_render_func();
       if (get_gameplay_suspended())
       {
-         //ALLEGRO_
-         //al_draw_text(font, ALLEGRO_COLOR{1, 1, 1, 1}, 20, 20, ALLEGRO_ALIGN_LEFT, "paused");
-         //return;
-         //camera.spin -= 0.0125 * 0.25;
+         //throw std::runtime_error("--- gameplay is suspended, this case is unhandled ---");
       }
 
-      //camera.spin -= 0.0125 * 0.25;
+      // Setup the 3d scene projection
+      //camera3d.setup_projection_on(al_get_target_bitmap());
+
+
+      // Setup the hud projection
+      hud_camera.setup_dimensional_projection(al_get_target_bitmap());
+
+      // For debugging, show state
+      //ALLEGRO_FONT *font = font_bin["Oswald-Medium.ttf -262"];
+      ALLEGRO_FONT *font = get_any_font(&font_bin);
+      //get_any_font
+      al_draw_multiline_textf(
+         font,
+         ALLEGRO_COLOR{1, 1, 1, 1},
+         1920/2,
+         1080-80*2,
+         1920,
+         al_get_font_line_height(font),
+         ALLEGRO_ALIGN_CENTER,
+         "STATE: %d",
+            state
+      );
+
       
       return;
+    body_dependency_symbols:
+      - AllegroFlare::Camera3D
+      - AllegroFlare::Camera2D
+      - AllegroFlare::ModelBin
+      - AllegroFlare::FontBin
+      - AllegroFlare::BitmapBin
+
+
+  - name: get_any_font
+    type: ALLEGRO_FONT*
+    parameters:
+      - name: font_bin
+        type: AllegroFlare::FontBin*
+        default_argument: nullptr
+      - name: size
+        type: int
+        default_argument: -30
+    guards: [ font_bin, (size != 0) ]
+    body: |
+      std::stringstream ss;
+      ss << "Inter-Regular.ttf " << size;
+      return font_bin->auto_get(ss.str());
 
 
 # State-based logic
@@ -1088,5 +1209,20 @@ dependencies:
     headers: [ AllegroFlare/Tiled/TMJDataLoader.hpp ]
   - symbol: BulletPhysics::Examples::Knockdown
     headers: [ BulletPhysics/Examples/Knockdown.hpp ]
+
+# rendering-dependent dependencies:
+
+  - symbol: AllegroFlare::Camera3D
+    headers: [ AllegroFlare/Camera3D.hpp ]
+  - symbol: AllegroFlare::Camera2D
+    headers: [ AllegroFlare/Camera2D.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: AllegroFlare::FontBin
+    headers: [ AllegroFlare/FontBin.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: ALLEGRO_FONT
+    headers: [ allegro5/allegro_font.h ]
 
 

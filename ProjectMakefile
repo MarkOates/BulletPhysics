@@ -1,1 +1,5 @@
+PROJECT_LIB_NAME=bullet_physics
+VERSION_NUMBER=0.0.01wip
+#TEST_RUNNER_PROGRAM_NAME=TestRunnerWithFocusedTestPreflightCheck
+TEST_RUNNER_PROGRAM_NAME=TestRunnerWithFocusedTestPreflightCheckOrAll
 USING_BULLET_PHYSICS=TRUE

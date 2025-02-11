@@ -1,12 +1,18 @@
 #pragma once
 
 
+#include <AllegroFlare/BitmapBin.hpp>
+#include <AllegroFlare/Camera2D.hpp>
+#include <AllegroFlare/Camera3D.hpp>
+#include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/Model3D.hpp>
+#include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/Placement3D.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <BulletPhysics/Examples/Knockdown.hpp>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
 #include <btBulletDynamicsCommon.h>
 #include <cstdint>
 #include <string>
@@ -51,6 +57,11 @@ namespace BulletPhysics
          uint32_t state;
          bool state_is_busy;
          float state_changed_at;
+         AllegroFlare::Camera3D camera3d;
+         AllegroFlare::Camera2D hud_camera;
+         AllegroFlare::ModelBin model_bin;
+         AllegroFlare::BitmapBin bitmap_bin;
+         AllegroFlare::FontBin font_bin;
          btConvexHullShape* create_convex_shape(AllegroFlare::Model3D* model=nullptr);
 
       protected:
@@ -84,8 +95,11 @@ namespace BulletPhysics
          void capture_shape_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int shape_index=-1);
          void capture_rigid_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, btRigidBody* rigid_body=nullptr);
          void destroy();
+         void initialize_render();
+         void destroy_render();
          virtual void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0) override;
          virtual void primary_render_func() override;
+         ALLEGRO_FONT* get_any_font(AllegroFlare::FontBin* font_bin=nullptr, int size=-30);
          void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
          void update_state(float time_now=al_get_time());
          static bool is_valid_state(uint32_t state=STATE_UNDEF);
