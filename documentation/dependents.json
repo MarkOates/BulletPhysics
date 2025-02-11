@@ -93,6 +93,9 @@
   "AllegroFlare/PlayerInputControllers/Generic": [
     "BulletPhysics/Examples/Knockdown"
   ],
+  "AllegroFlare/Tiled/TMJDataLoader": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

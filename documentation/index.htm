@@ -336,6 +336,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">data_folder_path</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">collision_configuration</td>
   <td class="property">btDefaultCollisionConfiguration</td>
 </tr>
@@ -441,6 +445,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>create_multiple_shapes</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>create_shapes_from_tmj_file</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -586,6 +594,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::PlayerInputControllers::Generic&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/PlayerInputControllers/Generic.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Tiled::TMJDataLoader&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Tiled/TMJDataLoader.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1297,6 +1308,9 @@ table td
     "BulletPhysics/Examples/Mesh"
   ],
   "AllegroFlare/PlayerInputControllers/Generic": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
+  "AllegroFlare/Tiled/TMJDataLoader": [
     "BulletPhysics/Examples/Knockdown"
   ],
   "AllegroFlare/GameConfigurations/Complete": [

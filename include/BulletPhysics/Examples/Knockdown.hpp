@@ -8,6 +8,7 @@
 #include <allegro5/allegro.h>
 #include <btBulletDynamicsCommon.h>
 #include <cstdint>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -27,6 +28,7 @@ namespace BulletPhysics
             STATE_TALLYING_SCORE,
             STATE_SCORE_TALLIED,
          };
+         std::string data_folder_path;
          btDefaultCollisionConfiguration collision_configuration;
          btCollisionDispatcher dispatcher;
          btDbvtBroadphase broadphase;
@@ -57,13 +59,16 @@ namespace BulletPhysics
          Knockdown();
          ~Knockdown();
 
+         void set_data_folder_path(std::string data_folder_path);
          void set_shape_model(AllegroFlare::Model3D* shape_model);
+         std::string get_data_folder_path() const;
          uint32_t get_state() const;
          int num_cubes();
          int num_shapes();
          void create_multiple_cubes();
          void create_stacked_cubes();
          void create_multiple_shapes();
+         void create_shapes_from_tmj_file();
          void initialize();
          void launch_ball(btVector3* position_=nullptr, btVector3* velocity_=nullptr);
          bool is_cube_knocked_down(btRigidBody* cube=nullptr, float initial_height=0.0f, float threshold=0.8f);

@@ -11,7 +11,8 @@
 
 
 class BulletPhysics_Examples_KnockdownTest : public ::testing::Test {};
-class BulletPhysics_Examples_KnockdownTestWithInteractionFixture : public AllegroFlare::Testing::WithInteractionFixture {};
+class BulletPhysics_Examples_KnockdownTestWithInteractionFixture : public AllegroFlare::Testing::WithInteractionFixture
+{};
 
 
 
@@ -71,7 +72,9 @@ TEST_F(BulletPhysics_Examples_KnockdownTest, DISABLED__step_physics__will_step_t
 
 TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will_work_with_the_expected_context)
 {
+   //screen.set_data_folder_path(get_framework_data_folder_path());
    BulletPhysics::Examples::Knockdown screen;
+   screen.set_data_folder_path(get_data_folder_path());
    AllegroFlare::Camera3D camera;
    AllegroFlare::Camera2D hud_camera;
    AllegroFlare::ModelBin model_bin;

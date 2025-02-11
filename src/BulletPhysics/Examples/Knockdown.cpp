@@ -5,6 +5,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
 #include <AllegroFlare/Random.hpp>
+#include <AllegroFlare/Tiled/TMJDataLoader.hpp>
 #include <btBulletDynamicsCommon.h>
 #include <iostream>
 #include <set>
@@ -20,6 +21,7 @@ namespace Examples
 
 Knockdown::Knockdown()
    : AllegroFlare::Screens::Gameplay()
+   , data_folder_path("[unset-data_folder_path]")
    , collision_configuration()
    , dispatcher(&collision_configuration)
    , broadphase()
@@ -58,9 +60,21 @@ Knockdown::~Knockdown()
 }
 
 
+void Knockdown::set_data_folder_path(std::string data_folder_path)
+{
+   this->data_folder_path = data_folder_path;
+}
+
+
 void Knockdown::set_shape_model(AllegroFlare::Model3D* shape_model)
 {
    this->shape_model = shape_model;
+}
+
+
+std::string Knockdown::get_data_folder_path() const
+{
+   return data_folder_path;
 }
 
 
@@ -274,6 +288,20 @@ void Knockdown::create_multiple_shapes()
    return;
 }
 
+void Knockdown::create_shapes_from_tmj_file()
+{
+   std::string filename = data_folder_path + "maps/" + "stack-01.tmj";
+   AllegroFlare::Tiled::TMJDataLoader tmj_data_loader(filename);
+   tmj_data_loader.load();
+
+   tmj_data_loader.for_each_object([](AllegroFlare::Tiled::TMJObject* object, void* user_data){
+      // HERE
+      // TODO: Parse the object into a cube
+   });
+
+   return;
+}
+
 void Knockdown::initialize()
 {
    if (!((!initialized)))
@@ -349,6 +377,12 @@ void Knockdown::initialize()
 
    // Add some shapes to the scene
    create_multiple_shapes();
+
+
+
+   // Load objects from a TMJ file
+   create_shapes_from_tmj_file();
+
 
 
 
