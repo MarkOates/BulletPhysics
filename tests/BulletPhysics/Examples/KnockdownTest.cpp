@@ -92,10 +92,11 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
    shape_model->set_texture(get_bitmap_bin_ref().auto_get("6_dice_sides-01b.png"));
 
    // Add pause behavior
-   //screen.set_on_paused_callback_func([runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
-      //get_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
-      //// TODO: Emit pause game event here
-   //});
+   screen.set_on_paused_callback_func([](AllegroFlare::Screens::Gameplay* screen, void* user_data){
+      // NOTE: Typically:
+      // get_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
+      screen->suspend_gameplay(); // TODO: Not sure if this is correct
+   });
 
    // Initialize the physics
    screen.set_shape_model(shape_model);

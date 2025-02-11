@@ -5,6 +5,7 @@
 #include <AllegroFlare/Placement3D.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Vec3D.hpp>
+#include <BulletPhysics/Examples/Knockdown.hpp>
 #include <allegro5/allegro.h>
 #include <btBulletDynamicsCommon.h>
 #include <cstdint>
@@ -57,7 +58,7 @@ namespace BulletPhysics
 
       public:
          Knockdown();
-         ~Knockdown();
+         virtual ~Knockdown();
 
          void set_data_folder_path(std::string data_folder_path);
          void set_shape_model(AllegroFlare::Model3D* shape_model);
@@ -69,6 +70,7 @@ namespace BulletPhysics
          void create_stacked_cubes();
          void create_multiple_shapes();
          void create_shapes_from_tmj_file();
+         BulletPhysics::Examples::Knockdown* create();
          void initialize();
          void launch_ball(btVector3* position_=nullptr, btVector3* velocity_=nullptr);
          bool is_cube_knocked_down(btRigidBody* cube=nullptr, float initial_height=0.0f, float threshold=0.8f);
@@ -82,7 +84,8 @@ namespace BulletPhysics
          void capture_shape_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int shape_index=-1);
          void capture_rigid_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, btRigidBody* rigid_body=nullptr);
          void destroy();
-         void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0);
+         virtual void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0) override;
+         virtual void primary_render_func() override;
          void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
          void update_state(float time_now=al_get_time());
          static bool is_valid_state(uint32_t state=STATE_UNDEF);

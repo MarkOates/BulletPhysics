@@ -340,6 +340,13 @@ methods:
       - AllegroFlare::Tiled::TMJDataLoader
 
 
+  - name: create
+    type: BulletPhysics::Examples::Knockdown*
+    body: |
+      BulletPhysics::Examples::Knockdown *result = new BulletPhysics::Examples::Knockdown();
+      return result;
+
+
   - name: initialize
     guards: [ (!initialized), (!destroyed) ]
     body: |
@@ -418,10 +425,11 @@ methods:
          {
             case ALLEGRO_KEY_P: {
                // TODO: Replace this manual suspending with an "call_on_paused_callback_func()"
-               {
-                  if (get_gameplay_suspended()) resume_suspended_gameplay();
-                  else suspend_gameplay();
-               }
+               call_on_paused_callback_func();
+               //{
+                  //if (get_gameplay_suspended()) resume_suspended_gameplay();
+                  //else suspend_gameplay();
+               //}
             } break;
 
             case ALLEGRO_KEY_SPACE: {
@@ -833,6 +841,8 @@ methods:
 
 
   - name: primary_update_func
+    virtual: true
+    override: true
     parameters:
       - name: time_now
         type: double
@@ -855,6 +865,24 @@ methods:
          //sphere_body->getMotionState()->getWorldTransform(trans);
          //std::cout << "Sphere height at step " << i << ": " << trans.getOrigin().getY() << std::endl;
       //}
+      return;
+
+
+  - name: primary_render_func
+    virtual: true
+    override: true
+    body: |
+      // Will need font bin
+      if (get_gameplay_suspended())
+      {
+         //ALLEGRO_
+         //al_draw_text(font, ALLEGRO_COLOR{1, 1, 1, 1}, 20, 20, ALLEGRO_ALIGN_LEFT, "paused");
+         //return;
+         //camera.spin -= 0.0125 * 0.25;
+      }
+
+      //camera.spin -= 0.0125 * 0.25;
+      
       return;
 
 
@@ -1058,5 +1086,7 @@ dependencies:
     headers: [ AllegroFlare/PlayerInputControllers/Generic.hpp ]
   - symbol: AllegroFlare::Tiled::TMJDataLoader
     headers: [ AllegroFlare/Tiled/TMJDataLoader.hpp ]
+  - symbol: BulletPhysics::Examples::Knockdown
+    headers: [ BulletPhysics/Examples/Knockdown.hpp ]
 
 

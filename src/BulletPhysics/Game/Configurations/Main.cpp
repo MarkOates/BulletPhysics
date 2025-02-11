@@ -76,15 +76,23 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    // TODO: Find some way to remove the Runners::Complete dependency, consider injecting
    // the bin dependencies individually into this method
 
-   BulletPhysics::Gameplay::Screen *result = new BulletPhysics::Gameplay::Screen;
 
+   //BulletPhysics::Gameplay::Screen *result = new BulletPhysics::Gameplay::Screen;
+   //result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
+   //result->set_asset_studio_database(&runner->get_framework()->get_asset_studio_database_ref());
+   //result->set_font_bin(runner->get_font_bin());
+   //result->set_bitmap_bin(runner->get_bitmap_bin());
+   //result->set_model_bin(runner->get_model_bin());
+   //result->set_event_emitter(runner->get_event_emitter());
+   //result->initialize();
+   //primary_gameplay_screen = result;
+
+
+   BulletPhysics::Examples::Knockdown *result = new BulletPhysics::Examples::Knockdown();
    result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
-   result->set_asset_studio_database(&runner->get_framework()->get_asset_studio_database_ref());
-   result->set_font_bin(runner->get_font_bin());
-   result->set_bitmap_bin(runner->get_bitmap_bin());
-   result->set_model_bin(runner->get_model_bin());
-   result->set_event_emitter(runner->get_event_emitter());
-   result->initialize();
+   result->set_on_paused_callback_func([runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
+      runner->get_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
+   });
 
    primary_gameplay_screen = result;
 
@@ -226,7 +234,7 @@ void Main::handle_primary_gameplay_screen_paused()
    }
    // TODO: Add tests for this behavior
    // TODO: Consider having and using event_emitter from self
-   AllegroFlare::EventEmitter* event_emitter = primary_gameplay_screen->get_event_emitter();
+   AllegroFlare::EventEmitter* event_emitter = get_runner()->get_event_emitter();
    primary_gameplay_screen->suspend_gameplay();
    event_emitter->emit_router_event(
       AllegroFlare::Routers::Standard::EVENT_ACTIVATE_PAUSE_SCREEN,
@@ -248,7 +256,7 @@ void Main::handle_primary_gameplay_screen_unpaused()
    }
    // TODO: Add tests for this behavior
    // TODO: Consider having and using event_emitter from self
-   AllegroFlare::EventEmitter* event_emitter = primary_gameplay_screen->get_event_emitter();
+   AllegroFlare::EventEmitter* event_emitter = get_runner()->get_event_emitter();
    primary_gameplay_screen->resume_suspended_gameplay();
    event_emitter->emit_router_event(
       AllegroFlare::Routers::Standard::EVENT_ACTIVATE_PRIMARY_GAMEPLAY_SCREEN,

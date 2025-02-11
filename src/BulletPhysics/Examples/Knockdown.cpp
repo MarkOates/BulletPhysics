@@ -302,6 +302,12 @@ void Knockdown::create_shapes_from_tmj_file()
    return;
 }
 
+BulletPhysics::Examples::Knockdown* Knockdown::create()
+{
+   BulletPhysics::Examples::Knockdown *result = new BulletPhysics::Examples::Knockdown();
+   return result;
+}
+
 void Knockdown::initialize()
 {
    if (!((!initialized)))
@@ -393,10 +399,11 @@ void Knockdown::initialize()
       {
          case ALLEGRO_KEY_P: {
             // TODO: Replace this manual suspending with an "call_on_paused_callback_func()"
-            {
-               if (get_gameplay_suspended()) resume_suspended_gameplay();
-               else suspend_gameplay();
-            }
+            call_on_paused_callback_func();
+            //{
+               //if (get_gameplay_suspended()) resume_suspended_gameplay();
+               //else suspend_gameplay();
+            //}
          } break;
 
          case ALLEGRO_KEY_SPACE: {
@@ -849,6 +856,22 @@ void Knockdown::primary_update_func(double time_now, double time_step)
       //sphere_body->getMotionState()->getWorldTransform(trans);
       //std::cout << "Sphere height at step " << i << ": " << trans.getOrigin().getY() << std::endl;
    //}
+   return;
+}
+
+void Knockdown::primary_render_func()
+{
+   // Will need font bin
+   if (get_gameplay_suspended())
+   {
+      //ALLEGRO_
+      //al_draw_text(font, ALLEGRO_COLOR{1, 1, 1, 1}, 20, 20, ALLEGRO_ALIGN_LEFT, "paused");
+      //return;
+      //camera.spin -= 0.0125 * 0.25;
+   }
+
+   //camera.spin -= 0.0125 * 0.25;
+
    return;
 }
 

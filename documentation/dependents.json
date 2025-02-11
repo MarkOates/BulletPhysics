@@ -96,6 +96,10 @@
   "AllegroFlare/Tiled/TMJDataLoader": [
     "BulletPhysics/Examples/Knockdown"
   ],
+  "BulletPhysics/Examples/Knockdown": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],

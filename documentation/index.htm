@@ -451,6 +451,10 @@ table td
   <td class="method"><b>create_shapes_from_tmj_file</b>()</td>
 </tr>
 <tr>
+  <td class="method">BulletPhysics::Examples::Knockdown*</td>
+  <td class="method"><b>create</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
 </tr>
@@ -513,6 +517,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>primary_update_func</b>(double time_now=al_get_time(), double time_step=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>primary_render_func</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -597,6 +605,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Tiled::TMJDataLoader&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Tiled/TMJDataLoader.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Examples::Knockdown&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Examples/Knockdown.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -793,7 +804,7 @@ table td
 <div class="property-box properties">     <table>
 <tr>
   <td class="property">primary_gameplay_screen</td>
-  <td class="property">BulletPhysics::Gameplay::Screen*</td>
+  <td class="property">BulletPhysics::Examples::Knockdown*</td>
 </tr>
 <tr>
   <td class="property">primary_gameplay_subscreen</td>
@@ -980,6 +991,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Subscreen::Screen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Subscreen/Screen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Examples::Knockdown&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Examples/Knockdown.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1312,6 +1326,10 @@ table td
   ],
   "AllegroFlare/Tiled/TMJDataLoader": [
     "BulletPhysics/Examples/Knockdown"
+  ],
+  "BulletPhysics/Examples/Knockdown": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Game/Configurations/Main"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"

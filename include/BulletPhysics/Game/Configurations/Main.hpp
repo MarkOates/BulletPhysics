@@ -14,7 +14,7 @@
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Screens/PauseScreen.hpp>
 #include <AllegroFlare/Screens/Subscreen/Screen.hpp>
-#include <BulletPhysics/Gameplay/Screen.hpp>
+#include <BulletPhysics/Examples/Knockdown.hpp>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -33,7 +33,7 @@ namespace BulletPhysics
             static constexpr char* TYPE = (char*)"BulletPhysics/Game/Configurations/Main";
 
          private:
-            BulletPhysics::Gameplay::Screen* primary_gameplay_screen;
+            BulletPhysics::Examples::Knockdown* primary_gameplay_screen;
             AllegroFlare::Screens::Subscreen::Screen* primary_gameplay_subscreen;
             AllegroFlare::Screens::PauseScreen* pause_screen;
 
