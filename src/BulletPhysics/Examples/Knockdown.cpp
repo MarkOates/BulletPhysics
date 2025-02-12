@@ -690,7 +690,7 @@ btConvexHullShape* Knockdown::create_convex_shape(AllegroFlare::Model3D* model)
    for (auto &vertex : model->vertices)
    {
        btVector3 bt_vertex(vertex.x, vertex.y, vertex.z);
-       convex_shape->addPoint(bt_vertex, false); //  avoids automatic recalculation of the AABB
+       convex_shape->addPoint(bt_vertex, false); // false avoids automatic recalculation of the AABB
    }
    convex_shape->recalcLocalAabb(); // Recalculate the bounding box after all points are added
    return convex_shape;
