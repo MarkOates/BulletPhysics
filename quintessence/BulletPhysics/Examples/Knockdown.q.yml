@@ -1440,34 +1440,34 @@ methods:
 
       switch (state)
       {
-         case STATE_OPENING_SEQUENCE:
+         case STATE_OPENING_SEQUENCE: {
             dip_to_black_opacity = 1.0f;
-         break;
+         } break;
 
-         case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
-         break;
+         case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
+         } break;
 
-         case STATE_IN_SIMULATION:
-         break;
+         case STATE_IN_SIMULATION: {
+         } break;
 
-         case STATE_TALLYING_SCORE:
-         break;
+         case STATE_TALLYING_SCORE: {
+         } break;
 
-         case STATE_SCORE_TALLIED_AND_PRESENTING:
-         break;
+         case STATE_SCORE_TALLIED_AND_PRESENTING: {
+         } break;
 
-         case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE:
-         break;
+         case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
+         } break;
 
-         case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION:
+         case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
             dip_to_black_opacity = 0.0f;
-         break;
+         } break;
 
-         case STATE_SCORE_TALLY_CLOSED_OUT:
+         case STATE_SCORE_TALLY_CLOSED_OUT: {
             dip_to_black_opacity = 1.0f;
             clear();
             reset();
-         break;
+         } break;
 
          /*
          case STATE_REVEALING:
@@ -1480,12 +1480,12 @@ methods:
          break;
          */
 
-         default:
+         default: {
             AllegroFlare::Logger::throw_error(
                "ClassName::set_state",
                "Unable to handle case for state \"" + std::to_string(state) + "\""
             );
-         break;
+         } break;
       }
 
       //this->state = state;
