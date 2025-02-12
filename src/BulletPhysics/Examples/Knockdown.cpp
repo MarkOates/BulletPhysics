@@ -1398,6 +1398,7 @@ void Knockdown::primary_render_func()
 
 
    //float dip_to_black_opacity = 0.0f;
+   dip_to_black_opacity = gameplay_meta_state.get_dip_to_black_opacity();//time_step_state(time_step);
    if (dip_to_black_opacity >= 0.01f)
    {
       al_draw_filled_rectangle(
