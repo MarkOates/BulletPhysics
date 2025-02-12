@@ -1,0 +1,112 @@
+properties:
+
+
+  - name: collision_configuration
+    type: btDefaultCollisionConfiguration*
+    init_with: nullptr
+
+  - name: dispatcher
+    type: btCollisionDispatcher*
+    init_with: nullptr
+
+  - name: broadphase
+    type: btDbvtBroadphase*
+    init_with: nullptr
+
+  - name: solver
+    type: btSequentialImpulseConstraintSolver*
+    init_with: nullptr
+
+  - name: dynamics_world
+    type: btDiscreteDynamicsWorld*
+    init_with: nullptr
+    getter: explicit
+    setter: false
+
+  - name: initialized
+    type: bool
+    init_with: false
+
+  - name: destroyed
+    type: bool
+    init_with: false
+
+
+methods:
+
+
+  - name: get_dynamics_world
+    type: btDiscreteDynamicsWorld*
+    guards: [ initialized, (!destroyed) ]
+    body: |
+      return dynamics_world;
+
+
+  - name: initialize
+    guards: [ (!initialized), (!destroyed) ]
+    body: |
+      collision_configuration = new btDefaultCollisionConfiguration();
+      dispatcher = new btCollisionDispatcher(collision_configuration);
+      broadphase = new btDbvtBroadphase();
+      solver = new btSequentialImpulseConstraintSolver();
+      dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_configuration);
+
+      //dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
+      ////dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
+      // Set gravity
+      //dynamics_world->setGravity(btVector3(0, -9.81, 0));
+      //return "Hello World!";
+      initialized = true;
+      return;
+
+
+  - name: ~destroy
+    body: |
+      if (initialized && !destroyed)
+      {
+         AllegroFlare::Logger::warn_from(
+            "BulletPhysics::DynamicsWorld::~destroy",
+            "This instance is being destroyed but the destroy() method has not been called."
+         );
+      }
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: destroy
+    guards: [ (!destroyed), initialized ]
+    body: |
+      delete dynamics_world;
+      delete solver;
+      delete broadphase;
+      delete dispatcher;
+      delete collision_configuration;
+
+      dynamics_world = nullptr;
+      solver = nullptr;
+      broadphase = nullptr;
+      dispatcher = nullptr;
+      collision_configuration = nullptr;
+
+      destroyed = true;
+      return;
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: btCollisionDispatcher
+    headers: [ btBulletDynamicsCommon.h ]
+  - symbol: btDbvtBroadphase
+    headers: [ btBulletDynamicsCommon.h ]
+  - symbol: btDefaultCollisionConfiguration
+    headers: [ btBulletDynamicsCommon.h ]
+  - symbol: btSequentialImpulseConstraintSolver
+    headers: [ btBulletDynamicsCommon.h ]
+  - symbol: btDiscreteDynamicsWorld
+    headers: [ btBulletDynamicsCommon.h ]
+
+

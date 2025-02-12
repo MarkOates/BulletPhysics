@@ -54,6 +54,7 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
+  <li><a href="#quintessence/BulletPhysics/DynamicsWorld.q.yml">quintessence/BulletPhysics/DynamicsWorld.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Basic.q.yml">quintessence/BulletPhysics/Examples/Basic.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Knockdown.q.yml">quintessence/BulletPhysics/Examples/Knockdown.q.yml</a></li>
@@ -64,6 +65,85 @@ table td
   <li><a href="#quintessence/BulletPhysics/Gameplay/Screen.q.yml">quintessence/BulletPhysics/Gameplay/Screen.q.yml</a></li>
 </ul>
 <h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/DynamicsWorld.q.yml">quintessence/BulletPhysics/DynamicsWorld.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">collision_configuration</td>
+  <td class="property">btDefaultCollisionConfiguration*</td>
+</tr>
+<tr>
+  <td class="property">dispatcher</td>
+  <td class="property">btCollisionDispatcher*</td>
+</tr>
+<tr>
+  <td class="property">broadphase</td>
+  <td class="property">btDbvtBroadphase*</td>
+</tr>
+<tr>
+  <td class="property">solver</td>
+  <td class="property">btSequentialImpulseConstraintSolver*</td>
+</tr>
+<tr>
+  <td class="property">dynamics_world</td>
+  <td class="property">btDiscreteDynamicsWorld*</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destroyed</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">btDiscreteDynamicsWorld*</td>
+  <td class="method"><b>get_dynamics_world</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btCollisionDispatcher&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDbvtBroadphase&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDefaultCollisionConfiguration&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btSequentialImpulseConstraintSolver&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;btDiscreteDynamicsWorld&quot;, &quot;headers&quot;=&gt;[&quot;btBulletDynamicsCommon.h&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -1284,13 +1364,49 @@ table td
 <h1>Dependents</h1>
 <pre>
 {
-  "bullet_physics_common": [
+  "AllegroFlare/Logger": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btCollisionDispatcher": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btDbvtBroadphase": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btDefaultCollisionConfiguration": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btSequentialImpulseConstraintSolver": [
+    "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btDiscreteDynamicsWorld": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "bullet_physics_common": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
@@ -1303,36 +1419,6 @@ table td
     "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionShape": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "AllegroFlare/Logger": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btCollisionDispatcher": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btDbvtBroadphase": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btDefaultCollisionConfiguration": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",

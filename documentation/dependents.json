@@ -1,11 +1,47 @@
 {
-  "bullet_physics_common": [
+  "AllegroFlare/Logger": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btCollisionDispatcher": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btDbvtBroadphase": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btDefaultCollisionConfiguration": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "btSequentialImpulseConstraintSolver": [
+    "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
   "btDiscreteDynamicsWorld": [
+    "BulletPhysics/DynamicsWorld",
+    "BulletPhysics/Examples/Basic",
+    "BulletPhysics/Examples/Cubes",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Examples/Mesh"
+  ],
+  "bullet_physics_common": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
@@ -18,36 +54,6 @@
     "BulletPhysics/Examples/Mesh"
   ],
   "btCollisionShape": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "AllegroFlare/Logger": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btCollisionDispatcher": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btDbvtBroadphase": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btDefaultCollisionConfiguration": [
-    "BulletPhysics/Examples/Basic",
-    "BulletPhysics/Examples/Cubes",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
-  ],
-  "btSequentialImpulseConstraintSolver": [
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
