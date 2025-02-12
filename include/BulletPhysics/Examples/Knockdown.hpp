@@ -42,7 +42,7 @@ namespace BulletPhysics
          btDbvtBroadphase broadphase;
          btSequentialImpulseConstraintSolver solver;
          btDiscreteDynamicsWorld* dynamics_world;
-         BulletPhysics::DynamicsWorld dynamics_world_object;
+         BulletPhysics::DynamicsWorld* dynamics_world_object;
          btRigidBody* sphere_body;
          float sphere_diameter;
          btVector3 sphere_initial_position;
