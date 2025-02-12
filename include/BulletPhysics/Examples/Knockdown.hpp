@@ -75,6 +75,7 @@ namespace BulletPhysics
          uint32_t get_state() const;
          int num_cubes();
          int num_shapes();
+         void reset();
          void clear();
          void create_multiple_cubes();
          void create_stacked_cubes();

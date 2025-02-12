@@ -101,6 +101,67 @@ int Knockdown::num_shapes()
    return shapes.size();
 }
 
+void Knockdown::reset()
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::reset]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::reset]: error: guard \"initialized\" not met");
+   }
+   // HERE
+   // Create a dynamics world
+   dynamics_world_object = new BulletPhysics::DynamicsWorld();
+   dynamics_world_object->initialize();
+   dynamics_world = dynamics_world_object->get_dynamics_world();
+
+
+   // Create a ground plane
+   ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+   btDefaultMotionState *ground_motion_state = new btDefaultMotionState();
+   btRigidBody::btRigidBodyConstructionInfo ground_body_ci(0, ground_motion_state, ground_shape, btVector3(0, 0, 0));
+   ground_body = new btRigidBody(ground_body_ci);
+   dynamics_world->addRigidBody(ground_body);
+
+   // Make the ground floor body bouncy
+   ground_body->setRestitution(0.8);
+
+
+   // Create the player's sphere
+   double diameter = sphere_diameter;
+   sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
+   btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
+      btTransform(
+         btQuaternion(0, 0, 0, 1),
+         //btVector3(5, diameter * 2, 0)
+         sphere_initial_position
+      )
+   );
+   btScalar sphere_mass = 1;
+   btVector3 sphere_inertia;
+   sphere_shape->calculateLocalInertia(sphere_mass, sphere_inertia);
+   btRigidBody::btRigidBodyConstructionInfo sphere_body_ci(
+      sphere_mass,
+      sphere_motion_state,
+      sphere_shape,
+      sphere_inertia
+   );
+   sphere_body = new btRigidBody(sphere_body_ci);
+
+   // Make the sphere body bouncy
+   sphere_body->setRestitution(0.8);
+
+   dynamics_world->addRigidBody(sphere_body);
+
+
+   // Create the game world and start the simulation
+   create_stacked_cubes();
+   set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+
+   return;
+}
+
 void Knockdown::clear()
 {
    if (!(initialized))
@@ -146,14 +207,19 @@ void Knockdown::clear()
        "Number of remaining rigid bodies in the dynamic_world: " + std::to_string(num_bodies)
    );
 
-   // Delete the dynamics_world object
-   // TODO: See if the injected elements need to be destroyed as well, or even if they can be re-used to
-   // create another dynamics_world after this one is deleted
-   //delete dynamics_world;
-   dynamics_world = nullptr;
 
+   // Delete the dynamics_world object
+   // Clear our local class's dynamics_world
+   dynamics_world = nullptr;
+   // Destroy the dynamics_world
    dynamics_world_object->destroy();
    delete dynamics_world_object;
+
+
+   // Clear the local bins (there may have been models used for rendering or loaded for collision shapes)
+   model_bin.clear();
+   bitmap_bin.clear();
+   font_bin.clear();
 
    return;
 }
@@ -391,74 +457,66 @@ void Knockdown::initialize()
    }
    // TODO: Separate the "initializing" from the creation of the elements in the world and their destruction.
 
-   dynamics_world_object = new BulletPhysics::DynamicsWorld();
-   dynamics_world_object->initialize();
+   //reset();
 
-   // Create a dynamics world
-   //btDefaultCollisionConfiguration collision_configuration;
-   //btCollisionDispatcher dispatcher(&collision_configuration);
-   //btDbvtBroadphase broadphase;
-   //btSequentialImpulseConstraintSolver solver;
-   // NOTE: I'm not sure what of these injected objects are disposable after construction and/or which need to be
-   // kept alive for dynamics_world
-   //##dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
-   dynamics_world = dynamics_world_object->get_dynamics_world();
-
-   // Set gravity
-   ////dynamics_world->setGravity(btVector3(0, -9.81, 0));
-
-   // Create a ground plane
-   ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-   btDefaultMotionState *ground_motion_state = new btDefaultMotionState();
-   btRigidBody::btRigidBodyConstructionInfo ground_body_ci(0, ground_motion_state, ground_shape, btVector3(0, 0, 0));
-   ground_body = new btRigidBody(ground_body_ci);
-   dynamics_world->addRigidBody(ground_body);
-
-   // Make the ground floor body bouncy
-   ground_body->setRestitution(0.8);
+   //// Create a dynamics world
+   //dynamics_world_object = new BulletPhysics::DynamicsWorld();
+   //dynamics_world_object->initialize();
+   //dynamics_world = dynamics_world_object->get_dynamics_world();
 
 
-   // Create the sphere
-   double diameter = sphere_diameter;
-   sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
-   btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
-      btTransform(
-         btQuaternion(0, 0, 0, 1),
-         //btVector3(5, diameter * 2, 0)
-         sphere_initial_position
-      )
-   );
-   btScalar sphere_mass = 1;
-   btVector3 sphere_inertia;
-   sphere_shape->calculateLocalInertia(sphere_mass, sphere_inertia);
-   btRigidBody::btRigidBodyConstructionInfo sphere_body_ci(
-      sphere_mass,
-      sphere_motion_state,
-      sphere_shape,
-      sphere_inertia
-   );
-   sphere_body = new btRigidBody(sphere_body_ci);
+   //// Create a ground plane
+   //ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+   //btDefaultMotionState *ground_motion_state = new btDefaultMotionState();
+   //btRigidBody::btRigidBodyConstructionInfo ground_body_ci(0, ground_motion_state, ground_shape, btVector3(0, 0, 0));
+   //ground_body = new btRigidBody(ground_body_ci);
+   //dynamics_world->addRigidBody(ground_body);
 
-   // Make the sphere body bouncy
-   sphere_body->setRestitution(0.8);
+   //// Make the ground floor body bouncy
+   //ground_body->setRestitution(0.8);
 
-   dynamics_world->addRigidBody(sphere_body);
+
+   //// Create the player's sphere
+   //double diameter = sphere_diameter;
+   //sphere_shape = new btSphereShape(diameter); // Sphere has a size of radius of 1 (diameter of 2)
+   //btDefaultMotionState *sphere_motion_state = new btDefaultMotionState(
+      //btTransform(
+         //btQuaternion(0, 0, 0, 1),
+         ////btVector3(5, diameter * 2, 0)
+         //sphere_initial_position
+      //)
+   //);
+   //btScalar sphere_mass = 1;
+   //btVector3 sphere_inertia;
+   //sphere_shape->calculateLocalInertia(sphere_mass, sphere_inertia);
+   //btRigidBody::btRigidBodyConstructionInfo sphere_body_ci(
+      //sphere_mass,
+      //sphere_motion_state,
+      //sphere_shape,
+      //sphere_inertia
+   //);
+   //sphere_body = new btRigidBody(sphere_body_ci);
+
+   //// Make the sphere body bouncy
+   //sphere_body->setRestitution(0.8);
+
+   //dynamics_world->addRigidBody(sphere_body);
 
 
 
    // Add some cubes to the scene
    //create_multiple_cubes();
-   create_stacked_cubes();
+   //create_stacked_cubes();
 
 
 
    // Add some shapes to the scene
-   create_multiple_shapes();
+   //create_multiple_shapes();
 
 
 
    // Load objects from a TMJ file
-   create_shapes_from_tmj_file();
+   //create_shapes_from_tmj_file();
 
 
 
@@ -494,7 +552,7 @@ void Knockdown::initialize()
    set_player_input_controller(generic_player_input_controller);
 
 
-   initialized = true;
+   //initialized = true;
 
 
 
@@ -502,8 +560,15 @@ void Knockdown::initialize()
    initialize_render();
 
 
+   initialized = true;
+
+
+
    // Start the game
-   set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+   reset();
+
+   // Start the game
+   //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
 
    return;
@@ -924,30 +989,24 @@ void Knockdown::initialize_render()
 {
    set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
 
-   static bool rendering_setup = false;
-   if (!rendering_setup)
-   {
-      //camera3d
-      camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
-      camera3d.tilt = 0.65;
-      camera3d.spin = 1.25;
-      camera3d.near_plane = 0.25;
-      camera3d.far_plane = 500.0;
+   // Setup the camera
+   camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
+   camera3d.tilt = 0.65;
+   camera3d.spin = 1.25;
+   camera3d.near_plane = 0.25;
+   camera3d.far_plane = 500.0;
 
-      //hud_camera
-      // NOTE: Nothing to do
+   // Setup the model_bin
+   model_bin.set_full_path(data_folder_path + "models");
 
-      //model_bin
-      model_bin.set_full_path(data_folder_path + "models");
+   // Setup the bitmap_bin
+   bitmap_bin.set_full_path(data_folder_path + "bitmaps");
 
-      //bitmap_bin
-      bitmap_bin.set_full_path(data_folder_path + "bitmaps");
+   // Setup the font_bin
+   font_bin.set_full_path(data_folder_path + "fonts");
 
-      //font_bin
-      font_bin.set_full_path(data_folder_path + "fonts");
+   //rendering_setup = true;
 
-      rendering_setup = true;
-   }
    return;
 }
 

@@ -400,6 +400,26 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithAllegroFlareFrameworksFullFixture
 
 
 
+/*
+TEST_F(BulletPhysics_Examples_KnockdownTestWithAllegroFlareFrameworksFullFixture,
+   INTERACTIVE__will_work_in_a_Frameworks_Full_context)
+{
+   BulletPhysics::Examples::Knockdown *screen = new BulletPhysics::Examples::Knockdown();
+   screen->set_data_folder_path(get_framework_data_folder_path());
+   screen->set_on_paused_callback_func([this](AllegroFlare::Screens::Gameplay* screen, void* user_data){
+      get_framework_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
+   });
+   screen->initialize();
+
+   framework_register_and_activate_screen("screen", screen);
+
+   framework_run_loop(-12);
+
+   screen->destroy();
+}
+*/
+
+
 
 /*
 TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
