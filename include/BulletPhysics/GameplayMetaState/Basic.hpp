@@ -34,7 +34,7 @@ namespace BulletPhysics
          float dip_to_black_opacity;
          uint32_t state;
          bool state_is_busy;
-         float state_changed_at;
+         double state_changed_at;
 
       protected:
 
@@ -52,7 +52,7 @@ namespace BulletPhysics
          void update_state(double time_now=al_get_time(), double time_step=(1.0/60.0f));
          static bool is_valid_state(uint32_t state=STATE_UNDEF);
          bool is_state(uint32_t possible_state=STATE_UNDEF);
-         float infer_current_state_real_age(float time_now=al_get_time());
+         double infer_current_state_real_age(double time_now=al_get_time());
          bool showing_final_score();
          bool showing_ready_banner();
          bool showing_gamplay_instructions();

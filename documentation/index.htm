@@ -1426,8 +1426,8 @@ table td
 <ul>
   <div class="component">
     <h3 id="quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</h3>
-    <p>(This component does not include supplementary documentation)</p>
-    <h3>Properties</h3>
+    <h3>Overview</h3>
+    <p>{"notes"=>["This class handles and manages state designed around the most common gameplay meta-states, such as level opening sequences, ready banners, end-of-level score tallying, closing out, etc."]}</p>    <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
   <td class="property">on_closed_out_func</td>
@@ -1447,7 +1447,7 @@ table td
 </tr>
 <tr>
   <td class="property">state_changed_at</td>
-  <td class="property">float</td>
+  <td class="property">double</td>
 </tr>
 <tr>
   <td class="property">TYPE</td>
@@ -1477,8 +1477,8 @@ table td
   <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
 </tr>
 <tr>
-  <td class="method">float</td>
-  <td class="method"><b>infer_current_state_real_age</b>(float time_now=al_get_time())</td>
+  <td class="method">double</td>
+  <td class="method"><b>infer_current_state_real_age</b>(double time_now=al_get_time())</td>
 </tr>
 <tr>
   <td class="method">bool</td>

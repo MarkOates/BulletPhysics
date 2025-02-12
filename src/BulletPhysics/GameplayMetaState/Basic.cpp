@@ -22,7 +22,7 @@ Basic::Basic()
    , dip_to_black_opacity(0.0f)
    , state(STATE_UNDEF)
    , state_is_busy(false)
-   , state_changed_at(0.0f)
+   , state_changed_at(0.0)
 {
 }
 
@@ -131,9 +131,6 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
       } break;
    }
 
-   //this->state = state;
-   //state_changed_at = al_get_time();
-
    return;
 }
 
@@ -146,7 +143,7 @@ void Basic::update_state(double time_now, double time_step)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::GameplayMetaState::Basic::update_state]: error: guard \"is_valid_state(state)\" not met");
    }
-   float real_age = infer_current_state_real_age(time_now);
+   double real_age = infer_current_state_real_age(time_now);
 
    switch (state)
    {
@@ -190,17 +187,6 @@ void Basic::update_state(double time_now, double time_step)
          dip_to_black_opacity = 1.0f;
       } break;
 
-      /*
-      case STATE_REVEALING:
-      break;
-
-      case STATE_AWAITING_USER_INPUT:
-      break;
-
-      case STATE_CLOSING_DOWN:
-      break;
-      */
-
       default:
          AllegroFlare::Logger::throw_error(
             "ClassName::update_state",
@@ -225,9 +211,6 @@ bool Basic::is_valid_state(uint32_t state)
       STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
       STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
       STATE_SCORE_TALLY_CLOSED_OUT,
-      //STATE_REVEALING,
-      //STATE_AWAITING_USER_INPUT,
-      //STATE_CLOSING_DOWN,
    };
    return (valid_states.count(state) > 0);
 }
@@ -237,7 +220,7 @@ bool Basic::is_state(uint32_t possible_state)
    return (state == possible_state);
 }
 
-float Basic::infer_current_state_real_age(float time_now)
+double Basic::infer_current_state_real_age(double time_now)
 {
    return (time_now - state_changed_at);
 }
