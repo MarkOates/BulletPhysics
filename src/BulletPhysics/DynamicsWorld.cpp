@@ -72,17 +72,18 @@ void DynamicsWorld::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::DynamicsWorld::initialize]: error: guard \"(!destroyed)\" not met");
    }
+   // Create the required dependencies
    collision_configuration = new btDefaultCollisionConfiguration();
    dispatcher = new btCollisionDispatcher(collision_configuration);
    broadphase = new btDbvtBroadphase();
    solver = new btSequentialImpulseConstraintSolver();
+
+   // Build the dynamics_world
    dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_configuration);
 
-   //dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
-   ////dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
    // Set gravity
-   //dynamics_world->setGravity(btVector3(0, -9.81, 0));
-   //return "Hello World!";
+   dynamics_world->setGravity(btVector3(0, -9.81, 0));
+
    initialized = true;
    return;
 }
