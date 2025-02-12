@@ -157,6 +157,7 @@ void Knockdown::reset()
 
    // Create the game world and start the simulation
    create_stacked_cubes();
+   set_camera_to_start_position();
    set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
    return;
@@ -533,6 +534,11 @@ void Knockdown::initialize()
                //if (get_gameplay_suspended()) resume_suspended_gameplay();
                //else suspend_gameplay();
             //}
+         } break;
+
+         case ALLEGRO_KEY_R: {
+            clear();
+            reset();
          } break;
 
          case ALLEGRO_KEY_SPACE: {
@@ -985,16 +991,27 @@ void Knockdown::destroy()
    return;
 }
 
-void Knockdown::initialize_render()
+void Knockdown::set_camera_to_start_position()
 {
-   set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
-
-   // Setup the camera
    camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
    camera3d.tilt = 0.65;
    camera3d.spin = 1.25;
    camera3d.near_plane = 0.25;
    camera3d.far_plane = 500.0;
+   return;
+}
+
+void Knockdown::initialize_render()
+{
+   set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+
+   // Setup the camera
+   set_camera_to_start_position();
+   //camera3d.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
+   //camera3d.tilt = 0.65;
+   //camera3d.spin = 1.25;
+   //camera3d.near_plane = 0.25;
+   //camera3d.far_plane = 500.0;
 
    // Setup the model_bin
    model_bin.set_full_path(data_folder_path + "models");
