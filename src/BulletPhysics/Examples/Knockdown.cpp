@@ -94,6 +94,13 @@ int Knockdown::num_shapes()
    return shapes.size();
 }
 
+bool Knockdown::load_level_by_identifier(std::string possible_type)
+{
+   clear();
+   reset();
+   return true;
+}
+
 void Knockdown::reset()
 {
    if (!(initialized))
@@ -151,7 +158,10 @@ void Knockdown::reset()
    // Create the game world and start the simulation
    player_has_thrown_ball = false;
    create_stacked_cubes();
+   if (get_gameplay_suspended()) resume_suspended_gameplay();
    set_camera_to_start_position();
+   //if (get_gameplay_suspended()) resume_suspended_gameplay();
+   //gameplay_meta_state.start_opening_sequence();
    gameplay_meta_state.start_opening_sequence();
    //set_state(STATE_OPENING_SEQUENCE);
    //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
@@ -531,14 +541,14 @@ void Knockdown::initialize()
 
       switch (key_code)
       {
-         case ALLEGRO_KEY_P: {
+         //case ALLEGRO_KEY_P: {
             // TODO: Replace this manual suspending with an "call_on_paused_callback_func()"
-            call_on_paused_callback_func();
+            //call_on_paused_callback_func();
             //{
                //if (get_gameplay_suspended()) resume_suspended_gameplay();
                //else suspend_gameplay();
             //}
-         } break;
+         //} break;
 
          //case ALLEGRO_KEY_R: {
             //clear();
@@ -589,7 +599,8 @@ void Knockdown::initialize()
 
 
 
-   // Start the game
+   // Start the game (this now happens at load_level_by_identifier)
+   //clear();
    reset();
 
    // Start the game

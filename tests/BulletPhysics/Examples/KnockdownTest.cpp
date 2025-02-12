@@ -107,6 +107,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
    // Initialize the physics
    screen.set_shape_model(shape_model);
    screen.initialize();
+   screen.load_level_by_identifier("foo");
 
    // Setup the camera
    camera.stepout = AllegroFlare::Vec3D(0, 1.25, 16);
@@ -390,6 +391,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithAllegroFlareFrameworksFullFixture
       get_framework_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
    });
    screen->initialize();
+   screen->load_level_by_identifier("foo");
 
    framework_register_and_activate_screen("screen", screen);
 
@@ -410,6 +412,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithAllegroFlareFrameworksFullFixture
       get_framework_event_emitter()->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
    });
    screen->initialize();
+   screen->load_level_by_identifier("foo");
 
    framework_register_and_activate_screen("screen", screen);
 

@@ -66,6 +66,7 @@ namespace BulletPhysics
          std::string get_data_folder_path() const;
          int num_cubes();
          int num_shapes();
+         virtual bool load_level_by_identifier(std::string possible_type="") override;
          void reset();
          void clear();
          void create_multiple_cubes();

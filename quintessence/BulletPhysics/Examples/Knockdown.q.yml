@@ -130,6 +130,22 @@ methods:
       return shapes.size();
 
 
+  - name: load_level_by_identifier
+    type: bool
+    virtual: true
+    override: true
+    parameters:
+      - name: possible_type
+        type: std::string
+        default_argument: '""'
+    body: |
+      clear();
+      reset();
+      return true;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
   - name: reset
     guards: [ initialized ]
     body: |
@@ -181,7 +197,10 @@ methods:
       // Create the game world and start the simulation
       player_has_thrown_ball = false;
       create_stacked_cubes();
+      if (get_gameplay_suspended()) resume_suspended_gameplay();
       set_camera_to_start_position();
+      //if (get_gameplay_suspended()) resume_suspended_gameplay();
+      //gameplay_meta_state.start_opening_sequence();
       gameplay_meta_state.start_opening_sequence();
       //set_state(STATE_OPENING_SEQUENCE);
       //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
@@ -545,14 +564,14 @@ methods:
 
          switch (key_code)
          {
-            case ALLEGRO_KEY_P: {
+            //case ALLEGRO_KEY_P: {
                // TODO: Replace this manual suspending with an "call_on_paused_callback_func()"
-               call_on_paused_callback_func();
+               //call_on_paused_callback_func();
                //{
                   //if (get_gameplay_suspended()) resume_suspended_gameplay();
                   //else suspend_gameplay();
                //}
-            } break;
+            //} break;
 
             //case ALLEGRO_KEY_R: {
                //clear();
@@ -603,7 +622,8 @@ methods:
 
 
 
-      // Start the game
+      // Start the game (this now happens at load_level_by_identifier)
+      //clear();
       reset();
 
       // Start the game
