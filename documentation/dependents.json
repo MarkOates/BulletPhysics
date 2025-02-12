@@ -4,7 +4,8 @@
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
+    "BulletPhysics/Examples/Mesh",
+    "BulletPhysics/GameplayMetaState/Basic"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
@@ -228,5 +229,11 @@
   ],
   "AllegroFlare/AssetStudio/Database": [
     "BulletPhysics/Gameplay/Screen"
+  ],
+  "BulletPhysics/GameplayMetaState/Base": [
+    "BulletPhysics/GameplayMetaState/Basic"
+  ],
+  "al_get_time": [
+    "BulletPhysics/GameplayMetaState/Basic"
   ]
 }

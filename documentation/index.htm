@@ -63,6 +63,8 @@ table td
   <li><a href="#quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml">quintessence/BulletPhysics/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Gameplay/Level.q.yml">quintessence/BulletPhysics/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Gameplay/Screen.q.yml">quintessence/BulletPhysics/Gameplay/Screen.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/GameplayMetaState/Base.q.yml">quintessence/BulletPhysics/GameplayMetaState/Base.q.yml</a></li>
+  <li><a href="#quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</a></li>
 </ul>
 <h1>Components</h1>
 <br><br><br>
@@ -1388,6 +1390,135 @@ table td
     </table>
 </div>  </div>
 </ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/GameplayMetaState/Base.q.yml">quintessence/BulletPhysics/GameplayMetaState/Base.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">type</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_player_input_active</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_type</b>(std::string possible_type=&quot;&quot;)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<p>This class contains no dependencies</p>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">on_closed_out_func</td>
+  <td class="property">std::function&lt;void()&gt;</td>
+</tr>
+<tr>
+  <td class="property">dip_to_black_opacity</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">state</td>
+  <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">state_is_busy</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">state_changed_at</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_player_input_active</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_state</b>(double time_now=al_get_time(), double time_step=(1.0/60.0f))</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_valid_state</b>(uint32_t state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>infer_current_state_real_age</b>(float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_final_score</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_ready_banner</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_gamplay_instructions</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_press_any_key_to_continue_after_score_tally</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>waiting_for_player_input_to_continue</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>continue_from_waiting_for_player_input_to_continue</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::GameplayMetaState::Base&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/GameplayMetaState/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_get_time&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <h1>Dependents</h1>
 <pre>
 {
@@ -1396,7 +1527,8 @@ table td
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Examples/Mesh"
+    "BulletPhysics/Examples/Mesh",
+    "BulletPhysics/GameplayMetaState/Basic"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
@@ -1620,6 +1752,12 @@ table td
   ],
   "AllegroFlare/AssetStudio/Database": [
     "BulletPhysics/Gameplay/Screen"
+  ],
+  "BulletPhysics/GameplayMetaState/Base": [
+    "BulletPhysics/GameplayMetaState/Basic"
+  ],
+  "al_get_time": [
+    "BulletPhysics/GameplayMetaState/Basic"
   ]
 }
 </pre>

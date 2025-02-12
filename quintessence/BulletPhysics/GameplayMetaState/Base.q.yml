@@ -1,0 +1,37 @@
+properties:
+
+
+  - name: type
+    type: std::string
+    init_with: BulletPhysics::GameplayMetaState::Base::TYPE
+    constructor_arg: true
+    getter: true
+
+  - name: TYPE
+    type: char*
+    init_with: '(char*)"BulletPhysics/GameplayMetaState/Base"'
+    static: true
+    constexpr: true
+
+
+methods:
+
+
+  - name: is_player_input_active
+    virtual: true
+    type: bool
+    body: |
+      // This needs to be overridden in the base class
+      return true;
+
+
+  - name: is_type
+    type: bool
+    parameters:
+      - name: possible_type
+        type: std::string
+        default_argument: '""'
+    body: |
+      return (possible_type == get_type());
+
+
