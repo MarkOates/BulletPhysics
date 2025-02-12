@@ -34,6 +34,10 @@ properties:
     type: double
     init_with: 0.0
 
+  - name: accumulated_time_now
+    type: double
+    init_with: 0.0
+
   - name: TYPE
     type: char*
     init_with: '(char*)"BulletPhysics/GameplayMetaState/Basic"'
@@ -64,6 +68,10 @@ documentation:
   - notes:
       - This class handles and manages state designed around the most common gameplay meta-states, such as level opening
         sequences, ready banners, end-of-level score tallying, closing out, etc.
+      - state_is_busy is not set anywhere and is currently not used.
+      - Might consider adding more features in the future, such as transition state durations. Additional features
+        could easily get pretty complex, callbacks and external state change triggers, etc., so it might be nice to
+        keep this Basic class as being relatively simple.
 
 
 methods:
@@ -92,7 +100,7 @@ methods:
       uint32_t previous_state = this->state;
 
       this->state = state;
-      state_changed_at = al_get_time();
+      state_changed_at = accumulated_time_now;
 
       switch (state)
       {
@@ -151,21 +159,17 @@ methods:
       return;
     body_dependency_symbols:
       - AllegroFlare::Logger
-      - al_get_time
 
 
-  - name: update_state
+  - name: time_step_state
     parameters:
       - name: time_step
         type: double
         default_argument: (1.0/60.0f)
-      - name: time_now
-        type: double
-        default_argument: al_get_time()
-        default_argument_dependency_symbols: [ al_get_time ]
     guards: [ is_valid_state(state) ]
     body: |
-      double real_age = infer_current_state_real_age(time_now);
+      accumulated_time_now += time_step;
+      double age = infer_current_state_age();
 
       switch (state)
       {
@@ -174,7 +178,7 @@ methods:
 
          case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
             dip_to_black_opacity -= 0.025f;
-            if (real_age > 2.0)
+            if (age > 2.0)
             {
                dip_to_black_opacity = 0.0f;
                set_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
@@ -185,15 +189,15 @@ methods:
          } break;
 
          case GAMEPLAY_META_STATE_IN_SIMULATION: {
-            if (real_age > 4.0) set_state(GAMEPLAY_META_STATE_TALLYING_SCORE);
+            if (age > 4.0) set_state(GAMEPLAY_META_STATE_TALLYING_SCORE);
          } break;
 
          case GAMEPLAY_META_STATE_TALLYING_SCORE: {
-            if (real_age > 2.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING);
+            if (age > 2.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING);
          } break;
 
          case GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING: {
-            if (real_age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+            if (age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
          } break;
 
          case GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
@@ -201,7 +205,7 @@ methods:
 
          case GAMEPLAY_META_STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
             dip_to_black_opacity += 0.025f;
-            if (real_age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT);
+            if (age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT);
          } break;
 
          case GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT: {
@@ -291,14 +295,10 @@ methods:
      return (state == possible_state);
 
 
-  - name: infer_current_state_real_age
+  - name: infer_current_state_age
     type: double
-    parameters:
-      - name: time_now
-        type: double
-        default_argument: al_get_time()
     body: |
-      return (time_now - state_changed_at);
+      return (accumulated_time_now - state_changed_at);
 
 
   - name: showing_final_score
@@ -346,7 +346,5 @@ dependencies:
     headers: [ BulletPhysics/GameplayMetaState/Base.hpp ]
   - symbol: AllegroFlare::Logger
     headers: [ AllegroFlare/Logger.hpp ]
-  - symbol: al_get_time
-    headers: [ allegro5/allegro.h ]
 
 

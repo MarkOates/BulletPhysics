@@ -232,8 +232,5 @@
   ],
   "BulletPhysics/GameplayMetaState/Base": [
     "BulletPhysics/GameplayMetaState/Basic"
-  ],
-  "al_get_time": [
-    "BulletPhysics/GameplayMetaState/Basic"
   ]
 }

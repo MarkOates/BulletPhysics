@@ -3,7 +3,6 @@
 #include <BulletPhysics/GameplayMetaState/Basic.hpp>
 
 #include <AllegroFlare/Logger.hpp>
-#include <allegro5/allegro.h>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -23,6 +22,7 @@ Basic::Basic()
    , state(GAMEPLAY_META_STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0)
+   , accumulated_time_now(0.0)
 {
 }
 
@@ -75,7 +75,7 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
    uint32_t previous_state = this->state;
 
    this->state = state;
-   state_changed_at = al_get_time();
+   state_changed_at = accumulated_time_now;
 
    switch (state)
    {
@@ -134,16 +134,17 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
    return;
 }
 
-void Basic::update_state(double time_step, double time_now)
+void Basic::time_step_state(double time_step)
 {
    if (!(is_valid_state(state)))
    {
       std::stringstream error_message;
-      error_message << "[BulletPhysics::GameplayMetaState::Basic::update_state]: error: guard \"is_valid_state(state)\" not met.";
+      error_message << "[BulletPhysics::GameplayMetaState::Basic::time_step_state]: error: guard \"is_valid_state(state)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::GameplayMetaState::Basic::update_state]: error: guard \"is_valid_state(state)\" not met");
+      throw std::runtime_error("[BulletPhysics::GameplayMetaState::Basic::time_step_state]: error: guard \"is_valid_state(state)\" not met");
    }
-   double real_age = infer_current_state_real_age(time_now);
+   accumulated_time_now += time_step;
+   double age = infer_current_state_age();
 
    switch (state)
    {
@@ -152,7 +153,7 @@ void Basic::update_state(double time_step, double time_now)
 
       case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
          dip_to_black_opacity -= 0.025f;
-         if (real_age > 2.0)
+         if (age > 2.0)
          {
             dip_to_black_opacity = 0.0f;
             set_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
@@ -163,15 +164,15 @@ void Basic::update_state(double time_step, double time_now)
       } break;
 
       case GAMEPLAY_META_STATE_IN_SIMULATION: {
-         if (real_age > 4.0) set_state(GAMEPLAY_META_STATE_TALLYING_SCORE);
+         if (age > 4.0) set_state(GAMEPLAY_META_STATE_TALLYING_SCORE);
       } break;
 
       case GAMEPLAY_META_STATE_TALLYING_SCORE: {
-         if (real_age > 2.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING);
+         if (age > 2.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING);
       } break;
 
       case GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING: {
-         if (real_age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+         if (age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
       } break;
 
       case GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
@@ -179,7 +180,7 @@ void Basic::update_state(double time_step, double time_now)
 
       case GAMEPLAY_META_STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
          dip_to_black_opacity += 0.025f;
-         if (real_age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT);
+         if (age > 1.0) set_state(GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT);
       } break;
 
       case GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT: {
@@ -252,9 +253,9 @@ bool Basic::is_state(uint32_t possible_state)
    return (state == possible_state);
 }
 
-double Basic::infer_current_state_real_age(double time_now)
+double Basic::infer_current_state_age()
 {
-   return (time_now - state_changed_at);
+   return (accumulated_time_now - state_changed_at);
 }
 
 bool Basic::showing_final_score()

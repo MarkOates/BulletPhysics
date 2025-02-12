@@ -2,7 +2,6 @@
 
 
 #include <BulletPhysics/GameplayMetaState/Base.hpp>
-#include <allegro5/allegro.h>
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -36,6 +35,7 @@ namespace BulletPhysics
          uint32_t state;
          bool state_is_busy;
          double state_changed_at;
+         double accumulated_time_now;
 
       protected:
 
@@ -50,11 +50,11 @@ namespace BulletPhysics
          uint32_t get_state() const;
          virtual bool is_player_input_active() override;
          void set_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF, bool override_if_busy=false);
-         void update_state(double time_step=(1.0/60.0f), double time_now=al_get_time());
+         void time_step_state(double time_step=(1.0/60.0f));
          static bool is_valid_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF);
          std::string get_state_name();
          bool is_state(uint32_t possible_state=GAMEPLAY_META_STATE_UNDEF);
-         double infer_current_state_real_age(double time_now=al_get_time());
+         double infer_current_state_age();
          bool showing_final_score();
          bool showing_ready_banner();
          bool showing_gamplay_instructions();
