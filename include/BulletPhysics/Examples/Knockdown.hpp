@@ -35,13 +35,17 @@ namespace BulletPhysics
             STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
             STATE_IN_SIMULATION,
             STATE_TALLYING_SCORE,
-            STATE_SCORE_TALLIED,
+            STATE_SCORE_TALLIED_AND_PRESENTING,
+            STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
+            STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
+            STATE_SCORE_TALLY_CLOSED_OUT,
          };
          std::string data_folder_path;
          btDiscreteDynamicsWorld* dynamics_world;
          BulletPhysics::DynamicsWorld* dynamics_world_object;
          btRigidBody* sphere_body;
          float sphere_diameter;
+         float dip_to_black_opacity;
          btVector3 sphere_initial_position;
          btCollisionShape* sphere_shape;
          btCollisionShape* cube_shape;
@@ -110,6 +114,9 @@ namespace BulletPhysics
          bool showing_final_score();
          bool showing_ready_banner();
          bool showing_gamplay_instructions();
+         bool showing_press_any_key_to_continue_after_score_tally();
+         bool waiting_for_player_input_to_continue();
+         void continue_from_waiting_for_player_input_to_continue();
       };
    }
 }

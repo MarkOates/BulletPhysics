@@ -31,6 +31,7 @@ Knockdown::Knockdown()
    , dynamics_world_object(nullptr)
    , sphere_body(nullptr)
    , sphere_diameter(1.25f)
+   , dip_to_black_opacity(0.0f)
    , sphere_initial_position(btVector3(0, sphere_diameter * 2, 6))
    , sphere_shape(nullptr)
    , cube_shape(nullptr)
@@ -526,6 +527,12 @@ void Knockdown::initialize()
    // Setup a player_input_controller
    auto generic_player_input_controller = new AllegroFlare::PlayerInputControllers::Generic();
    generic_player_input_controller->set_on_key_pressed([this](int key_code){
+      if (this->waiting_for_player_input_to_continue())
+      {
+         continue_from_waiting_for_player_input_to_continue();
+         return;
+      }
+
       switch (key_code)
       {
          case ALLEGRO_KEY_P: {
@@ -537,10 +544,10 @@ void Knockdown::initialize()
             //}
          } break;
 
-         case ALLEGRO_KEY_R: {
-            clear();
-            reset();
-         } break;
+         //case ALLEGRO_KEY_R: {
+            //clear();
+            //reset();
+         //} break;
 
          case ALLEGRO_KEY_SPACE: {
             if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
@@ -1317,6 +1324,22 @@ void Knockdown::primary_render_func()
          }
 
 
+         if (this->showing_press_any_key_to_continue_after_score_tally())
+         {
+            // For debugging, show state
+            al_draw_multiline_textf(
+               font,
+               ALLEGRO_COLOR{1, 1, 1, 1},
+               1920/2,
+               1080-80*2,
+               1920,
+               al_get_font_line_height(font),
+               ALLEGRO_ALIGN_CENTER,
+               "Press any key to continue"
+            );
+         }
+
+
          /*
          // For debugging, show state
          al_draw_multiline_textf(
@@ -1357,6 +1380,15 @@ void Knockdown::primary_render_func()
          state
    );
    */
+
+
+   //float dip_to_black_opacity = 0.0f;
+   if (dip_to_black_opacity >= 0.01f)
+   {
+      al_draw_filled_rectangle(
+         0, 0, 1920, 1080, ALLEGRO_COLOR{0, 0, 0, dip_to_black_opacity}
+      );
+   }
 
 
    return;
@@ -1402,6 +1434,7 @@ void Knockdown::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_OPENING_SEQUENCE:
+         dip_to_black_opacity = 1.0f;
       break;
 
       case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
@@ -1413,7 +1446,20 @@ void Knockdown::set_state(uint32_t state, bool override_if_busy)
       case STATE_TALLYING_SCORE:
       break;
 
-      case STATE_SCORE_TALLIED:
+      case STATE_SCORE_TALLIED_AND_PRESENTING:
+      break;
+
+      case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE:
+      break;
+
+      case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION:
+         dip_to_black_opacity = 0.0f;
+      break;
+
+      case STATE_SCORE_TALLY_CLOSED_OUT:
+         dip_to_black_opacity = 1.0f;
+         clear();
+         reset();
       break;
 
       /*
@@ -1454,23 +1500,42 @@ void Knockdown::update_state(double time_now, double time_step)
 
    switch (state)
    {
-      case STATE_OPENING_SEQUENCE:
-         if (real_age > 2.0) set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
-      break;
+      case STATE_OPENING_SEQUENCE: {
+         dip_to_black_opacity -= 0.025f;
+         if (real_age > 2.0)
+         {
+            dip_to_black_opacity = 0.0f;
+            set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+         }
+      } break;
 
-      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
-      break;
+      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
+      } break;
 
       case STATE_IN_SIMULATION: {
          if (real_age > 4.0) set_state(STATE_TALLYING_SCORE);
       } break;
 
-      case STATE_TALLYING_SCORE:
-         set_state(STATE_SCORE_TALLIED);
-      break;
+      case STATE_TALLYING_SCORE: {
+         if (real_age > 2.0) set_state(STATE_SCORE_TALLIED_AND_PRESENTING);
+      } break;
 
-      case STATE_SCORE_TALLIED:
-      break;
+      case STATE_SCORE_TALLIED_AND_PRESENTING: {
+         if (real_age > 1.0) set_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+      } break;
+
+      case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
+      } break;
+
+      case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
+         dip_to_black_opacity += 0.025f;
+         if (real_age > 1.0) set_state(STATE_SCORE_TALLY_CLOSED_OUT);
+      } break;
+
+      case STATE_SCORE_TALLY_CLOSED_OUT: {
+         // TODO: Consider if "on_finished" is needed here
+         dip_to_black_opacity = 1.0f;
+      } break;
 
       /*
       case STATE_REVEALING:
@@ -1502,7 +1567,10 @@ bool Knockdown::is_valid_state(uint32_t state)
       STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
       STATE_IN_SIMULATION,
       STATE_TALLYING_SCORE,
-      STATE_SCORE_TALLIED,
+      STATE_SCORE_TALLIED_AND_PRESENTING,
+      STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
+      STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
+      STATE_SCORE_TALLY_CLOSED_OUT,
       //STATE_REVEALING,
       //STATE_AWAITING_USER_INPUT,
       //STATE_CLOSING_DOWN,
@@ -1522,7 +1590,10 @@ float Knockdown::infer_current_state_real_age(float time_now)
 
 bool Knockdown::showing_final_score()
 {
-   return is_state(STATE_SCORE_TALLIED);
+   return
+      is_state(STATE_TALLYING_SCORE)
+      || is_state(STATE_SCORE_TALLIED_AND_PRESENTING)
+      || is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
 bool Knockdown::showing_ready_banner()
@@ -1533,6 +1604,21 @@ bool Knockdown::showing_ready_banner()
 bool Knockdown::showing_gamplay_instructions()
 {
    return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+}
+
+bool Knockdown::showing_press_any_key_to_continue_after_score_tally()
+{
+   return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+}
+
+bool Knockdown::waiting_for_player_input_to_continue()
+{
+   return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+}
+
+void Knockdown::continue_from_waiting_for_player_input_to_continue()
+{
+   set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 }
 
 

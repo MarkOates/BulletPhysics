@@ -35,6 +35,10 @@ properties:
     type: float
     init_with: 1.25f
 
+  - name: dip_to_black_opacity
+    type: float
+    init_with: 0.0f
+
   - name: sphere_initial_position
     type: btVector3
     init_with: 'btVector3(0, sphere_diameter * 2, 6)'
@@ -128,7 +132,10 @@ enums:
       - STATE_WAITING_FOR_PLAYER_TO_THROW_BALL
       - STATE_IN_SIMULATION
       - STATE_TALLYING_SCORE
-      - STATE_SCORE_TALLIED
+      - STATE_SCORE_TALLIED_AND_PRESENTING
+      - STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE
+      - STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION
+      - STATE_SCORE_TALLY_CLOSED_OUT
 
 
 methods:
@@ -549,6 +556,12 @@ methods:
       // Setup a player_input_controller
       auto generic_player_input_controller = new AllegroFlare::PlayerInputControllers::Generic();
       generic_player_input_controller->set_on_key_pressed([this](int key_code){
+         if (this->waiting_for_player_input_to_continue())
+         {
+            continue_from_waiting_for_player_input_to_continue();
+            return;
+         }
+
          switch (key_code)
          {
             case ALLEGRO_KEY_P: {
@@ -560,10 +573,10 @@ methods:
                //}
             } break;
 
-            case ALLEGRO_KEY_R: {
-               clear();
-               reset();
-            } break;
+            //case ALLEGRO_KEY_R: {
+               //clear();
+               //reset();
+            //} break;
 
             case ALLEGRO_KEY_SPACE: {
                if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
@@ -1313,6 +1326,22 @@ methods:
             }
 
 
+            if (this->showing_press_any_key_to_continue_after_score_tally())
+            {
+               // For debugging, show state
+               al_draw_multiline_textf(
+                  font,
+                  ALLEGRO_COLOR{1, 1, 1, 1},
+                  1920/2,
+                  1080-80*2,
+                  1920,
+                  al_get_font_line_height(font),
+                  ALLEGRO_ALIGN_CENTER,
+                  "Press any key to continue"
+               );
+            }
+
+
             /*
             // For debugging, show state
             al_draw_multiline_textf(
@@ -1353,6 +1382,15 @@ methods:
             state
       );
       */
+
+
+      //float dip_to_black_opacity = 0.0f;
+      if (dip_to_black_opacity >= 0.01f)
+      {
+         al_draw_filled_rectangle(
+            0, 0, 1920, 1080, ALLEGRO_COLOR{0, 0, 0, dip_to_black_opacity}
+         );
+      }
 
 
       return;
@@ -1403,6 +1441,7 @@ methods:
       switch (state)
       {
          case STATE_OPENING_SEQUENCE:
+            dip_to_black_opacity = 1.0f;
          break;
 
          case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
@@ -1414,7 +1453,20 @@ methods:
          case STATE_TALLYING_SCORE:
          break;
 
-         case STATE_SCORE_TALLIED:
+         case STATE_SCORE_TALLIED_AND_PRESENTING:
+         break;
+
+         case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE:
+         break;
+
+         case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION:
+            dip_to_black_opacity = 0.0f;
+         break;
+
+         case STATE_SCORE_TALLY_CLOSED_OUT:
+            dip_to_black_opacity = 1.0f;
+            clear();
+            reset();
          break;
 
          /*
@@ -1458,23 +1510,42 @@ methods:
 
       switch (state)
       {
-         case STATE_OPENING_SEQUENCE:
-            if (real_age > 2.0) set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
-         break;
+         case STATE_OPENING_SEQUENCE: {
+            dip_to_black_opacity -= 0.025f;
+            if (real_age > 2.0)
+            {
+               dip_to_black_opacity = 0.0f;
+               set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+            }
+         } break;
 
-         case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
-         break;
+         case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
+         } break;
 
          case STATE_IN_SIMULATION: {
             if (real_age > 4.0) set_state(STATE_TALLYING_SCORE);
          } break;
 
-         case STATE_TALLYING_SCORE:
-            set_state(STATE_SCORE_TALLIED);
-         break;
+         case STATE_TALLYING_SCORE: {
+            if (real_age > 2.0) set_state(STATE_SCORE_TALLIED_AND_PRESENTING);
+         } break;
 
-         case STATE_SCORE_TALLIED:
-         break;
+         case STATE_SCORE_TALLIED_AND_PRESENTING: {
+            if (real_age > 1.0) set_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+         } break;
+
+         case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
+         } break;
+
+         case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
+            dip_to_black_opacity += 0.025f;
+            if (real_age > 1.0) set_state(STATE_SCORE_TALLY_CLOSED_OUT);
+         } break;
+
+         case STATE_SCORE_TALLY_CLOSED_OUT: {
+            // TODO: Consider if "on_finished" is needed here
+            dip_to_black_opacity = 1.0f;
+         } break;
 
          /*
          case STATE_REVEALING:
@@ -1514,7 +1585,10 @@ methods:
          STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
          STATE_IN_SIMULATION,
          STATE_TALLYING_SCORE,
-         STATE_SCORE_TALLIED,
+         STATE_SCORE_TALLIED_AND_PRESENTING,
+         STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
+         STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
+         STATE_SCORE_TALLY_CLOSED_OUT,
          //STATE_REVEALING,
          //STATE_AWAITING_USER_INPUT,
          //STATE_CLOSING_DOWN,
@@ -1547,7 +1621,10 @@ methods:
   - name: showing_final_score
     type: bool
     body: |
-      return is_state(STATE_SCORE_TALLIED);
+      return
+         is_state(STATE_TALLYING_SCORE)
+         || is_state(STATE_SCORE_TALLIED_AND_PRESENTING)
+         || is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 
 
   - name: showing_ready_banner
@@ -1560,6 +1637,23 @@ methods:
     type: bool
     body: |
       return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+
+
+  - name: showing_press_any_key_to_continue_after_score_tally
+    type: bool
+    body: |
+      return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+
+
+  - name: waiting_for_player_input_to_continue
+    type: bool
+    body: |
+      return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+
+
+  - name: continue_from_waiting_for_player_input_to_continue
+    body: |
+      set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 
 
 dependencies:
