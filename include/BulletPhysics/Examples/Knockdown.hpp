@@ -10,6 +10,7 @@
 #include <AllegroFlare/Placement3D.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Vec3D.hpp>
+#include <BulletPhysics/DynamicsWorld.hpp>
 #include <BulletPhysics/Examples/Knockdown.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -41,6 +42,7 @@ namespace BulletPhysics
          btDbvtBroadphase broadphase;
          btSequentialImpulseConstraintSolver solver;
          btDiscreteDynamicsWorld* dynamics_world;
+         BulletPhysics::DynamicsWorld dynamics_world_object;
          btRigidBody* sphere_body;
          float sphere_diameter;
          btVector3 sphere_initial_position;

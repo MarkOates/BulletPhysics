@@ -80,6 +80,9 @@
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
   ],
+  "BulletPhysics/DynamicsWorld": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
   "AllegroFlare/Screens/Gameplay": [
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main",

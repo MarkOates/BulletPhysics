@@ -440,6 +440,10 @@ table td
   <td class="property">btDiscreteDynamicsWorld*</td>
 </tr>
 <tr>
+  <td class="property">dynamics_world_object</td>
+  <td class="property">BulletPhysics::DynamicsWorld</td>
+</tr>
+<tr>
   <td class="property">sphere_body</td>
   <td class="property">btRigidBody*</td>
 </tr>
@@ -665,6 +669,9 @@ table td
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::DynamicsWorld&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/DynamicsWorld.hpp&quot;]}</td>
+</tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Gameplay&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Gameplay.hpp&quot;]}</td>
 </tr>
@@ -1444,6 +1451,9 @@ table td
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh"
+  ],
+  "BulletPhysics/DynamicsWorld": [
+    "BulletPhysics/Examples/Knockdown"
   ],
   "AllegroFlare/Screens/Gameplay": [
     "BulletPhysics/Examples/Knockdown",

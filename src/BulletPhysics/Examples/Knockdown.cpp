@@ -32,6 +32,7 @@ Knockdown::Knockdown()
    , broadphase()
    , solver()
    , dynamics_world(nullptr)
+   , dynamics_world_object({})
    , sphere_body(nullptr)
    , sphere_diameter(1.25f)
    , sphere_initial_position(btVector3(0, sphere_diameter * 2, 6))
@@ -152,7 +153,8 @@ void Knockdown::clear()
    // Delete the dynamics_world object
    // TODO: See if the injected elements need to be destroyed as well, or even if they can be re-used to
    // create another dynamics_world after this one is deleted
-   delete dynamics_world;
+   //delete dynamics_world;
+   dynamics_world_object.destroy();
    dynamics_world = nullptr;
 
    return;
@@ -391,6 +393,8 @@ void Knockdown::initialize()
    }
    // TODO: Separate the "initializing" from the creation of the elements in the world and their destruction.
 
+   dynamics_world_object.initialize();
+
    // Create a dynamics world
    //btDefaultCollisionConfiguration collision_configuration;
    //btCollisionDispatcher dispatcher(&collision_configuration);
@@ -398,10 +402,11 @@ void Knockdown::initialize()
    //btSequentialImpulseConstraintSolver solver;
    // NOTE: I'm not sure what of these injected objects are disposable after construction and/or which need to be
    // kept alive for dynamics_world
-   dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
+   //##dynamics_world = new btDiscreteDynamicsWorld(&dispatcher, &broadphase, &solver, &collision_configuration);
+   dynamics_world = dynamics_world_object.get_dynamics_world();
 
    // Set gravity
-   dynamics_world->setGravity(btVector3(0, -9.81, 0));
+   ////dynamics_world->setGravity(btVector3(0, -9.81, 0));
 
    // Create a ground plane
    ground_shape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
