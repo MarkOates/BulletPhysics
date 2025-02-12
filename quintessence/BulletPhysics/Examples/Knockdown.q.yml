@@ -15,22 +15,6 @@ properties:
     getter: true
     setter: true
 
-  - name: collision_configuration
-    type: btDefaultCollisionConfiguration
-    init_with: ''
-
-  - name: dispatcher
-    type: btCollisionDispatcher
-    init_with: '&collision_configuration'
-
-  - name: broadphase
-    type: btDbvtBroadphase
-    init_with: ''
-
-  - name: solver
-    type: btSequentialImpulseConstraintSolver
-    init_with: ''
-
   - name: dynamics_world
     type: btDiscreteDynamicsWorld*
     init_with: nullptr

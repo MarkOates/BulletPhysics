@@ -37,10 +37,6 @@ namespace BulletPhysics
             STATE_SCORE_TALLIED,
          };
          std::string data_folder_path;
-         btDefaultCollisionConfiguration collision_configuration;
-         btCollisionDispatcher dispatcher;
-         btDbvtBroadphase broadphase;
-         btSequentialImpulseConstraintSolver solver;
          btDiscreteDynamicsWorld* dynamics_world;
          BulletPhysics::DynamicsWorld* dynamics_world_object;
          btRigidBody* sphere_body;
