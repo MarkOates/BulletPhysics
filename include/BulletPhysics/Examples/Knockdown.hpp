@@ -12,10 +12,10 @@
 #include <AllegroFlare/Vec3D.hpp>
 #include <BulletPhysics/DynamicsWorld.hpp>
 #include <BulletPhysics/Examples/Knockdown.hpp>
+#include <BulletPhysics/GameplayMetaState/Basic.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <btBulletDynamicsCommon.h>
-#include <cstdint>
 #include <string>
 #include <utility>
 #include <vector>
@@ -28,19 +28,6 @@ namespace BulletPhysics
       class Knockdown : public AllegroFlare::Screens::Gameplay
       {
       private:
-         enum State
-         {
-            STATE_UNDEF = 0,
-            STATE_WAITING_TO_START,
-            STATE_OPENING_SEQUENCE,
-            STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
-            STATE_IN_SIMULATION,
-            STATE_TALLYING_SCORE,
-            STATE_SCORE_TALLIED_AND_PRESENTING,
-            STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
-            STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
-            STATE_SCORE_TALLY_CLOSED_OUT,
-         };
          std::string data_folder_path;
          btDiscreteDynamicsWorld* dynamics_world;
          BulletPhysics::DynamicsWorld* dynamics_world_object;
@@ -56,11 +43,10 @@ namespace BulletPhysics
          std::vector<std::pair<btRigidBody*, btCollisionShape*>> shapes;
          btRigidBody* ground_body;
          btCollisionShape* ground_shape;
+         bool player_has_thrown_ball;
          bool initialized;
          bool destroyed;
-         uint32_t state;
-         bool state_is_busy;
-         float state_changed_at;
+         BulletPhysics::GameplayMetaState::Basic gameplay_meta_state;
          AllegroFlare::Camera3D camera3d;
          AllegroFlare::Camera2D hud_camera;
          AllegroFlare::ModelBin model_bin;
@@ -78,7 +64,6 @@ namespace BulletPhysics
          void set_data_folder_path(std::string data_folder_path);
          void set_shape_model(AllegroFlare::Model3D* shape_model);
          std::string get_data_folder_path() const;
-         uint32_t get_state() const;
          int num_cubes();
          int num_shapes();
          void reset();
@@ -107,14 +92,9 @@ namespace BulletPhysics
          virtual void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0) override;
          virtual void primary_render_func() override;
          ALLEGRO_FONT* get_any_font(AllegroFlare::FontBin* font_bin=nullptr, int size=-30);
-         void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
-         void update_state(double time_now=al_get_time(), double time_step=(1.0/60.0f));
-         static bool is_valid_state(uint32_t state=STATE_UNDEF);
-         bool is_state(uint32_t possible_state=STATE_UNDEF);
-         float infer_current_state_real_age(float time_now=al_get_time());
          bool showing_final_score();
          bool showing_ready_banner();
-         bool showing_gamplay_instructions();
+         bool showing_gameplay_instructions();
          bool showing_press_any_key_to_continue_after_score_tally();
          bool waiting_for_player_input_to_continue();
          void continue_from_waiting_for_player_input_to_continue();

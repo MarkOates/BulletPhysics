@@ -51,7 +51,7 @@ enums:
   - name: State
     enumerators:
       - GAMEPLAY_META_STATE_UNDEF
-      - GAMEPLAY_META_STATE_WAITING_TO_START
+      - GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START
       - GAMEPLAY_META_STATE_OPENING_SEQUENCE
       - GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL
       - GAMEPLAY_META_STATE_IN_SIMULATION
@@ -72,9 +72,22 @@ documentation:
       - Might consider adding more features in the future, such as transition state durations. Additional features
         could easily get pretty complex, callbacks and external state change triggers, etc., so it might be nice to
         keep this Basic class as being relatively simple.
+      - Some features to consider, button press to skip opening sequence (includes fade out/fade in after skip),
+        customizable transition state durations
+      - State names should improved. If a name comes up that seems more appropriate, please change it.
+      - In game controls could vary depending on the meta-state (press any key to skip is a different scheme of inputs
+        that standard gameplay controls). Avoid using direct calls to states, and try to develop a set of methods
+        that represent the concretion, e.g. "waiting_for_player_input_to_continue()"
+      - Consider adding/improving transition guards to prevent some states from transitioning into other states.
 
 
 methods:
+
+
+  - name: start_opening_sequence
+    body: |
+      set_state(GAMEPLAY_META_STATE_OPENING_SEQUENCE);
+      return;
 
 
   - name: is_player_input_active
@@ -82,7 +95,24 @@ methods:
     override: true
     type: bool
     body: |
-      return true;
+      return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL)
+         || is_state(GAMEPLAY_META_STATE_IN_SIMULATION)
+         || is_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+
+      //gameplay_meta_state.set_state_to_waiting_to_start();
+      //GAMEPLAY_META_STATE_WAITING_TO_START
+
+
+  - name: set_state_to_loaded_and_waiting_to_start
+    body: |
+      set_state(GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START);
+      return;
+
+
+  - name: set_state_to_active_gameplay
+    body: |
+      set_state(GAMEPLAY_META_STATE_IN_SIMULATION);
+      return;
 
 
   - name: set_state
@@ -104,7 +134,7 @@ methods:
 
       switch (state)
       {
-         case GAMEPLAY_META_STATE_WAITING_TO_START: {
+         case GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START: {
          } break;
 
          case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
@@ -173,7 +203,7 @@ methods:
 
       switch (state)
       {
-         case GAMEPLAY_META_STATE_WAITING_TO_START: {
+         case GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START: {
          } break;
 
          case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
@@ -236,7 +266,7 @@ methods:
     body: |
       std::set<uint32_t> valid_states =
       {
-         GAMEPLAY_META_STATE_WAITING_TO_START,
+         GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
          GAMEPLAY_META_STATE_OPENING_SEQUENCE,
          GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
          GAMEPLAY_META_STATE_IN_SIMULATION,
@@ -251,13 +281,24 @@ methods:
       - std::set
 
 
+  - name: get_current_state_name
+    type: std::string
+    body: |
+      return get_state_name(state);
+
+
   - name: get_state_name
     type: std::string
+    static: true
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: GAMEPLAY_META_STATE_UNDEF
     body: |
       static const std::unordered_map<uint32_t, std::string> state_names =
       {
-         { GAMEPLAY_META_STATE_WAITING_TO_START,
-           "GAMEPLAY_META_STATE_WAITING_TO_START" },
+         { GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
+           "GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START" },
          { GAMEPLAY_META_STATE_OPENING_SEQUENCE,
            "GAMEPLAY_META_STATE_OPENING_SEQUENCE" },
          { GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
@@ -316,7 +357,7 @@ methods:
       return is_state(GAMEPLAY_META_STATE_OPENING_SEQUENCE);
 
 
-  - name: showing_gamplay_instructions
+  - name: showing_gameplay_instructions
     type: bool
     body: |
       return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);

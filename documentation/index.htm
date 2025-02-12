@@ -478,6 +478,10 @@ table td
   <td class="property">btCollisionShape*</td>
 </tr>
 <tr>
+  <td class="property">player_has_thrown_ball</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
 </tr>
@@ -486,16 +490,8 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
-  <td class="property">state</td>
-  <td class="property">uint32_t</td>
-</tr>
-<tr>
-  <td class="property">state_is_busy</td>
-  <td class="property">bool</td>
-</tr>
-<tr>
-  <td class="property">state_changed_at</td>
-  <td class="property">float</td>
+  <td class="property">gameplay_meta_state</td>
+  <td class="property">BulletPhysics::GameplayMetaState::Basic</td>
 </tr>
 <tr>
   <td class="property">camera3d</td>
@@ -641,26 +637,6 @@ table td
   <td class="method"><b>get_any_font</b>(AllegroFlare::FontBin* font_bin=nullptr, int size=-30)</td>
 </tr>
 <tr>
-  <td class="method">void</td>
-  <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>update_state</b>(double time_now=al_get_time(), double time_step=(1.0/60.0f))</td>
-</tr>
-<tr>
-  <td class="method">bool</td>
-  <td class="method"><b>is_valid_state</b>(uint32_t state=STATE_UNDEF)</td>
-</tr>
-<tr>
-  <td class="method">bool</td>
-  <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
-</tr>
-<tr>
-  <td class="method">float</td>
-  <td class="method"><b>infer_current_state_real_age</b>(float time_now=al_get_time())</td>
-</tr>
-<tr>
   <td class="method">bool</td>
   <td class="method"><b>showing_final_score</b>()</td>
 </tr>
@@ -670,7 +646,7 @@ table td
 </tr>
 <tr>
   <td class="method">bool</td>
-  <td class="method"><b>showing_gamplay_instructions</b>()</td>
+  <td class="method"><b>showing_gameplay_instructions</b>()</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -749,6 +725,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Examples::Knockdown&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Examples/Knockdown.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::GameplayMetaState::Basic&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/GameplayMetaState/Basic.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Camera3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Camera3D.hpp&quot;]}</td>
@@ -1427,7 +1406,7 @@ table td
   <div class="component">
     <h3 id="quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</h3>
     <h3>Overview</h3>
-    <p>{"notes"=>["This class handles and manages state designed around the most common gameplay meta-states, such as level opening sequences, ready banners, end-of-level score tallying, closing out, etc.", "state_is_busy is not set anywhere and is currently not used.", "Might consider adding more features in the future, such as transition state durations. Additional features could easily get pretty complex, callbacks and external state change triggers, etc., so it might be nice to keep this Basic class as being relatively simple."]}</p>    <h3>Properties</h3>
+    <p>{"notes"=>["This class handles and manages state designed around the most common gameplay meta-states, such as level opening sequences, ready banners, end-of-level score tallying, closing out, etc.", "state_is_busy is not set anywhere and is currently not used.", "Might consider adding more features in the future, such as transition state durations. Additional features could easily get pretty complex, callbacks and external state change triggers, etc., so it might be nice to keep this Basic class as being relatively simple.", "Some features to consider, button press to skip opening sequence (includes fade out/fade in after skip), customizable transition state durations", "State names should improved. If a name comes up that seems more appropriate, please change it.", "In game controls could vary depending on the meta-state (press any key to skip is a different scheme of inputs that standard gameplay controls). Avoid using direct calls to states, and try to develop a set of methods that represent the concretion, e.g. \"waiting_for_player_input_to_continue()\"", "Consider adding/improving transition guards to prevent some states from transitioning into other states."]}</p>    <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
   <td class="property">on_closed_out_func</td>
@@ -1461,8 +1440,20 @@ table td
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
+  <td class="method">void</td>
+  <td class="method"><b>start_opening_sequence</b>()</td>
+</tr>
+<tr>
   <td class="method">bool</td>
   <td class="method"><b>is_player_input_active</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state_to_loaded_and_waiting_to_start</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state_to_active_gameplay</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1478,7 +1469,11 @@ table td
 </tr>
 <tr>
   <td class="method">std::string</td>
-  <td class="method"><b>get_state_name</b>()</td>
+  <td class="method"><b>get_current_state_name</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_state_name</b>(uint32_t state=GAMEPLAY_META_STATE_UNDEF)</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -1498,7 +1493,7 @@ table td
 </tr>
 <tr>
   <td class="method">bool</td>
-  <td class="method"><b>showing_gamplay_instructions</b>()</td>
+  <td class="method"><b>showing_gameplay_instructions</b>()</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -1637,6 +1632,9 @@ table td
   "BulletPhysics/Examples/Knockdown": [
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main"
+  ],
+  "BulletPhysics/GameplayMetaState/Basic": [
+    "BulletPhysics/Examples/Knockdown"
   ],
   "AllegroFlare/Camera3D": [
     "BulletPhysics/Examples/Knockdown"

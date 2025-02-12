@@ -110,6 +110,9 @@
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "BulletPhysics/GameplayMetaState/Basic": [
+    "BulletPhysics/Examples/Knockdown"
+  ],
   "AllegroFlare/Camera3D": [
     "BulletPhysics/Examples/Knockdown"
   ],

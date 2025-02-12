@@ -13,7 +13,6 @@
 #include <AllegroFlare/Tiled/TMJDataLoader.hpp>
 #include <btBulletDynamicsCommon.h>
 #include <iostream>
-#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -41,11 +40,10 @@ Knockdown::Knockdown()
    , shapes({})
    , ground_body(nullptr)
    , ground_shape(nullptr)
+   , player_has_thrown_ball(false)
    , initialized(false)
    , destroyed(false)
-   , state(STATE_UNDEF)
-   , state_is_busy(false)
-   , state_changed_at(0.0f)
+   , gameplay_meta_state({})
    , camera3d({})
    , hud_camera({})
    , model_bin({})
@@ -83,12 +81,6 @@ void Knockdown::set_shape_model(AllegroFlare::Model3D* shape_model)
 std::string Knockdown::get_data_folder_path() const
 {
    return data_folder_path;
-}
-
-
-uint32_t Knockdown::get_state() const
-{
-   return state;
 }
 
 
@@ -157,9 +149,11 @@ void Knockdown::reset()
 
 
    // Create the game world and start the simulation
+   player_has_thrown_ball = false;
    create_stacked_cubes();
    set_camera_to_start_position();
-   set_state(STATE_OPENING_SEQUENCE);
+   gameplay_meta_state.start_opening_sequence();
+   //set_state(STATE_OPENING_SEQUENCE);
    //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
    return;
@@ -527,6 +521,8 @@ void Knockdown::initialize()
    // Setup a player_input_controller
    auto generic_player_input_controller = new AllegroFlare::PlayerInputControllers::Generic();
    generic_player_input_controller->set_on_key_pressed([this](int key_code){
+      if (!gameplay_meta_state.is_player_input_active()) return;
+
       if (this->waiting_for_player_input_to_continue())
       {
          continue_from_waiting_for_player_input_to_continue();
@@ -550,7 +546,8 @@ void Knockdown::initialize()
          //} break;
 
          case ALLEGRO_KEY_SPACE: {
-            if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
+            //if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
+            if (!player_has_thrown_ball)
             {
                AllegroFlare::Random random;
                random.set_seed(al_get_time() * 1000);
@@ -568,6 +565,15 @@ void Knockdown::initialize()
    set_player_input_controller(generic_player_input_controller);
 
 
+
+   // Setup the gameplay_meta_state to handle when the level is finished
+   gameplay_meta_state.set_on_closed_out_func([this](){
+      clear();
+      reset();
+   });
+
+
+
    //initialized = true;
 
 
@@ -575,7 +581,9 @@ void Knockdown::initialize()
    // Initialize the rendering
    initialize_render();
 
-   set_state(STATE_WAITING_TO_START);
+   //set_state(STATE_WAITING_TO_START);
+   gameplay_meta_state.set_state_to_loaded_and_waiting_to_start();
+   //GAMEPLAY_META_STATE_WAITING_TO_START
 
    initialized = true;
 
@@ -626,7 +634,9 @@ void Knockdown::launch_ball(btVector3* position_, btVector3* velocity_)
    sphere_body->applyCentralImpulse(velocity);
 
 
-   set_state(STATE_IN_SIMULATION);
+   player_has_thrown_ball = true;
+   gameplay_meta_state.set_state_to_active_gameplay();
+   //set_state(STATE_IN_SIMULATION);
 
    //}
    return;
@@ -1066,7 +1076,7 @@ void Knockdown::primary_update_func(double time_now, double time_step)
 
    //throw std::runtime_error("jasdiofajsiodfjasdiof");
    step_physics(time_step * 2); // Make the time step faster with * 2 since it's coming in as 1.0/60.0
-   update_state(time_now, time_step);
+   gameplay_meta_state.time_step_state(time_step);
    // Simulate physics
    //for (int i = 0; i < 150; i++)
    //{
@@ -1313,7 +1323,7 @@ void Knockdown::primary_render_func()
          }
 
 
-         if (this->showing_gamplay_instructions())
+         if (this->showing_gameplay_instructions())
          {
             // For debugging, show state
             al_draw_multiline_textf(
@@ -1355,8 +1365,8 @@ void Knockdown::primary_render_func()
             1920,
             al_get_font_line_height(font),
             ALLEGRO_ALIGN_CENTER,
-            "STATE: %d",
-               this->get_state()
+            "STATE: %s",
+               this->get_current_state_name()
          );
          */
       }
@@ -1420,217 +1430,43 @@ ALLEGRO_FONT* Knockdown::get_any_font(AllegroFlare::FontBin* font_bin, int size)
    return font_bin->auto_get(ss.str());
 }
 
-void Knockdown::set_state(uint32_t state, bool override_if_busy)
-{
-   if (!(is_valid_state(state)))
-   {
-      std::stringstream error_message;
-      error_message << "[BulletPhysics::Examples::Knockdown::set_state]: error: guard \"is_valid_state(state)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::set_state]: error: guard \"is_valid_state(state)\" not met");
-   }
-   if (this->state == state) return;
-   if (!override_if_busy && state_is_busy) return;
-   uint32_t previous_state = this->state;
-
-   this->state = state;
-   state_changed_at = al_get_time();
-
-   switch (state)
-   {
-      case STATE_WAITING_TO_START: {
-      } break;
-
-      case STATE_OPENING_SEQUENCE: {
-         dip_to_black_opacity = 1.0f;
-      } break;
-
-      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
-      } break;
-
-      case STATE_IN_SIMULATION: {
-      } break;
-
-      case STATE_TALLYING_SCORE: {
-      } break;
-
-      case STATE_SCORE_TALLIED_AND_PRESENTING: {
-      } break;
-
-      case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
-      } break;
-
-      case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
-         dip_to_black_opacity = 0.0f;
-      } break;
-
-      case STATE_SCORE_TALLY_CLOSED_OUT: {
-         dip_to_black_opacity = 1.0f;
-         clear();
-         reset();
-      } break;
-
-      /*
-      case STATE_REVEALING:
-      break;
-
-      case STATE_AWAITING_USER_INPUT:
-      break;
-
-      case STATE_CLOSING_DOWN:
-      break;
-      */
-
-      default: {
-         AllegroFlare::Logger::throw_error(
-            "ClassName::set_state",
-            "Unable to handle case for state \"" + std::to_string(state) + "\""
-         );
-      } break;
-   }
-
-   //this->state = state;
-   //state_changed_at = al_get_time();
-
-   return;
-}
-
-void Knockdown::update_state(double time_now, double time_step)
-{
-   if (!(is_valid_state(state)))
-   {
-      std::stringstream error_message;
-      error_message << "[BulletPhysics::Examples::Knockdown::update_state]: error: guard \"is_valid_state(state)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::update_state]: error: guard \"is_valid_state(state)\" not met");
-   }
-   float real_age = infer_current_state_real_age(time_now);
-
-   switch (state)
-   {
-      case STATE_WAITING_TO_START: {
-      } break;
-
-      case STATE_OPENING_SEQUENCE: {
-         dip_to_black_opacity -= 0.025f;
-         if (real_age > 2.0)
-         {
-            dip_to_black_opacity = 0.0f;
-            set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
-         }
-      } break;
-
-      case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
-      } break;
-
-      case STATE_IN_SIMULATION: {
-         if (real_age > 4.0) set_state(STATE_TALLYING_SCORE);
-      } break;
-
-      case STATE_TALLYING_SCORE: {
-         if (real_age > 2.0) set_state(STATE_SCORE_TALLIED_AND_PRESENTING);
-      } break;
-
-      case STATE_SCORE_TALLIED_AND_PRESENTING: {
-         if (real_age > 1.0) set_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
-      } break;
-
-      case STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE: {
-      } break;
-
-      case STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION: {
-         dip_to_black_opacity += 0.025f;
-         if (real_age > 1.0) set_state(STATE_SCORE_TALLY_CLOSED_OUT);
-      } break;
-
-      case STATE_SCORE_TALLY_CLOSED_OUT: {
-         // TODO: Consider if "on_finished" is needed here
-         dip_to_black_opacity = 1.0f;
-      } break;
-
-      /*
-      case STATE_REVEALING:
-      break;
-
-      case STATE_AWAITING_USER_INPUT:
-      break;
-
-      case STATE_CLOSING_DOWN:
-      break;
-      */
-
-      default:
-         AllegroFlare::Logger::throw_error(
-            "ClassName::update_state",
-            "Unable to handle case for state \"" + std::to_string(state) + "\""
-         );
-      break;
-   }
-
-   return;
-}
-
-bool Knockdown::is_valid_state(uint32_t state)
-{
-   std::set<uint32_t> valid_states =
-   {
-      STATE_WAITING_TO_START,
-      STATE_OPENING_SEQUENCE,
-      STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
-      STATE_IN_SIMULATION,
-      STATE_TALLYING_SCORE,
-      STATE_SCORE_TALLIED_AND_PRESENTING,
-      STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
-      STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
-      STATE_SCORE_TALLY_CLOSED_OUT,
-      //STATE_REVEALING,
-      //STATE_AWAITING_USER_INPUT,
-      //STATE_CLOSING_DOWN,
-   };
-   return (valid_states.count(state) > 0);
-}
-
-bool Knockdown::is_state(uint32_t possible_state)
-{
-   return (state == possible_state);
-}
-
-float Knockdown::infer_current_state_real_age(float time_now)
-{
-   return (time_now - state_changed_at);
-}
-
 bool Knockdown::showing_final_score()
 {
-   return
-      is_state(STATE_TALLYING_SCORE)
-      || is_state(STATE_SCORE_TALLIED_AND_PRESENTING)
-      || is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+   return gameplay_meta_state.showing_final_score();
+      //is_state(STATE_TALLYING_SCORE)
+      //|| is_state(STATE_SCORE_TALLIED_AND_PRESENTING)
+      //|| is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
 bool Knockdown::showing_ready_banner()
 {
-   return is_state(STATE_OPENING_SEQUENCE);
+   return gameplay_meta_state.showing_ready_banner();
+   //return is_state(STATE_OPENING_SEQUENCE);
 }
 
-bool Knockdown::showing_gamplay_instructions()
+bool Knockdown::showing_gameplay_instructions()
 {
-   return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+   return gameplay_meta_state.showing_gameplay_instructions();
+   //return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 }
 
 bool Knockdown::showing_press_any_key_to_continue_after_score_tally()
 {
-   return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+   return gameplay_meta_state.showing_press_any_key_to_continue_after_score_tally();
+   //return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
 bool Knockdown::waiting_for_player_input_to_continue()
 {
-   return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+   return gameplay_meta_state.waiting_for_player_input_to_continue();
+   //return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
 void Knockdown::continue_from_waiting_for_player_input_to_continue()
 {
-   set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
+   return gameplay_meta_state.continue_from_waiting_for_player_input_to_continue();
+   //return gameplay_meta_state.showing_final_score();
+   //set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 }
 
 

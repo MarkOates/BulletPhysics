@@ -56,9 +56,32 @@ uint32_t Basic::get_state() const
 }
 
 
+void Basic::start_opening_sequence()
+{
+   set_state(GAMEPLAY_META_STATE_OPENING_SEQUENCE);
+   return;
+}
+
 bool Basic::is_player_input_active()
 {
-   return true;
+   return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL)
+      || is_state(GAMEPLAY_META_STATE_IN_SIMULATION)
+      || is_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
+
+   //gameplay_meta_state.set_state_to_waiting_to_start();
+   //GAMEPLAY_META_STATE_WAITING_TO_START
+}
+
+void Basic::set_state_to_loaded_and_waiting_to_start()
+{
+   set_state(GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START);
+   return;
+}
+
+void Basic::set_state_to_active_gameplay()
+{
+   set_state(GAMEPLAY_META_STATE_IN_SIMULATION);
+   return;
 }
 
 void Basic::set_state(uint32_t state, bool override_if_busy)
@@ -79,7 +102,7 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
-      case GAMEPLAY_META_STATE_WAITING_TO_START: {
+      case GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START: {
       } break;
 
       case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
@@ -148,7 +171,7 @@ void Basic::time_step_state(double time_step)
 
    switch (state)
    {
-      case GAMEPLAY_META_STATE_WAITING_TO_START: {
+      case GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START: {
       } break;
 
       case GAMEPLAY_META_STATE_OPENING_SEQUENCE: {
@@ -203,7 +226,7 @@ bool Basic::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
-      GAMEPLAY_META_STATE_WAITING_TO_START,
+      GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
       GAMEPLAY_META_STATE_OPENING_SEQUENCE,
       GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
       GAMEPLAY_META_STATE_IN_SIMULATION,
@@ -216,12 +239,17 @@ bool Basic::is_valid_state(uint32_t state)
    return (valid_states.count(state) > 0);
 }
 
-std::string Basic::get_state_name()
+std::string Basic::get_current_state_name()
+{
+   return get_state_name(state);
+}
+
+std::string Basic::get_state_name(uint32_t state)
 {
    static const std::unordered_map<uint32_t, std::string> state_names =
    {
-      { GAMEPLAY_META_STATE_WAITING_TO_START,
-        "GAMEPLAY_META_STATE_WAITING_TO_START" },
+      { GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
+        "GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START" },
       { GAMEPLAY_META_STATE_OPENING_SEQUENCE,
         "GAMEPLAY_META_STATE_OPENING_SEQUENCE" },
       { GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
@@ -271,7 +299,7 @@ bool Basic::showing_ready_banner()
    return is_state(GAMEPLAY_META_STATE_OPENING_SEQUENCE);
 }
 
-bool Basic::showing_gamplay_instructions()
+bool Basic::showing_gameplay_instructions()
 {
    return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 }

@@ -20,7 +20,7 @@ namespace BulletPhysics
          enum State
          {
             GAMEPLAY_META_STATE_UNDEF = 0,
-            GAMEPLAY_META_STATE_WAITING_TO_START,
+            GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
             GAMEPLAY_META_STATE_OPENING_SEQUENCE,
             GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
             GAMEPLAY_META_STATE_IN_SIMULATION,
@@ -48,16 +48,20 @@ namespace BulletPhysics
          std::function<void()> get_on_closed_out_func() const;
          float get_dip_to_black_opacity() const;
          uint32_t get_state() const;
+         void start_opening_sequence();
          virtual bool is_player_input_active() override;
+         void set_state_to_loaded_and_waiting_to_start();
+         void set_state_to_active_gameplay();
          void set_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF, bool override_if_busy=false);
          void time_step_state(double time_step=(1.0/60.0f));
          static bool is_valid_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF);
-         std::string get_state_name();
+         std::string get_current_state_name();
+         static std::string get_state_name(uint32_t state=GAMEPLAY_META_STATE_UNDEF);
          bool is_state(uint32_t possible_state=GAMEPLAY_META_STATE_UNDEF);
          double infer_current_state_age();
          bool showing_final_score();
          bool showing_ready_banner();
-         bool showing_gamplay_instructions();
+         bool showing_gameplay_instructions();
          bool showing_press_any_key_to_continue_after_score_tally();
          bool waiting_for_player_input_to_continue();
          void continue_from_waiting_for_player_input_to_continue();

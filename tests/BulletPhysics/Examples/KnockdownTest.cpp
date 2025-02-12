@@ -330,17 +330,17 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 
 
             // For debugging, show state
-            al_draw_multiline_textf(
-               font,
-               ALLEGRO_COLOR{1, 1, 1, 1},
-               1920/2,
-               1080-80*2,
-               1920,
-               al_get_font_line_height(font),
-               ALLEGRO_ALIGN_CENTER,
-               "STATE: %d",
-                  screen.get_state()
-            );
+            //al_draw_multiline_textf(
+               //font,
+               //ALLEGRO_COLOR{1, 1, 1, 1},
+               //1920/2,
+               //1080-80*2,
+               //1920,
+               //al_get_font_line_height(font),
+               //ALLEGRO_ALIGN_CENTER,
+               //"STATE: %d",
+                  //screen.get_state()
+            //);
 
 
             
