@@ -31,6 +31,7 @@ namespace BulletPhysics
          enum State
          {
             STATE_UNDEF = 0,
+            STATE_WAITING_TO_START,
             STATE_OPENING_SEQUENCE,
             STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
             STATE_IN_SIMULATION,

@@ -575,6 +575,7 @@ void Knockdown::initialize()
    // Initialize the rendering
    initialize_render();
 
+   set_state(STATE_WAITING_TO_START);
 
    initialized = true;
 
@@ -1258,6 +1259,9 @@ void Knockdown::primary_render_func()
          hud_camera.setup_dimensional_projection(al_get_target_bitmap());
 
          ALLEGRO_FONT *font = get_any_font(&font_bin);
+
+         /* // Debugging
+         //ALLEGRO_FONT *font = get_any_font(&font_bin);
          al_draw_multiline_textf(
             font,
             ALLEGRO_COLOR{1, 1, 1, 1},
@@ -1269,6 +1273,7 @@ void Knockdown::primary_render_func()
             "KNOCKED DOWN\n%d",
                num_cubes_knocked_down
          );
+         */
 
 
             //ALLEGRO_FONT *font_x = get_font_bin_ref().auto_get("Oswald-Medium.ttf -262");
@@ -1433,6 +1438,9 @@ void Knockdown::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
+      case STATE_WAITING_TO_START: {
+      } break;
+
       case STATE_OPENING_SEQUENCE: {
          dip_to_black_opacity = 1.0f;
       } break;
@@ -1500,6 +1508,9 @@ void Knockdown::update_state(double time_now, double time_step)
 
    switch (state)
    {
+      case STATE_WAITING_TO_START: {
+      } break;
+
       case STATE_OPENING_SEQUENCE: {
          dip_to_black_opacity -= 0.025f;
          if (real_age > 2.0)
@@ -1563,6 +1574,7 @@ bool Knockdown::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
+      STATE_WAITING_TO_START,
       STATE_OPENING_SEQUENCE,
       STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
       STATE_IN_SIMULATION,

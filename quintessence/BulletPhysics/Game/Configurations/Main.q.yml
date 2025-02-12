@@ -31,6 +31,12 @@ properties:
 methods:
 
 
+  - name: ~destroy
+    body: |
+      //if (primary_gameplay_screen) primary_gameplay_screen->destroy(); // TODO: Check this works as expected
+      return;
+
+
   - name: app_icon_1024_filename
     type: std::string
     virtual: true

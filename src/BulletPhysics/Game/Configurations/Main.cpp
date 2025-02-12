@@ -36,6 +36,8 @@ Main::Main()
 
 Main::~Main()
 {
+   //if (primary_gameplay_screen) primary_gameplay_screen->destroy(); // TODO: Check this works as expected
+   return;
 }
 
 
