@@ -96,7 +96,7 @@ int Knockdown::num_shapes()
 
 bool Knockdown::load_level_by_identifier(std::string possible_type)
 {
-   clear();
+   clear(); // TODO: Guard against clearing after already clearing
    reset();
    return true;
 }

@@ -139,7 +139,7 @@ methods:
         type: std::string
         default_argument: '""'
     body: |
-      clear();
+      clear(); // TODO: Guard against clearing after already clearing
       reset();
       return true;
     body_dependency_symbols:
