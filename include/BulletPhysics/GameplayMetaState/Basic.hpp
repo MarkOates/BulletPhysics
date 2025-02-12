@@ -5,6 +5,7 @@
 #include <allegro5/allegro.h>
 #include <cstdint>
 #include <functional>
+#include <string>
 
 
 namespace BulletPhysics
@@ -19,16 +20,16 @@ namespace BulletPhysics
       private:
          enum State
          {
-            STATE_UNDEF = 0,
-            STATE_WAITING_TO_START,
-            STATE_OPENING_SEQUENCE,
-            STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
-            STATE_IN_SIMULATION,
-            STATE_TALLYING_SCORE,
-            STATE_SCORE_TALLIED_AND_PRESENTING,
-            STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
-            STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
-            STATE_SCORE_TALLY_CLOSED_OUT,
+            GAMEPLAY_META_STATE_UNDEF = 0,
+            GAMEPLAY_META_STATE_WAITING_TO_START,
+            GAMEPLAY_META_STATE_OPENING_SEQUENCE,
+            GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
+            GAMEPLAY_META_STATE_IN_SIMULATION,
+            GAMEPLAY_META_STATE_TALLYING_SCORE,
+            GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING,
+            GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
+            GAMEPLAY_META_STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION,
+            GAMEPLAY_META_STATE_SCORE_TALLY_CLOSED_OUT,
          };
          std::function<void()> on_closed_out_func;
          float dip_to_black_opacity;
@@ -48,10 +49,11 @@ namespace BulletPhysics
          float get_dip_to_black_opacity() const;
          uint32_t get_state() const;
          virtual bool is_player_input_active() override;
-         void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
-         void update_state(double time_now=al_get_time(), double time_step=(1.0/60.0f));
-         static bool is_valid_state(uint32_t state=STATE_UNDEF);
-         bool is_state(uint32_t possible_state=STATE_UNDEF);
+         void set_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF, bool override_if_busy=false);
+         void update_state(double time_step=(1.0/60.0f), double time_now=al_get_time());
+         static bool is_valid_state(uint32_t state=GAMEPLAY_META_STATE_UNDEF);
+         std::string get_state_name();
+         bool is_state(uint32_t possible_state=GAMEPLAY_META_STATE_UNDEF);
          double infer_current_state_real_age(double time_now=al_get_time());
          bool showing_final_score();
          bool showing_ready_banner();
