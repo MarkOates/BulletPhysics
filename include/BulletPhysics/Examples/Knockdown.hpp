@@ -31,6 +31,7 @@ namespace BulletPhysics
          enum State
          {
             STATE_UNDEF = 0,
+            STATE_OPENING_SEQUENCE,
             STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
             STATE_IN_SIMULATION,
             STATE_TALLYING_SCORE,
@@ -102,11 +103,13 @@ namespace BulletPhysics
          virtual void primary_render_func() override;
          ALLEGRO_FONT* get_any_font(AllegroFlare::FontBin* font_bin=nullptr, int size=-30);
          void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
-         void update_state(float time_now=al_get_time());
+         void update_state(double time_now=al_get_time(), double time_step=(1.0/60.0f));
          static bool is_valid_state(uint32_t state=STATE_UNDEF);
          bool is_state(uint32_t possible_state=STATE_UNDEF);
-         float infer_current_state_age(float time_now=al_get_time());
+         float infer_current_state_real_age(float time_now=al_get_time());
          bool showing_final_score();
+         bool showing_ready_banner();
+         bool showing_gamplay_instructions();
       };
    }
 }

@@ -124,6 +124,7 @@ enums:
   - name: State
     enumerators:
       - STATE_UNDEF
+      - STATE_OPENING_SEQUENCE
       - STATE_WAITING_FOR_PLAYER_TO_THROW_BALL
       - STATE_IN_SIMULATION
       - STATE_TALLYING_SCORE
@@ -196,7 +197,8 @@ methods:
       // Create the game world and start the simulation
       create_stacked_cubes();
       set_camera_to_start_position();
-      set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+      set_state(STATE_OPENING_SEQUENCE);
+      //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
       return;
 
@@ -564,16 +566,18 @@ methods:
             } break;
 
             case ALLEGRO_KEY_SPACE: {
-               AllegroFlare::Random random;
-               random.set_seed(al_get_time() * 1000);
-               //btVector3 initial_position(1, sphere_diameter * 2, 4);
-               float x_vel = random.get_random_float(-5, 5);
-
-               btVector3 velocity(x_vel, 0, -20);
-               launch_ball(
-                  &sphere_initial_position,
-                  &velocity
-               );
+               if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
+               {
+                  AllegroFlare::Random random;
+                  random.set_seed(al_get_time() * 1000);
+                  //btVector3 initial_position(1, sphere_diameter * 2, 4);
+                  float x_vel = random.get_random_float(-5, 5);
+                  btVector3 velocity(x_vel, 0, -20);
+                  launch_ball(
+                     &sphere_initial_position,
+                     &velocity
+                  );
+               }
             } break;
          }
       });
@@ -1054,7 +1058,7 @@ methods:
       
       //throw std::runtime_error("jasdiofajsiodfjasdiof");
       step_physics(time_step * 2); // Make the time step faster with * 2 since it's coming in as 1.0/60.0
-      update_state();
+      update_state(time_now, time_step);
       // Simulate physics
       //for (int i = 0; i < 150; i++)
       //{
@@ -1232,6 +1236,10 @@ methods:
             }
 
 
+
+         // Draw HUD
+         {
+            hud_camera.setup_dimensional_projection(al_get_target_bitmap());
             //cube_body_placement.position = cube_body_position;
             //camera.setup_projection_on(al_get_target_bitmap());
             //hud_camera.setup_projection_on(al_get_target_bitmap());
@@ -1272,6 +1280,40 @@ methods:
 
 
 
+            if (this->showing_ready_banner())
+            {
+               ALLEGRO_FONT *font = font_x;
+               al_draw_multiline_textf(
+                  font,
+                  ALLEGRO_COLOR{0.4, 0.72, 0.8, 1},
+                  1920/2,
+                  1080/2 - al_get_font_line_height(font) * 0.5,
+                  1920,
+                  al_get_font_line_height(font),
+                  ALLEGRO_ALIGN_CENTER,
+                  "READY"
+                     //num_cubes_knocked_down
+               );
+            }
+
+
+            if (this->showing_gamplay_instructions())
+            {
+               // For debugging, show state
+               al_draw_multiline_textf(
+                  font,
+                  ALLEGRO_COLOR{1, 1, 1, 1},
+                  1920/2,
+                  1080-80*2,
+                  1920,
+                  al_get_font_line_height(font),
+                  ALLEGRO_ALIGN_CENTER,
+                  "Press SPACEBAR to launch ball"
+               );
+            }
+
+
+            /*
             // For debugging, show state
             al_draw_multiline_textf(
                font,
@@ -1284,6 +1326,8 @@ methods:
                "STATE: %d",
                   this->get_state()
             );
+            */
+         }
       }
 
 
@@ -1292,6 +1336,7 @@ methods:
       // Setup the hud projection
       hud_camera.setup_dimensional_projection(al_get_target_bitmap());
 
+      /*
       // For debugging, show state
       //ALLEGRO_FONT *font = font_bin["Oswald-Medium.ttf -262"];
       ALLEGRO_FONT *font = get_any_font(&font_bin);
@@ -1307,6 +1352,7 @@ methods:
          "STATE: %d",
             state
       );
+      */
 
 
       return;
@@ -1356,6 +1402,9 @@ methods:
 
       switch (state)
       {
+         case STATE_OPENING_SEQUENCE:
+         break;
+
          case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
          break;
 
@@ -1398,19 +1447,26 @@ methods:
   - name: update_state
     parameters:
       - name: time_now
-        type: float
+        type: double
         default_argument: al_get_time()
+      - name: time_step
+        type: double
+        default_argument: (1.0/60.0f)
     guards: [ is_valid_state(state) ]
     body: |
-      float age = infer_current_state_age(time_now);
+      float real_age = infer_current_state_real_age(time_now);
 
       switch (state)
       {
+         case STATE_OPENING_SEQUENCE:
+            if (real_age > 2.0) set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+         break;
+
          case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
          break;
 
          case STATE_IN_SIMULATION: {
-            if (age > 4.0) set_state(STATE_TALLYING_SCORE);
+            if (real_age > 4.0) set_state(STATE_TALLYING_SCORE);
          } break;
 
          case STATE_TALLYING_SCORE:
@@ -1454,6 +1510,7 @@ methods:
     body: |
       std::set<uint32_t> valid_states =
       {
+         STATE_OPENING_SEQUENCE,
          STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
          STATE_IN_SIMULATION,
          STATE_TALLYING_SCORE,
@@ -1477,7 +1534,7 @@ methods:
      return (state == possible_state);
 
 
-  - name: infer_current_state_age
+  - name: infer_current_state_real_age
     type: float
     parameters:
       - name: time_now
@@ -1491,6 +1548,18 @@ methods:
     type: bool
     body: |
       return is_state(STATE_SCORE_TALLIED);
+
+
+  - name: showing_ready_banner
+    type: bool
+    body: |
+      return is_state(STATE_OPENING_SEQUENCE);
+
+
+  - name: showing_gamplay_instructions
+    type: bool
+    body: |
+      return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
 
 dependencies:

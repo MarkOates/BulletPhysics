@@ -158,7 +158,8 @@ void Knockdown::reset()
    // Create the game world and start the simulation
    create_stacked_cubes();
    set_camera_to_start_position();
-   set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+   set_state(STATE_OPENING_SEQUENCE);
+   //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
    return;
 }
@@ -542,16 +543,18 @@ void Knockdown::initialize()
          } break;
 
          case ALLEGRO_KEY_SPACE: {
-            AllegroFlare::Random random;
-            random.set_seed(al_get_time() * 1000);
-            //btVector3 initial_position(1, sphere_diameter * 2, 4);
-            float x_vel = random.get_random_float(-5, 5);
-
-            btVector3 velocity(x_vel, 0, -20);
-            launch_ball(
-               &sphere_initial_position,
-               &velocity
-            );
+            if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
+            {
+               AllegroFlare::Random random;
+               random.set_seed(al_get_time() * 1000);
+               //btVector3 initial_position(1, sphere_diameter * 2, 4);
+               float x_vel = random.get_random_float(-5, 5);
+               btVector3 velocity(x_vel, 0, -20);
+               launch_ball(
+                  &sphere_initial_position,
+                  &velocity
+               );
+            }
          } break;
       }
    });
@@ -1055,7 +1058,7 @@ void Knockdown::primary_update_func(double time_now, double time_step)
 
    //throw std::runtime_error("jasdiofajsiodfjasdiof");
    step_physics(time_step * 2); // Make the time step faster with * 2 since it's coming in as 1.0/60.0
-   update_state();
+   update_state(time_now, time_step);
    // Simulate physics
    //for (int i = 0; i < 150; i++)
    //{
@@ -1237,6 +1240,10 @@ void Knockdown::primary_render_func()
          }
 
 
+
+      // Draw HUD
+      {
+         hud_camera.setup_dimensional_projection(al_get_target_bitmap());
          //cube_body_placement.position = cube_body_position;
          //camera.setup_projection_on(al_get_target_bitmap());
          //hud_camera.setup_projection_on(al_get_target_bitmap());
@@ -1277,6 +1284,40 @@ void Knockdown::primary_render_func()
 
 
 
+         if (this->showing_ready_banner())
+         {
+            ALLEGRO_FONT *font = font_x;
+            al_draw_multiline_textf(
+               font,
+               ALLEGRO_COLOR{0.4, 0.72, 0.8, 1},
+               1920/2,
+               1080/2 - al_get_font_line_height(font) * 0.5,
+               1920,
+               al_get_font_line_height(font),
+               ALLEGRO_ALIGN_CENTER,
+               "READY"
+                  //num_cubes_knocked_down
+            );
+         }
+
+
+         if (this->showing_gamplay_instructions())
+         {
+            // For debugging, show state
+            al_draw_multiline_textf(
+               font,
+               ALLEGRO_COLOR{1, 1, 1, 1},
+               1920/2,
+               1080-80*2,
+               1920,
+               al_get_font_line_height(font),
+               ALLEGRO_ALIGN_CENTER,
+               "Press SPACEBAR to launch ball"
+            );
+         }
+
+
+         /*
          // For debugging, show state
          al_draw_multiline_textf(
             font,
@@ -1289,6 +1330,8 @@ void Knockdown::primary_render_func()
             "STATE: %d",
                this->get_state()
          );
+         */
+      }
    }
 
 
@@ -1297,6 +1340,7 @@ void Knockdown::primary_render_func()
    // Setup the hud projection
    hud_camera.setup_dimensional_projection(al_get_target_bitmap());
 
+   /*
    // For debugging, show state
    //ALLEGRO_FONT *font = font_bin["Oswald-Medium.ttf -262"];
    ALLEGRO_FONT *font = get_any_font(&font_bin);
@@ -1312,6 +1356,7 @@ void Knockdown::primary_render_func()
       "STATE: %d",
          state
    );
+   */
 
 
    return;
@@ -1356,6 +1401,9 @@ void Knockdown::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
+      case STATE_OPENING_SEQUENCE:
+      break;
+
       case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
       break;
 
@@ -1393,7 +1441,7 @@ void Knockdown::set_state(uint32_t state, bool override_if_busy)
    return;
 }
 
-void Knockdown::update_state(float time_now)
+void Knockdown::update_state(double time_now, double time_step)
 {
    if (!(is_valid_state(state)))
    {
@@ -1402,15 +1450,19 @@ void Knockdown::update_state(float time_now)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::update_state]: error: guard \"is_valid_state(state)\" not met");
    }
-   float age = infer_current_state_age(time_now);
+   float real_age = infer_current_state_real_age(time_now);
 
    switch (state)
    {
+      case STATE_OPENING_SEQUENCE:
+         if (real_age > 2.0) set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+      break;
+
       case STATE_WAITING_FOR_PLAYER_TO_THROW_BALL:
       break;
 
       case STATE_IN_SIMULATION: {
-         if (age > 4.0) set_state(STATE_TALLYING_SCORE);
+         if (real_age > 4.0) set_state(STATE_TALLYING_SCORE);
       } break;
 
       case STATE_TALLYING_SCORE:
@@ -1446,6 +1498,7 @@ bool Knockdown::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
+      STATE_OPENING_SEQUENCE,
       STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
       STATE_IN_SIMULATION,
       STATE_TALLYING_SCORE,
@@ -1462,7 +1515,7 @@ bool Knockdown::is_state(uint32_t possible_state)
    return (state == possible_state);
 }
 
-float Knockdown::infer_current_state_age(float time_now)
+float Knockdown::infer_current_state_real_age(float time_now)
 {
    return (time_now - state_changed_at);
 }
@@ -1470,6 +1523,16 @@ float Knockdown::infer_current_state_age(float time_now)
 bool Knockdown::showing_final_score()
 {
    return is_state(STATE_SCORE_TALLIED);
+}
+
+bool Knockdown::showing_ready_banner()
+{
+   return is_state(STATE_OPENING_SEQUENCE);
+}
+
+bool Knockdown::showing_gamplay_instructions()
+{
+   return is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 }
 
 

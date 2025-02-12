@@ -640,7 +640,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>update_state</b>(float time_now=al_get_time())</td>
+  <td class="method"><b>update_state</b>(double time_now=al_get_time(), double time_step=(1.0/60.0f))</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -652,11 +652,19 @@ table td
 </tr>
 <tr>
   <td class="method">float</td>
-  <td class="method"><b>infer_current_state_age</b>(float time_now=al_get_time())</td>
+  <td class="method"><b>infer_current_state_real_age</b>(float time_now=al_get_time())</td>
 </tr>
 <tr>
   <td class="method">bool</td>
   <td class="method"><b>showing_final_score</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_ready_banner</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>showing_gamplay_instructions</b>()</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
