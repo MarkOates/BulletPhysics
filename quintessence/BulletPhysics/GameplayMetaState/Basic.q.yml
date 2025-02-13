@@ -79,6 +79,8 @@ documentation:
         that standard gameplay controls). Avoid using direct calls to states, and try to develop a set of methods
         that represent the concretion, e.g. "waiting_for_player_input_to_continue()"
       - Consider adding/improving transition guards to prevent some states from transitioning into other states.
+      - Rather than "set_state_to_*" methods, maybe "advance_state_to_" to ensure states are not freely thrown around by
+        the user. advancing state would also mean the previous state would need to be verified.
 
 
 methods:
@@ -179,8 +181,7 @@ methods:
          */
 
          default: {
-            AllegroFlare::Logger::throw_error(
-               "BulletPhysics::GameplayMetaState::Basic::set_state",
+            AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME,
                "Unable to handle case for state \"" + std::to_string(state) + "\""
             );
          } break;
@@ -244,8 +245,7 @@ methods:
          } break;
 
          default:
-            AllegroFlare::Logger::throw_error(
-               "BulletPhysics::GameplayMetaState::Basic::update_state",
+            AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME,
                "Unable to handle case for state \"" + std::to_string(state) + "\""
             );
          break;

@@ -147,8 +147,7 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
       */
 
       default: {
-         AllegroFlare::Logger::throw_error(
-            "BulletPhysics::GameplayMetaState::Basic::set_state",
+         AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME,
             "Unable to handle case for state \"" + std::to_string(state) + "\""
          );
       } break;
@@ -212,8 +211,7 @@ void Basic::time_step_state(double time_step)
       } break;
 
       default:
-         AllegroFlare::Logger::throw_error(
-            "BulletPhysics::GameplayMetaState::Basic::update_state",
+         AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME,
             "Unable to handle case for state \"" + std::to_string(state) + "\""
          );
       break;
