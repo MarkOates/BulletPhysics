@@ -31,12 +31,6 @@ properties:
 methods:
 
 
-  - name: ~destroy
-    body: |
-      //if (primary_gameplay_screen) primary_gameplay_screen->destroy(); // TODO: Check this works as expected
-      return;
-
-
   - name: app_icon_1024_filename
     type: std::string
     virtual: true
@@ -117,6 +111,14 @@ methods:
     body_dependency_symbols:
       - BulletPhysics::Gameplay::Screen
       - AllegroFlare::Runners::Complete
+
+
+  - name: destroy_primary_gameplay_screen
+    virtual: true
+    override: true
+    body: |
+      if (primary_gameplay_screen) primary_gameplay_screen->destroy();
+      return;
 
 
   - name: create_primary_gameplay_subscreen

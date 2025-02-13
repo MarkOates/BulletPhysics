@@ -50,6 +50,7 @@ namespace BulletPhysics
             virtual std::string primary_display_icon_filename() override;
             virtual std::vector<std::tuple<std::string, AllegroFlare::Achievement*, bool, bool>> build_achievements() override;
             virtual AllegroFlare::Screens::Gameplay* create_primary_gameplay_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
+            virtual void destroy_primary_gameplay_screen() override;
             virtual AllegroFlare::Screens::Subscreen::Screen* create_primary_gameplay_subscreen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual AllegroFlare::Screens::PauseScreen* create_pause_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual void handle_primary_gameplay_screen_paused() override;

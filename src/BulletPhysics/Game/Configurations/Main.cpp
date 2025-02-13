@@ -36,8 +36,6 @@ Main::Main()
 
 Main::~Main()
 {
-   //if (primary_gameplay_screen) primary_gameplay_screen->destroy(); // TODO: Check this works as expected
-   return;
 }
 
 
@@ -100,6 +98,12 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    primary_gameplay_screen = result;
 
    return result;
+}
+
+void Main::destroy_primary_gameplay_screen()
+{
+   if (primary_gameplay_screen) primary_gameplay_screen->destroy();
+   return;
 }
 
 AllegroFlare::Screens::Subscreen::Screen* Main::create_primary_gameplay_subscreen(AllegroFlare::Runners::Complete* runner)
