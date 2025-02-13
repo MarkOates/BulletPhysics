@@ -58,7 +58,7 @@ Knockdown::~Knockdown()
    if (initialized && !destroyed)
    {
       AllegroFlare::Logger::warn_from(
-         "BulletPhysics::Examples::Mesh::~destroy", 
+         "BulletPhysics::Examples::Knockdown::~destroy",
          "This instance is being destroyed but the destroy() method has not been called."
       );
    }
@@ -209,9 +209,8 @@ void Knockdown::clear()
 
    // For debugging purposes, output the number of bodies remaining in the dynamics_world
    int num_bodies = dynamics_world->getNumCollisionObjects();
-   AllegroFlare::Logger::info_from(
-      "BulletPhysics::Examples::Knockdown::clear",
-       "Number of remaining rigid bodies in the dynamic_world: " + std::to_string(num_bodies)
+   AllegroFlare::Logger::info_from(THIS_CLASS_AND_METHOD_NAME,
+      "Number of remaining rigid bodies in the dynamic_world: " + std::to_string(num_bodies)
    );
 
 
