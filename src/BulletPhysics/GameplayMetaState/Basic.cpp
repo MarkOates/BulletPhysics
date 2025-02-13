@@ -312,7 +312,7 @@ bool Basic::waiting_for_player_input_to_continue()
    return is_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
-void Basic::continue_from_waiting_for_player_input_to_continue()
+void Basic::advance_from_waiting_for_player_input_to_continue()
 {
    set_state(GAMEPLAY_META_STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 }

@@ -64,7 +64,7 @@ namespace BulletPhysics
          bool showing_gameplay_instructions();
          bool showing_press_any_key_to_continue_after_score_tally();
          bool waiting_for_player_input_to_continue();
-         void continue_from_waiting_for_player_input_to_continue();
+         void advance_from_waiting_for_player_input_to_continue();
       };
    }
 }

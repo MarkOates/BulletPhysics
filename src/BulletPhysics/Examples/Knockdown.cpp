@@ -535,7 +535,7 @@ void Knockdown::initialize()
 
       if (this->waiting_for_player_input_to_continue())
       {
-         continue_from_waiting_for_player_input_to_continue();
+         advance_from_waiting_for_player_input_to_continue();
          return;
       }
 
@@ -1474,9 +1474,9 @@ bool Knockdown::waiting_for_player_input_to_continue()
    //return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 }
 
-void Knockdown::continue_from_waiting_for_player_input_to_continue()
+void Knockdown::advance_from_waiting_for_player_input_to_continue()
 {
-   return gameplay_meta_state.continue_from_waiting_for_player_input_to_continue();
+   return gameplay_meta_state.advance_from_waiting_for_player_input_to_continue();
    //return gameplay_meta_state.showing_final_score();
    //set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 }

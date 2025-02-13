@@ -558,7 +558,7 @@ methods:
 
          if (this->waiting_for_player_input_to_continue())
          {
-            continue_from_waiting_for_player_input_to_continue();
+            advance_from_waiting_for_player_input_to_continue();
             return;
          }
 
@@ -1484,9 +1484,9 @@ methods:
       //return is_state(STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 
 
-  - name: continue_from_waiting_for_player_input_to_continue
+  - name: advance_from_waiting_for_player_input_to_continue
     body: |
-      return gameplay_meta_state.continue_from_waiting_for_player_input_to_continue();
+      return gameplay_meta_state.advance_from_waiting_for_player_input_to_continue();
       //return gameplay_meta_state.showing_final_score();
       //set_state(STATE_CLOSING_OUT_SCORE_TALLY_PRESENTATION);
 
