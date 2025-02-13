@@ -5,7 +5,6 @@
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/Camera2D.hpp>
 #include <AllegroFlare/Testing/WithInteractionFixture.hpp>
-//#include <AllegroFlare/Testing/WithAllegoFlareFrameworksFullFixture.hpp>
 #include <AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture.hpp>
 #include <AllegroFlare/Useful.hpp> // For draw_crosshair
 #include <AllegroFlare/ModelBin.hpp>
