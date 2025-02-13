@@ -65,7 +65,7 @@ void Basic::start_opening_sequence()
 bool Basic::is_player_input_active()
 {
    return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL)
-      || is_state(GAMEPLAY_META_STATE_IN_SIMULATION)
+      || is_state(GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY)
       || is_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 
    //gameplay_meta_state.set_state_to_waiting_to_start();
@@ -80,7 +80,7 @@ void Basic::set_state_to_loaded_and_waiting_to_start()
 
 void Basic::set_state_to_active_gameplay()
 {
-   set_state(GAMEPLAY_META_STATE_IN_SIMULATION);
+   set_state(GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY);
    return;
 }
 
@@ -112,7 +112,7 @@ void Basic::set_state(uint32_t state, bool override_if_busy)
       case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
       } break;
 
-      case GAMEPLAY_META_STATE_IN_SIMULATION: {
+      case GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY: {
       } break;
 
       case GAMEPLAY_META_STATE_TALLYING_SCORE: {
@@ -185,7 +185,7 @@ void Basic::time_step_state(double time_step)
       case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
       } break;
 
-      case GAMEPLAY_META_STATE_IN_SIMULATION: {
+      case GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY: {
          if (age > 4.0) set_state(GAMEPLAY_META_STATE_TALLYING_SCORE);
       } break;
 
@@ -227,7 +227,7 @@ bool Basic::is_valid_state(uint32_t state)
       GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
       GAMEPLAY_META_STATE_OPENING_SEQUENCE,
       GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
-      GAMEPLAY_META_STATE_IN_SIMULATION,
+      GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY,
       GAMEPLAY_META_STATE_TALLYING_SCORE,
       GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING,
       GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE,
@@ -252,8 +252,8 @@ std::string Basic::get_state_name(uint32_t state)
         "GAMEPLAY_META_STATE_OPENING_SEQUENCE" },
       { GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
         "GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL" },
-      { GAMEPLAY_META_STATE_IN_SIMULATION,
-        "GAMEPLAY_META_STATE_IN_SIMULATION" },
+      { GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY,
+        "GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY" },
       { GAMEPLAY_META_STATE_TALLYING_SCORE,
         "GAMEPLAY_META_STATE_TALLYING_SCORE" },
       { GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING,
