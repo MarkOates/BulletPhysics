@@ -84,6 +84,10 @@ properties:
     type: bool
     init_with: false
 
+  - name: cleared
+    type: bool
+    init_with: true
+
   - name: destroyed
     type: bool
     init_with: false
@@ -139,7 +143,7 @@ methods:
         type: std::string
         default_argument: '""'
     body: |
-      clear(); // TODO: Guard against clearing after already clearing
+      //clear(); // TODO: Guard against clearing after already clearing
       reset();
       return true;
     body_dependency_symbols:
@@ -149,7 +153,9 @@ methods:
   - name: reset
     guards: [ initialized ]
     body: |
-      // HERE
+      if (!cleared) clear();
+      //if (!gameplay_meta_state.is_in_cleared_state()) clear();
+
       // Create a dynamics world
       dynamics_world_object = new BulletPhysics::DynamicsWorld();
       dynamics_world_object->initialize();
@@ -205,12 +211,17 @@ methods:
       //set_state(STATE_OPENING_SEQUENCE);
       //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
+      cleared = false;
+
       return;
 
 
   - name: clear
+    private: true
     guards: [ initialized ]
     body: |
+      if (cleared) return;
+
       // Delete the memory elements of the cubes
       for (auto &cube : cubes)
       {
@@ -259,6 +270,9 @@ methods:
       model_bin.clear();
       bitmap_bin.clear();
       font_bin.clear();
+
+      cleared = true;
+
 
       return;
 
@@ -600,7 +614,7 @@ methods:
 
       // Setup the gameplay_meta_state to handle when the level is finished
       gameplay_meta_state.set_on_closed_out_func([this](){
-         clear();
+         //clear();
          reset();
       });
 
@@ -623,7 +637,7 @@ methods:
 
       // Start the game (this now happens at load_level_by_identifier)
       //clear();
-      reset();
+      reset(); // TODO: See if this can be moved to a kind of "start()" method and not included in "initialize()"
 
       // Start the game
       //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);

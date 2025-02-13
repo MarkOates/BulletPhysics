@@ -45,6 +45,7 @@ namespace BulletPhysics
          btCollisionShape* ground_shape;
          bool player_has_thrown_ball;
          bool initialized;
+         bool cleared;
          bool destroyed;
          BulletPhysics::GameplayMetaState::Basic gameplay_meta_state;
          AllegroFlare::Camera3D camera3d;
@@ -52,6 +53,7 @@ namespace BulletPhysics
          AllegroFlare::ModelBin model_bin;
          AllegroFlare::BitmapBin bitmap_bin;
          AllegroFlare::FontBin font_bin;
+         void clear();
          btConvexHullShape* create_convex_shape(AllegroFlare::Model3D* model=nullptr);
 
       protected:
@@ -68,7 +70,6 @@ namespace BulletPhysics
          int num_shapes();
          virtual bool load_level_by_identifier(std::string possible_type="") override;
          void reset();
-         void clear();
          void create_multiple_cubes();
          void create_stacked_cubes();
          void create_multiple_shapes();

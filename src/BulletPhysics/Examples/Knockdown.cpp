@@ -42,6 +42,7 @@ Knockdown::Knockdown()
    , ground_shape(nullptr)
    , player_has_thrown_ball(false)
    , initialized(false)
+   , cleared(true)
    , destroyed(false)
    , gameplay_meta_state({})
    , camera3d({})
@@ -96,7 +97,7 @@ int Knockdown::num_shapes()
 
 bool Knockdown::load_level_by_identifier(std::string possible_type)
 {
-   clear(); // TODO: Guard against clearing after already clearing
+   //clear(); // TODO: Guard against clearing after already clearing
    reset();
    return true;
 }
@@ -110,7 +111,9 @@ void Knockdown::reset()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::reset]: error: guard \"initialized\" not met");
    }
-   // HERE
+   if (!cleared) clear();
+   //if (!gameplay_meta_state.is_in_cleared_state()) clear();
+
    // Create a dynamics world
    dynamics_world_object = new BulletPhysics::DynamicsWorld();
    dynamics_world_object->initialize();
@@ -166,6 +169,8 @@ void Knockdown::reset()
    //set_state(STATE_OPENING_SEQUENCE);
    //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
+   cleared = false;
+
    return;
 }
 
@@ -178,6 +183,8 @@ void Knockdown::clear()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::clear]: error: guard \"initialized\" not met");
    }
+   if (cleared) return;
+
    // Delete the memory elements of the cubes
    for (auto &cube : cubes)
    {
@@ -226,6 +233,9 @@ void Knockdown::clear()
    model_bin.clear();
    bitmap_bin.clear();
    font_bin.clear();
+
+   cleared = true;
+
 
    return;
 }
@@ -577,7 +587,7 @@ void Knockdown::initialize()
 
    // Setup the gameplay_meta_state to handle when the level is finished
    gameplay_meta_state.set_on_closed_out_func([this](){
-      clear();
+      //clear();
       reset();
    });
 
@@ -600,7 +610,7 @@ void Knockdown::initialize()
 
    // Start the game (this now happens at load_level_by_identifier)
    //clear();
-   reset();
+   reset(); // TODO: See if this can be moved to a kind of "start()" method and not included in "initialize()"
 
    // Start the game
    //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
