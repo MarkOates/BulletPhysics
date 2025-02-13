@@ -382,7 +382,7 @@ TEST_F(BulletPhysics_Examples_KnockdownTestWithInteractionFixture, CAPTURE__will
 #include <AllegroFlare/Routers/Standard.hpp>
 
 TEST_F(BulletPhysics_Examples_KnockdownTestWithAllegroFlareFrameworksFullFixture,
-   FOCUS__INTERACTIVE__will_work_in_a_Frameworks_Full_context)
+   INTERACTIVE__will_work_in_a_Frameworks_Full_context)
 {
    BulletPhysics::Examples::Knockdown *screen = new BulletPhysics::Examples::Knockdown();
    screen->set_data_folder_path(get_framework_data_folder_path());

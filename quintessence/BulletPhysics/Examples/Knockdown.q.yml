@@ -992,6 +992,14 @@ methods:
             "This instance is being destroyed but the destroy() method has not been called."
          );
       }
+      if (game_world_is_setup_and_requires_destruction)
+      {
+         AllegroFlare::Logger::warn_from(
+            "BulletPhysics::Examples::Knockdown::~destroy",
+            "This instance is indicating that \"game_world_is_setup_and_requires_destruction == true\". Ensure that "
+               "the necessary things are destroyed. If not, it will likely result in a crash at program close."
+         );
+      }
       return;
     body_dependency_symbols:
       - AllegroFlare::Logger
