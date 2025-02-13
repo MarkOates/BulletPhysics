@@ -45,7 +45,7 @@ namespace BulletPhysics
          btCollisionShape* ground_shape;
          bool player_has_thrown_ball;
          bool initialized;
-         bool cleared;
+         bool game_world_is_setup_and_requires_destruction;
          bool destroyed;
          BulletPhysics::GameplayMetaState::Basic gameplay_meta_state;
          AllegroFlare::Camera3D camera3d;

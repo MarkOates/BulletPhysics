@@ -42,7 +42,7 @@ Knockdown::Knockdown()
    , ground_shape(nullptr)
    , player_has_thrown_ball(false)
    , initialized(false)
-   , cleared(true)
+   , game_world_is_setup_and_requires_destruction(false)
    , destroyed(false)
    , gameplay_meta_state({})
    , camera3d({})
@@ -111,8 +111,7 @@ void Knockdown::reset()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::reset]: error: guard \"initialized\" not met");
    }
-   if (!cleared) clear();
-   //if (!gameplay_meta_state.is_in_cleared_state()) clear();
+   if (game_world_is_setup_and_requires_destruction) clear();
 
    // Create a dynamics world
    dynamics_world_object = new BulletPhysics::DynamicsWorld();
@@ -169,7 +168,7 @@ void Knockdown::reset()
    //set_state(STATE_OPENING_SEQUENCE);
    //set_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
 
-   cleared = false;
+   game_world_is_setup_and_requires_destruction = true;
 
    return;
 }
@@ -183,7 +182,8 @@ void Knockdown::clear()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::clear]: error: guard \"initialized\" not met");
    }
-   if (cleared) return;
+   if (!game_world_is_setup_and_requires_destruction) return;
+
 
    // Delete the memory elements of the cubes
    for (auto &cube : cubes)
@@ -234,8 +234,8 @@ void Knockdown::clear()
    bitmap_bin.clear();
    font_bin.clear();
 
-   cleared = true;
 
+   game_world_is_setup_and_requires_destruction = false;
 
    return;
 }
@@ -872,12 +872,12 @@ void Knockdown::capture_cube_body_position_and_rotation(AllegroFlare::Vec3D* pos
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index >= 0)\" not met");
    }
-   if (!((cube_index < cubes.size())))
+   if (!((cube_index < (int)cubes.size())))
    {
       std::stringstream error_message;
-      error_message << "[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < cubes.size())\" not met.";
+      error_message << "[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < (int)cubes.size())\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < cubes.size())\" not met");
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_cube_body_position_and_rotation]: error: guard \"(cube_index < (int)cubes.size())\" not met");
    }
    btRigidBody* cube_body = cubes[cube_index].first;
    //if (cube_index >= 0) cube_body = cubes[cube_index].first;
@@ -928,12 +928,12 @@ void Knockdown::capture_shape_body_position_and_rotation(AllegroFlare::Vec3D* po
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_shape_body_position_and_rotation]: error: guard \"(shape_index >= 0)\" not met");
    }
-   if (!((shape_index < shapes.size())))
+   if (!((shape_index < (int)shapes.size())))
    {
       std::stringstream error_message;
-      error_message << "[BulletPhysics::Examples::Knockdown::capture_shape_body_position_and_rotation]: error: guard \"(shape_index < shapes.size())\" not met.";
+      error_message << "[BulletPhysics::Examples::Knockdown::capture_shape_body_position_and_rotation]: error: guard \"(shape_index < (int)shapes.size())\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_shape_body_position_and_rotation]: error: guard \"(shape_index < shapes.size())\" not met");
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::capture_shape_body_position_and_rotation]: error: guard \"(shape_index < (int)shapes.size())\" not met");
    }
    btRigidBody* shape_body = shapes[shape_index].first;
 
