@@ -23,8 +23,9 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(AllegroFlare::FontBin* font_bin, AllegroFlare::BitmapBin* bitmap_bin, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, AllegroFlare::FontBin* font_bin, AllegroFlare::BitmapBin* bitmap_bin, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
+   , data_folder_path(data_folder_path)
    , font_bin(font_bin)
    , bitmap_bin(bitmap_bin)
    , surface_width(surface_width)
@@ -87,6 +88,12 @@ TitledMenuScreen::~TitledMenuScreen()
       );
    }
    return;
+}
+
+
+void TitledMenuScreen::set_data_folder_path(std::string data_folder_path)
+{
+   this->data_folder_path = data_folder_path;
 }
 
 
@@ -522,6 +529,13 @@ void TitledMenuScreen::initialize()
       error_message << "[AllegroFlare::Screens::TitledMenuScreen::initialize]: error: guard \"(!destroyed)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::initialize]: error: guard \"(!destroyed)\" not met");
+   }
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::initialize]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::initialize]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
    }
    if (!(al_is_system_installed()))
    {

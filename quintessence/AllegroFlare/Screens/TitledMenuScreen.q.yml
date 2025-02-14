@@ -9,6 +9,12 @@ parent_classes:
 properties:
 
 
+  - name: data_folder_path
+    type: std::string
+    init_with: DEFAULT_DATA_FOLDER_PATH
+    constructor_arg: true
+    setter: true
+
   - name: font_bin
     type: AllegroFlare::FontBin*
     init_with: nullptr
@@ -293,6 +299,12 @@ properties:
     type: bool
     init_with: false
 
+  - name: DEFAULT_DATA_FOLDER_PATH
+    type: char*
+    init_with: '(char*)"[unset-data_folder_path]"'
+    static: true
+    constexpr: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"AllegroFlare/Screens/TitledMenuScreen"'
@@ -329,6 +341,7 @@ methods:
     guards:
       - (!initialized)
       - (!destroyed)
+      - (data_folder_path != DEFAULT_DATA_FOLDER_PATH)
       - al_is_system_installed()
       - al_is_primitives_addon_initialized()
       - al_is_font_addon_initialized()

@@ -52,6 +52,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTest, render__without_primitives_add
 {
    al_init();
    AllegroFlare::Screens::TitledMenuScreen title_screen;
+   //AllegroFlare::Screens::TitledMenuScreen title_screen;
    EXPECT_THROW_GUARD_ERROR(
       title_screen.render(),
       "AllegroFlare::Screens::TitledMenuScreen::render",
@@ -64,7 +65,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTest, render__without_primitives_add
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture, CAPTURE__render__will_not_blow_up)
 {
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.set_font_bin(&get_font_bin_ref());
    title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.initialize();
@@ -81,7 +82,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture, CAP
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__will_render_a_title_with_multiple_lines)
 {
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.set_font_bin(&get_font_bin_ref());
    title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.set_title_text("A Game Title\nThat Spans\nMultiple Lines");
@@ -98,7 +99,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__will_support_footer_text_as_multiple_lines)
 {
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.set_font_bin(&get_font_bin_ref());
    title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.set_footer_text("Copyright 2022 - Gametastic Games\nALL RIGHTS RESERVED\nVersion 0.1alpha");
@@ -167,7 +168,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    //al_register_event_source(event_queue, &event_emitter.get_event_source_ref());
 
    // initialize test subject
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.set_font_bin(&get_font_bin_ref());
    title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.initialize();
@@ -237,8 +238,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFixture,
    FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer)
 {
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
-   //title_screen.set_event_emitter(get_framework_event_emitter());
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
    title_screen.set_font_bin(get_framework_font_bin());
    title_screen.set_bitmap_bin(get_framework_bitmap_bin());
    title_screen.initialize();
@@ -254,8 +254,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFi
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFixture,
    FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer_2)
 {
-   AllegroFlare::Screens::TitledMenuScreen title_screen;
-   //title_screen.set_event_emitter(get_framework_event_emitter());
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
    title_screen.set_font_bin(get_framework_font_bin());
    title_screen.set_bitmap_bin(get_framework_bitmap_bin());
    title_screen.initialize();
