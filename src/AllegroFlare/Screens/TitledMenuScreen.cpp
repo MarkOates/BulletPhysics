@@ -23,11 +23,11 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, AllegroFlare::FontBin* font_bin, AllegroFlare::BitmapBin* bitmap_bin, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
-   , font_bin(font_bin)
-   , bitmap_bin(bitmap_bin)
+   , font_bin({})
+   , bitmap_bin({})
    , surface_width(surface_width)
    , surface_height(surface_height)
    , title_text(title_text)
@@ -93,19 +93,8 @@ TitledMenuScreen::~TitledMenuScreen()
 
 void TitledMenuScreen::set_data_folder_path(std::string data_folder_path)
 {
+   if (get_initialized()) throw std::runtime_error("[TitledMenuScreen::set_data_folder_path]: error: guard \"get_initialized()\" not met.");
    this->data_folder_path = data_folder_path;
-}
-
-
-void TitledMenuScreen::set_font_bin(AllegroFlare::FontBin* font_bin)
-{
-   this->font_bin = font_bin;
-}
-
-
-void TitledMenuScreen::set_bitmap_bin(AllegroFlare::BitmapBin* bitmap_bin)
-{
-   this->bitmap_bin = bitmap_bin;
 }
 
 
@@ -505,6 +494,12 @@ double TitledMenuScreen::get_reveal_duration() const
 }
 
 
+bool TitledMenuScreen::get_initialized() const
+{
+   return initialized;
+}
+
+
 void TitledMenuScreen::TODO()
 {
    // There is some confusing naming between "selected", "chosen", etc.  Selected seems to signify
@@ -559,6 +554,8 @@ void TitledMenuScreen::initialize()
       throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::initialize]: error: guard \"al_is_font_addon_initialized()\" not met");
    }
    set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+   bitmap_bin.set_full_path(AllegroFlare::BitmapBin::build_standard_path(data_folder_path));
+   font_bin.set_full_path(AllegroFlare::FontBin::build_standard_path(data_folder_path));
    initialized = true;
    return;
 }
@@ -579,7 +576,8 @@ void TitledMenuScreen::destroy()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::destroy]: error: guard \"(!destroyed)\" not met");
    }
-   // TODO: Flesh this out
+   bitmap_bin.clear();
+   font_bin.clear();
    initialized = true;
    return;
 }
@@ -1250,56 +1248,84 @@ void TitledMenuScreen::play_menu_select_option_sound_effect()
 
 ALLEGRO_FONT* TitledMenuScreen::obtain_title_font()
 {
-   if (!(font_bin))
+   if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"font_bin\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"font_bin\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"initialized\" not met");
+   }
+   if (!((!destroyed)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"(!destroyed)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_font]: error: guard \"(!destroyed)\" not met");
    }
    std::stringstream composite_font_str;
    composite_font_str << title_font_name << " " << title_font_size;
-   return font_bin->auto_get(composite_font_str.str());
+   return font_bin.auto_get(composite_font_str.str());
 }
 
 ALLEGRO_FONT* TitledMenuScreen::obtain_menu_font()
 {
-   if (!(font_bin))
+   if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"font_bin\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"font_bin\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"initialized\" not met");
+   }
+   if (!((!destroyed)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"(!destroyed)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_menu_font]: error: guard \"(!destroyed)\" not met");
    }
    std::stringstream composite_font_str;
    composite_font_str << menu_font_name << " " << menu_font_size;
-   return font_bin->auto_get(composite_font_str.str());
+   return font_bin.auto_get(composite_font_str.str());
 }
 
 ALLEGRO_FONT* TitledMenuScreen::obtain_footer_text_font()
 {
-   if (!(font_bin))
+   if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"font_bin\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"font_bin\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"initialized\" not met");
+   }
+   if (!((!destroyed)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"(!destroyed)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"(!destroyed)\" not met");
    }
    std::stringstream composite_font_str;
    composite_font_str << footer_text_font_name << " " << footer_text_font_size;
-   return font_bin->auto_get(composite_font_str.str());
+   return font_bin.auto_get(composite_font_str.str());
 }
 
 ALLEGRO_BITMAP* TitledMenuScreen::obtain_title_bitmap()
 {
-   if (!(bitmap_bin))
+   if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"bitmap_bin\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"bitmap_bin\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"initialized\" not met");
    }
-   return bitmap_bin->auto_get(title_bitmap_name);
+   if (!((!destroyed)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"(!destroyed)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_title_bitmap]: error: guard \"(!destroyed)\" not met");
+   }
+   return bitmap_bin.auto_get(title_bitmap_name);
 }
 
 void TitledMenuScreen::joy_button_down_func(ALLEGRO_EVENT* ev)
