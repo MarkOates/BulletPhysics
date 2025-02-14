@@ -66,8 +66,6 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTest, render__without_primitives_add
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture, CAPTURE__render__will_not_blow_up)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
-   //title_screen.set_font_bin(&get_font_bin_ref());
-   //title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.initialize();
 
    title_screen.reveal();
@@ -83,10 +81,8 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__will_render_a_title_with_multiple_lines)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
-   //title_screen.set_font_bin(&get_font_bin_ref());
-   //title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
-   title_screen.set_title_text("A Game Title\nThat Spans\nMultiple Lines");
    title_screen.initialize();
+   title_screen.set_title_text("A Game Title\nThat Spans\nMultiple Lines");
    title_screen.reveal();
 
    title_screen.render();
@@ -100,10 +96,9 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__will_support_footer_text_as_multiple_lines)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
-   //title_screen.set_font_bin(&get_font_bin_ref());
-   //title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
-   title_screen.set_footer_text("Copyright 2022 - Gametastic Games\nALL RIGHTS RESERVED\nVersion 0.1alpha");
    title_screen.initialize();
+
+   title_screen.set_footer_text("Copyright 2022 - Gametastic Games\nALL RIGHTS RESERVED\nVersion 0.1alpha");
    title_screen.reveal();
 
    title_screen.render();
@@ -169,8 +164,6 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
    // initialize test subject
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
-   //title_screen.set_font_bin(&get_font_bin_ref());
-   //title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
    title_screen.initialize();
    //title_screen.start();
    //title_screen.set_event_emitter(&event_emitter);
@@ -239,8 +232,6 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFi
    FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
-   //title_screen.set_font_bin(get_framework_font_bin());
-   //title_screen.set_bitmap_bin(get_framework_bitmap_bin());
    title_screen.initialize();
 
    framework_register_and_activate_screen("title_screen", &title_screen);
@@ -255,8 +246,6 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFi
    FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer_2)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
-   //title_screen.set_font_bin(get_framework_font_bin());
-   //title_screen.set_bitmap_bin(get_framework_bitmap_bin());
    title_screen.initialize();
 
    framework_register_and_activate_screen("title_screen", &title_screen);
