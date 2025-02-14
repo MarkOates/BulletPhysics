@@ -42,7 +42,7 @@ properties:
     getter: true
     setter: true
 
-  - name: copyright_text
+  - name: footer_text
     type: std::string
     init_with: '"© Copyright 2024"'
     constructor_arg: true
@@ -70,7 +70,7 @@ properties:
     getter: true
     setter: true
 
-  - name: copyright_font_name
+  - name: footer_text_font_name
     type: std::string
     init_with: '"Inter-Regular.ttf"'
     constructor_arg: true
@@ -112,7 +112,7 @@ properties:
     getter: true
     setter: true
 
-  - name: copyright_text_color
+  - name: footer_text_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{0.4f, 0.42f, 0.48f, 0.6f}
     constructor_arg: true
@@ -140,7 +140,7 @@ properties:
     getter: true
     setter: true
 
-  - name: copyright_font_size
+  - name: footer_text_font_size
     type: int
     init_with: -28
     constructor_arg: true
@@ -249,7 +249,7 @@ properties:
     type: bool
     init_with: false
 
-  - name: showing_copyright
+  - name: showing_footer_text
     type: bool
     init_with: false
 
@@ -374,7 +374,7 @@ methods:
     body: |
       title_font_name = font_name;
       menu_font_name = font_name;
-      copyright_font_name = font_name;
+      footer_text_font_name = font_name;
       return;
 
 
@@ -398,7 +398,7 @@ methods:
             reveal_started_at = al_get_time(); // TODO: Consider injecting time
             cursor_position = 0;
             showing_menu = false;
-            showing_copyright = false;
+            showing_footer_text = false;
             menu_option_chosen = false;
             menu_option_activated = false;
             menu_option_chosen_at = 0.0f;
@@ -554,7 +554,7 @@ methods:
   - name: show_menu
     body: |
       showing_menu = true;
-      showing_copyright = true;
+      showing_footer_text = true;
       return;
 
 
@@ -700,7 +700,7 @@ methods:
     guards: [ initialized, (!destroyed), is_valid_state(state) ]
     body: |
       draw_title();
-      if (showing_copyright) draw_copyright_text();
+      if (showing_footer_text) draw_footer_text();
       if (showing_menu) draw_menu();
       if (showing_confirmation_dialog) draw_confirmation_dialog();
       return;
@@ -756,26 +756,26 @@ methods:
       - std::min
 
 
-  - name: draw_copyright_text
+  - name: draw_footer_text
     body: |
       // TODO: review guards on this function
-      ALLEGRO_FONT *copyright_font = obtain_copyright_font();
+      ALLEGRO_FONT *footer_text_font = obtain_footer_text_font();
       //int surface_width = 1920;
       //int surface_height = 1080;
-      float line_height = al_get_font_line_height(copyright_font);
+      float line_height = al_get_font_line_height(footer_text_font);
 
       int number_of_lines = 1;
-      for (int i = 0; i < copyright_text.size(); i++) if (copyright_text[i] == '\n') number_of_lines++;
+      for (int i = 0; i < footer_text.size(); i++) if (footer_text[i] == '\n') number_of_lines++;
 
       al_draw_multiline_text(
-         copyright_font,
-         copyright_text_color,
+         footer_text_font,
+         footer_text_color,
          surface_width/2,
          surface_height - 80 - (int)(number_of_lines * line_height / 2),
          surface_width * 2,
          line_height,
          ALLEGRO_ALIGN_CENTER,
-         copyright_text.c_str()
+         footer_text.c_str()
       );
 
       return;
@@ -1084,13 +1084,13 @@ methods:
       return font_bin->auto_get(composite_font_str.str());
 
 
-  - name: obtain_copyright_font
+  - name: obtain_footer_text_font
     private: true
     type: ALLEGRO_FONT*
     guards: [ font_bin ]
     body: |
       std::stringstream composite_font_str;
-      composite_font_str << copyright_font_name << " " << copyright_font_size;
+      composite_font_str << footer_text_font_name << " " << footer_text_font_size;
       return font_bin->auto_get(composite_font_str.str());
 
 

@@ -96,12 +96,12 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
-   CAPTURE__render__will_support_copyright_text_as_multiple_lines)
+   CAPTURE__render__will_support_footer_text_as_multiple_lines)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen;
    title_screen.set_font_bin(&get_font_bin_ref());
    title_screen.set_bitmap_bin(&get_bitmap_bin_ref());
-   title_screen.set_copyright_text("Copyright 2022 - Gametastic Games\nALL RIGHTS RESERVED\nVersion 0.1alpha");
+   title_screen.set_footer_text("Copyright 2022 - Gametastic Games\nALL RIGHTS RESERVED\nVersion 0.1alpha");
    title_screen.initialize();
    title_screen.reveal();
 

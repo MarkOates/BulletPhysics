@@ -23,28 +23,28 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(AllegroFlare::FontBin* font_bin, AllegroFlare::BitmapBin* bitmap_bin, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string copyright_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string copyright_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR copyright_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int copyright_font_size)
+TitledMenuScreen::TitledMenuScreen(AllegroFlare::FontBin* font_bin, AllegroFlare::BitmapBin* bitmap_bin, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , font_bin(font_bin)
    , bitmap_bin(bitmap_bin)
    , surface_width(surface_width)
    , surface_height(surface_height)
    , title_text(title_text)
-   , copyright_text(copyright_text)
+   , footer_text(footer_text)
    , title_bitmap_name(title_bitmap_name)
    , title_font_name(title_font_name)
    , menu_font_name(menu_font_name)
-   , copyright_font_name(copyright_font_name)
+   , footer_text_font_name(footer_text_font_name)
    , title_text_color(title_text_color)
    , menu_text_color(menu_text_color)
    , menu_selector_color(menu_selector_color)
    , menu_selector_outline_color(menu_selector_outline_color)
    , menu_selected_text_color(menu_selected_text_color)
-   , copyright_text_color(copyright_text_color)
+   , footer_text_color(footer_text_color)
    , menu_selector_outline_stroke_thickness(menu_selector_outline_stroke_thickness)
    , title_font_size(title_font_size)
    , menu_font_size(menu_font_size)
-   , copyright_font_size(copyright_font_size)
+   , footer_text_font_size(footer_text_font_size)
    , menu_options(build_default_menu_options())
    , on_menu_choice_callback_func()
    , on_menu_choice_callback_func_user_data(nullptr)
@@ -63,7 +63,7 @@ TitledMenuScreen::TitledMenuScreen(AllegroFlare::FontBin* font_bin, AllegroFlare
    , reveal_duration(1.0)
    , reveal_started_at(0.0)
    , showing_menu(false)
-   , showing_copyright(false)
+   , showing_footer_text(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0)
@@ -120,9 +120,9 @@ void TitledMenuScreen::set_title_text(std::string title_text)
 }
 
 
-void TitledMenuScreen::set_copyright_text(std::string copyright_text)
+void TitledMenuScreen::set_footer_text(std::string footer_text)
 {
-   this->copyright_text = copyright_text;
+   this->footer_text = footer_text;
 }
 
 
@@ -144,9 +144,9 @@ void TitledMenuScreen::set_menu_font_name(std::string menu_font_name)
 }
 
 
-void TitledMenuScreen::set_copyright_font_name(std::string copyright_font_name)
+void TitledMenuScreen::set_footer_text_font_name(std::string footer_text_font_name)
 {
-   this->copyright_font_name = copyright_font_name;
+   this->footer_text_font_name = footer_text_font_name;
 }
 
 
@@ -180,9 +180,9 @@ void TitledMenuScreen::set_menu_selected_text_color(ALLEGRO_COLOR menu_selected_
 }
 
 
-void TitledMenuScreen::set_copyright_text_color(ALLEGRO_COLOR copyright_text_color)
+void TitledMenuScreen::set_footer_text_color(ALLEGRO_COLOR footer_text_color)
 {
-   this->copyright_text_color = copyright_text_color;
+   this->footer_text_color = footer_text_color;
 }
 
 
@@ -204,9 +204,9 @@ void TitledMenuScreen::set_menu_font_size(int menu_font_size)
 }
 
 
-void TitledMenuScreen::set_copyright_font_size(int copyright_font_size)
+void TitledMenuScreen::set_footer_text_font_size(int footer_text_font_size)
 {
-   this->copyright_font_size = copyright_font_size;
+   this->footer_text_font_size = footer_text_font_size;
 }
 
 
@@ -312,9 +312,9 @@ std::string TitledMenuScreen::get_title_text() const
 }
 
 
-std::string TitledMenuScreen::get_copyright_text() const
+std::string TitledMenuScreen::get_footer_text() const
 {
-   return copyright_text;
+   return footer_text;
 }
 
 
@@ -336,9 +336,9 @@ std::string TitledMenuScreen::get_menu_font_name() const
 }
 
 
-std::string TitledMenuScreen::get_copyright_font_name() const
+std::string TitledMenuScreen::get_footer_text_font_name() const
 {
-   return copyright_font_name;
+   return footer_text_font_name;
 }
 
 
@@ -372,9 +372,9 @@ ALLEGRO_COLOR TitledMenuScreen::get_menu_selected_text_color() const
 }
 
 
-ALLEGRO_COLOR TitledMenuScreen::get_copyright_text_color() const
+ALLEGRO_COLOR TitledMenuScreen::get_footer_text_color() const
 {
-   return copyright_text_color;
+   return footer_text_color;
 }
 
 
@@ -396,9 +396,9 @@ int TitledMenuScreen::get_menu_font_size() const
 }
 
 
-int TitledMenuScreen::get_copyright_font_size() const
+int TitledMenuScreen::get_footer_text_font_size() const
 {
-   return copyright_font_size;
+   return footer_text_font_size;
 }
 
 
@@ -594,7 +594,7 @@ void TitledMenuScreen::set_font_name(std::string font_name)
 {
    title_font_name = font_name;
    menu_font_name = font_name;
-   copyright_font_name = font_name;
+   footer_text_font_name = font_name;
    return;
 }
 
@@ -631,7 +631,7 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
          reveal_started_at = al_get_time(); // TODO: Consider injecting time
          cursor_position = 0;
          showing_menu = false;
-         showing_copyright = false;
+         showing_footer_text = false;
          menu_option_chosen = false;
          menu_option_activated = false;
          menu_option_chosen_at = 0.0f;
@@ -776,7 +776,7 @@ double TitledMenuScreen::infer_reveal_age_n(double time_now)
 void TitledMenuScreen::show_menu()
 {
    showing_menu = true;
-   showing_copyright = true;
+   showing_footer_text = true;
    return;
 }
 
@@ -912,7 +912,7 @@ void TitledMenuScreen::render()
       throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::render]: error: guard \"is_valid_state(state)\" not met");
    }
    draw_title();
-   if (showing_copyright) draw_copyright_text();
+   if (showing_footer_text) draw_footer_text();
    if (showing_menu) draw_menu();
    if (showing_confirmation_dialog) draw_confirmation_dialog();
    return;
@@ -964,26 +964,26 @@ void TitledMenuScreen::draw_title()
    return;
 }
 
-void TitledMenuScreen::draw_copyright_text()
+void TitledMenuScreen::draw_footer_text()
 {
    // TODO: review guards on this function
-   ALLEGRO_FONT *copyright_font = obtain_copyright_font();
+   ALLEGRO_FONT *footer_text_font = obtain_footer_text_font();
    //int surface_width = 1920;
    //int surface_height = 1080;
-   float line_height = al_get_font_line_height(copyright_font);
+   float line_height = al_get_font_line_height(footer_text_font);
 
    int number_of_lines = 1;
-   for (int i = 0; i < copyright_text.size(); i++) if (copyright_text[i] == '\n') number_of_lines++;
+   for (int i = 0; i < footer_text.size(); i++) if (footer_text[i] == '\n') number_of_lines++;
 
    al_draw_multiline_text(
-      copyright_font,
-      copyright_text_color,
+      footer_text_font,
+      footer_text_color,
       surface_width/2,
       surface_height - 80 - (int)(number_of_lines * line_height / 2),
       surface_width * 2,
       line_height,
       ALLEGRO_ALIGN_CENTER,
-      copyright_text.c_str()
+      footer_text.c_str()
    );
 
    return;
@@ -1262,17 +1262,17 @@ ALLEGRO_FONT* TitledMenuScreen::obtain_menu_font()
    return font_bin->auto_get(composite_font_str.str());
 }
 
-ALLEGRO_FONT* TitledMenuScreen::obtain_copyright_font()
+ALLEGRO_FONT* TitledMenuScreen::obtain_footer_text_font()
 {
    if (!(font_bin))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_copyright_font]: error: guard \"font_bin\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"font_bin\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_copyright_font]: error: guard \"font_bin\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_footer_text_font]: error: guard \"font_bin\" not met");
    }
    std::stringstream composite_font_str;
-   composite_font_str << copyright_font_name << " " << copyright_font_size;
+   composite_font_str << footer_text_font_name << " " << footer_text_font_size;
    return font_bin->auto_get(composite_font_str.str());
 }
 
