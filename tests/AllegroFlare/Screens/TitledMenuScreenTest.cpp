@@ -99,6 +99,33 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
+   FOCUS__CAPTURE__render__when_stylized_as_a_pause_screen__will_look_nice)
+{
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
+   title_screen.initialize();
+
+   title_screen.set_upcase_menu_items(true);
+   title_screen.set_title_text("PAUSED");
+   title_screen.set_menu_options(
+      {
+         { "Resume", "resume" },
+         { "Exit to Title Screen", "exit_to_title_screen" },
+      }
+   );
+   title_screen.set_menu_font_name("RobotoCondensed-Regular.ttf");
+   title_screen.set_footer_text("v0.1.17");
+   title_screen.reveal();
+
+   title_screen.render();
+
+   al_flip_display();
+
+   title_screen.destroy();
+   SUCCEED();
+}
+
+
+TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__will_render_a_title_with_multiple_lines)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
