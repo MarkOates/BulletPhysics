@@ -1,0 +1,1300 @@
+parent_classes:
+
+
+  - class: AllegroFlare::Screens::Base
+    scope: public
+    init_with: AllegroFlare::Screens::TitledMenuScreen::TYPE
+
+
+properties:
+
+
+  - name: font_bin
+    type: AllegroFlare::FontBin*
+    init_with: nullptr
+    constructor_arg: true
+    setter: true
+
+  - name: bitmap_bin
+    type: AllegroFlare::BitmapBin*
+    init_with: nullptr
+    constructor_arg: true
+    setter: true
+
+  - name: surface_width
+    type: std::size_t
+    init_with: 1920
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: surface_height
+    type: std::size_t
+    init_with: 1080
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: title_text
+    type: std::string
+    init_with: '"Untitled Game"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: copyright_text
+    type: std::string
+    init_with: '"© Copyright 2024"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: title_bitmap_name
+    type: std::string
+    init_with: '""'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: title_font_name
+    type: std::string
+    init_with: '"Oswald-Medium.ttf"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_font_name
+    type: std::string
+    init_with: '"Inter-Regular.ttf"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: copyright_font_name
+    type: std::string
+    init_with: '"Inter-Regular.ttf"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: title_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{1, 1, 1, 1}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{1, 1, 1, 1}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_selector_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{1, 1, 1, 1}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_selector_outline_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0, 0, 0, 0}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_selected_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0, 0, 0, 1}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: copyright_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0.4f, 0.42f, 0.48f, 0.6f}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_selector_outline_stroke_thickness
+    type: float
+    init_with: 2.0f
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: title_font_size
+    type: int
+    init_with: -120
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_font_size
+    type: int
+    init_with: -38
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: copyright_font_size
+    type: int
+    init_with: -28
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_options
+    type: std::vector<std::pair<std::string, std::string>>
+    init_with: 'build_default_menu_options()'
+    getter: true
+
+  - name: on_menu_choice_callback_func
+    type: std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)>
+    init_with: ''
+    getter: true
+    setter: true
+
+  - name: on_menu_choice_callback_func_user_data
+    type: void*
+    init_with: nullptr
+    getter: true
+    setter: true
+
+  - name: on_finished_callback_func
+    type: std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)>
+    init_with: ''
+    getter: true
+    setter: true
+
+  - name: on_finished_callback_func_user_data
+    type: void*
+    init_with: nullptr
+    getter: true
+    setter: true
+
+  - name: title_position_x
+    type: float
+    init_with: 1920 / 2
+    getter: true
+    setter: true
+
+  - name: title_position_y
+    type: float
+    init_with: (1080 / 24 * 9)
+    getter: true
+    setter: true
+
+  - name: menu_position_x
+    type: float
+    init_with: 1920 / 2
+    getter: true
+    setter: true
+
+  - name: menu_position_y
+    type: float
+    init_with: 1080 / 12 * 7
+    getter: true
+    setter: true
+
+  - name: cursor_position
+    type: int
+    init_with: 0
+    getter: true
+
+  - name: menu_move_sound_effect_identifier
+    type: std::string
+    init_with: '"menu_move"'
+    getter: true
+    setter: true
+
+  - name: menu_move_sound_effect_enabled
+    type: bool
+    init_with: true
+    getter: true
+    setter: true
+
+  - name: menu_select_option_sound_effect_identifier
+    type: std::string
+    init_with: '"menu_select"'
+    getter: true
+    setter: true
+
+  - name: menu_select_option_sound_effect_enabled
+    type: bool
+    init_with: true
+    getter: true
+    setter: true
+
+  - name: menu_option_selection_to_activation_delay
+    type: double
+    init_with: 1.0
+    getter: true
+    setter: true
+
+  - name: reveal_duration
+    type: double
+    init_with: 1.0
+    getter: true
+    setter: true
+
+  - name: reveal_started_at
+    type: double
+    init_with: 0.0
+
+  - name: showing_menu
+    type: bool
+    init_with: false
+
+  - name: showing_copyright
+    type: bool
+    init_with: false
+
+  - name: state
+    type: uint32_t
+    init_with: STATE_UNDEF
+
+  - name: state_is_busy
+    type: bool
+    init_with: false
+
+  - name: state_changed_at
+    type: double
+    init_with: 0.0
+
+  - name: state_accumulated_age
+    type: double
+    init_with: 0.0
+
+  - name: menu_option_chosen
+    type: bool
+    init_with: false
+
+  - name: menu_option_chosen_at
+    type: double
+    init_with: 0.0
+
+  - name: menu_option_activated
+    type: bool
+    init_with: false
+
+  - name: showing_confirmation_dialog
+    type: bool
+    init_with: false
+
+  - name: initialized
+    type: bool
+    init_with: false
+
+  - name: destroyed
+    type: bool
+    init_with: false
+
+  - name: TYPE
+    type: char*
+    init_with: '(char*)"AllegroFlare/Screens/TitledMenuScreen"'
+    static: true
+    constexpr: true
+
+
+enums:
+
+
+  - scope: public
+    enumerators:
+      - STATE_UNDEF
+      - STATE_REVEALING
+      - STATE_REVEALED_AND_AWAITING_USER_INPUT
+      - STATE_MENU_OPTION_IS_CHOSEN
+      - STATE_AWAITING_USER_CONFIRMATION
+      - STATE_FINISHED
+
+
+methods:
+
+
+  - name: TODO
+    body: |
+      // There is some confusing naming between "selected", "chosen", etc.  Selected seems to signify
+      // either "highlighted" or "chosen" depending on the casses.
+      // Setup the "on_finished", indicating the title screen has "timed out" and may want to loop back around
+        // to logos or something
+      return;
+
+
+  - name: initialize
+    guards:
+      - (!initialized)
+      - (!destroyed)
+      - al_is_system_installed()
+      - al_is_primitives_addon_initialized()
+      - al_is_font_addon_initialized()
+    body: |
+      set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
+      initialized = true;
+      return;
+
+
+  - name: ~destroy
+    body: |
+      if (initialized && !destroyed)
+      {
+         AllegroFlare::Logger::warn_from(THIS_CLASS_AND_METHOD_NAME,
+            "This instance is being destroyed but the destroy() method has not been called."
+         );
+      }
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: destroy
+    guards: [ initialized, (!destroyed) ]
+    body: |
+      // TODO: Flesh this out
+      initialized = true;
+      return;
+
+
+  - name: start
+    guards: [ initialized, (!destroyed) ]
+    body: |
+      set_state(STATE_REVEALING);
+      return;
+
+
+  - name: set_font_name
+    parameters:
+      - name: font_name
+        type: std::string
+        default_argument: '"[unset-font_name]"'
+    body: |
+      title_font_name = font_name;
+      menu_font_name = font_name;
+      copyright_font_name = font_name;
+      return;
+
+
+  - name: set_state
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+      - name: override_if_busy
+        type: bool
+        default_argument: false
+    guards: [ initialized, (!destroyed), is_valid_state(state) ]
+    body: |
+      if (this->state == state) return;
+      if (!override_if_busy && state_is_busy) return;
+      uint32_t previous_state = this->state;
+
+      switch (state)
+      {
+         case STATE_REVEALING:
+            reveal_started_at = al_get_time(); // TODO: Consider injecting time
+            cursor_position = 0;
+            showing_menu = false;
+            showing_copyright = false;
+            menu_option_chosen = false;
+            menu_option_activated = false;
+            menu_option_chosen_at = 0.0f;
+         break;
+
+         case STATE_REVEALED_AND_AWAITING_USER_INPUT:
+            menu_option_chosen = false;
+            menu_option_activated = false;
+            show_menu();
+         break;
+
+         case STATE_MENU_OPTION_IS_CHOSEN:
+            menu_option_chosen = true;
+            menu_option_activated = false;
+            menu_option_chosen_at = al_get_time();
+         break;
+
+         case STATE_AWAITING_USER_CONFIRMATION:
+            showing_confirmation_dialog = true;
+         break;
+
+         case STATE_FINISHED:
+         break;
+
+         default:
+            throw std::runtime_error("weird error");
+         break;
+      }
+
+      this->state = state;
+      state_changed_at = al_get_time();
+
+      return;
+
+
+  - name: reveal
+    body: |
+      if (!(is_state(STATE_REVEALING) || is_state(STATE_UNDEF))) return;
+      set_state(STATE_REVEALED_AND_AWAITING_USER_INPUT);
+      return;
+
+
+  - name: update
+    parameters:
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+    guards: [ initialized, (!destroyed), is_valid_state(state) ]
+    body: |
+      float state_age = infer_age(state_changed_at, time_now);
+
+      switch (state)
+      {
+         case STATE_REVEALING: {
+            float reveal_age = infer_reveal_age();
+            if (state_age > reveal_duration)
+            {
+               set_state(STATE_REVEALED_AND_AWAITING_USER_INPUT);
+            }
+         } break;
+
+         case STATE_REVEALED_AND_AWAITING_USER_INPUT:
+         break;
+
+         case STATE_MENU_OPTION_IS_CHOSEN:
+            if (!menu_option_activated && state_age > menu_option_selection_to_activation_delay)
+            {
+               //std::string current_menu_option_value = infer_current_menu_option_value();
+               activate_current_selected_menu_option(); //current_menu_option_value);
+               menu_option_chosen = false;
+               menu_option_activated = true;
+               set_state(STATE_FINISHED);
+            }
+         break;
+
+         case STATE_AWAITING_USER_CONFIRMATION:
+            // TODO
+         break;
+
+         case STATE_FINISHED:
+         break;
+
+         default:
+            throw std::runtime_error("weird error");
+         break;
+      }
+
+      return;
+
+
+  - name: is_valid_state
+    type: bool
+    static: true
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+      std::set<uint32_t> valid_states =
+      {
+         STATE_REVEALING,
+         STATE_REVEALED_AND_AWAITING_USER_INPUT,
+         STATE_MENU_OPTION_IS_CHOSEN,
+         STATE_AWAITING_USER_CONFIRMATION,
+         STATE_FINISHED,
+      };
+      return (valid_states.count(state) > 0);
+    body_dependency_symbols:
+      - std::set
+
+
+  - name: infer_age
+    type: double
+    parameters:
+      - name: time_of_event
+        type: double
+        default_argument: 0.0
+      - name: time_now
+        type: double
+        default_argument: al_get_time()
+    body: |
+      return std::max(0.0, time_now - time_of_event);
+    body_dependency_symbols:
+      - std::max
+
+
+  - name: infer_reveal_age
+    type: double
+    parameters:
+      - name: time_now
+        type: double
+        default_argument: al_get_time()
+    body: |
+      return std::max(0.0, infer_age(reveal_started_at, time_now));
+    body_dependency_symbols:
+      - std::max
+
+
+  - name: infer_reveal_age_n
+    type: double
+    parameters:
+      - name: time_now
+        type: double
+        default_argument: al_get_time()
+    guards: [ (reveal_duration != 0.0) ]
+    body: |
+      return std::max(0.0, std::min(1.0, infer_reveal_age(time_now) / reveal_duration));
+    body_dependency_symbols:
+      - std::max
+      - std::min
+
+
+  - name: show_menu
+    body: |
+      showing_menu = true;
+      showing_copyright = true;
+      return;
+
+
+  - name: on_activate
+    virtual: true
+    override: true
+    body: |
+      start();
+      //set_state(STATE_REVEALING);
+      return;
+
+
+  - name: skip_to_title
+    body: |
+      set_state(STATE_REVEALED_AND_AWAITING_USER_INPUT);
+      return;
+
+
+  - name: set_menu_options
+    parameters:
+      - name: menu_options
+        type: std::vector<std::pair<std::string, std::string>>
+        default_argument: '{}'
+    body: |
+      this->menu_options = menu_options;
+      cursor_position = 0;
+      return;
+
+
+  - name: move_cursor_up
+    private: true
+    body: |
+      if (!processing_user_input_on_main_menu()) return;
+
+      if (menu_move_sound_effect_enabled) play_menu_move_sound_effect();
+
+      cursor_position--;
+      if (cursor_position < 0) cursor_position += menu_options.size();
+
+      return;
+
+
+  - name: move_cursor_down
+    private: true
+    body: |
+      if (!processing_user_input_on_main_menu()) return;
+
+      if (menu_move_sound_effect_enabled) play_menu_move_sound_effect();
+
+      cursor_position++;
+      if (cursor_position >= menu_options.size()) cursor_position = cursor_position % menu_options.size();
+
+      return;
+
+
+  - name: activate_current_selected_menu_option
+    virtual: true
+    body: |
+      // TODO: Consider case where there is an emtpy list
+      // TODO: Remove the emit_game_event as a technique here, rely on callback only
+      std::string current_menu_option_value = infer_current_menu_option_value();
+      //event_emitter->emit_game_event(current_menu_option_value);
+      // TODO: Test this callback
+      if (on_menu_choice_callback_func) on_menu_choice_callback_func(this, on_menu_choice_callback_func_user_data);
+      return;
+    
+
+  - name: select_menu_option
+    private: true
+    body: |
+      if (!processing_user_input_on_main_menu()) return;
+
+      if (menu_is_empty())
+      {
+         std::cout <<
+            "[AllegroFlare::Screens::TitledMenuScreen::select_menu_option()] error: can not select a menu item, "
+            "the menu is empty."
+            << std::endl;
+         return;
+      }
+
+      if (current_menu_option_must_be_confirmed()) set_state(STATE_AWAITING_USER_CONFIRMATION);
+      else set_state(STATE_MENU_OPTION_IS_CHOSEN);
+
+      if (menu_select_option_sound_effect_enabled) play_menu_select_option_sound_effect();
+
+      return;
+    body_dependency_symbols:
+      - ALLEGRO_FLARE_EVENT_START_NEW_GAME
+
+
+  - name: current_menu_option_must_be_confirmed
+    type: bool
+    body: |
+      std::set<std::string> choices_requiring_confirmation = { "exit_game*" };
+      std::string current_menu_value = infer_current_menu_option_value();
+      return choices_requiring_confirmation.find(current_menu_value) != choices_requiring_confirmation.end();
+
+
+  - name: processing_user_input_on_main_menu
+    type: bool
+    body: |
+      return is_state(STATE_REVEALED_AND_AWAITING_USER_INPUT); 
+
+
+  - name: is_state
+    type: bool
+    parameters:
+      - name: possible_state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+     return (state == possible_state);
+
+
+  - name: primary_update_func
+    virtual: true
+    override: true
+    parameters:
+      - name: time_now
+        type: double
+        default_argument: 0.0
+      - name: time_step
+        type: double
+        default_argument: 0.0
+    body: |
+      state_accumulated_age += time_step;
+      
+      update(state_accumulated_age); // TODO: Fix methods' signature and arguments
+      render();
+      return;
+
+
+  - name: primary_render_func
+    virtual: true
+    override: true
+    body: |
+      render();
+      return;
+
+
+  - name: render
+    guards: [ initialized, (!destroyed), is_valid_state(state) ]
+    body: |
+      draw_title();
+      if (showing_copyright) draw_copyright_text();
+      if (showing_menu) draw_menu();
+      if (showing_confirmation_dialog) draw_confirmation_dialog();
+      return;
+
+
+  - name: draw_title
+    body: |
+      if (!title_bitmap_name.empty())
+      {
+         ALLEGRO_BITMAP *title_bitmap = obtain_title_bitmap();
+         float reveal_opacity = infer_reveal_age_n();
+         ALLEGRO_COLOR tint = ALLEGRO_COLOR{reveal_opacity, reveal_opacity, reveal_opacity, reveal_opacity};
+         if (title_bitmap)
+         {
+            AllegroFlare::Placement2D place;
+            place.position.x = title_position_x;
+            place.position.y = title_position_y;
+            place.size.x = al_get_bitmap_width(title_bitmap);
+            place.size.y = al_get_bitmap_height(title_bitmap);
+            place.start_transform();
+            al_draw_tinted_bitmap(title_bitmap, tint, 0, 0, 0);
+            place.restore_transform();
+         }
+      }
+      else if (!title_text.empty())
+      {
+         // TODO: review guards on this function
+         ALLEGRO_FONT *title_font = obtain_title_font();
+         float reveal_opacity = infer_reveal_age_n();
+         ALLEGRO_COLOR revealed_color = ALLEGRO_COLOR{
+            reveal_opacity * title_text_color.r,
+            reveal_opacity * title_text_color.g,
+            reveal_opacity * title_text_color.b,
+            reveal_opacity * title_text_color.a
+         };
+         //int surface_width = 1920;
+         //int surface_height = 1080;
+         al_draw_multiline_text(
+            title_font,
+            revealed_color,
+            title_position_x,
+            title_position_y,
+            1920,
+            al_get_font_line_height(title_font),
+            ALLEGRO_ALIGN_CENTER,
+            get_title_text().c_str()
+         );
+      }
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Placement2D
+      - std::max
+      - std::min
+
+
+  - name: draw_copyright_text
+    body: |
+      // TODO: review guards on this function
+      ALLEGRO_FONT *copyright_font = obtain_copyright_font();
+      //int surface_width = 1920;
+      //int surface_height = 1080;
+      float line_height = al_get_font_line_height(copyright_font);
+
+      int number_of_lines = 1;
+      for (int i = 0; i < copyright_text.size(); i++) if (copyright_text[i] == '\n') number_of_lines++;
+
+      al_draw_multiline_text(
+         copyright_font,
+         copyright_text_color,
+         surface_width/2,
+         surface_height - 80 - (int)(number_of_lines * line_height / 2),
+         surface_width * 2,
+         line_height,
+         ALLEGRO_ALIGN_CENTER,
+         copyright_text.c_str()
+      );
+
+      return;
+
+
+  - name: draw_cursor_box
+    static: true
+    parameters:
+      - name: x
+        type: float
+        default_argument: 0.0f
+      - name: y
+        type: float
+        default_argument: 0.0f
+      - name: width
+        type: float
+        default_argument: 1.0f
+      - name: height
+        type: float
+        default_argument: 1.0f
+      - name: fill_color
+        type: ALLEGRO_COLOR
+        default_argument: ALLEGRO_COLOR{1, 1, 1, 1}
+      - name: outline_color
+        type: ALLEGRO_COLOR
+        default_argument: ALLEGRO_COLOR{1, 1, 1, 1}
+      - name: outline_stroke_thickness
+        type: float
+        default_argument: 1.0f
+      - name: menu_option_chosen
+        type: bool
+        default_argument: false
+      - name: menu_option_chosen_at
+        type: float
+        default_argument: 0.0f
+      - name: menu_option_selection_to_activation_delay
+        type: float
+        default_argument: 1.0f
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+        default_argument_dependency_symbols: [ al_get_time ]
+    body: |
+      ALLEGRO_COLOR result_fill_color = fill_color; //ALLEGRO_COLOR{0, 0, 0, 0};
+      ALLEGRO_COLOR result_outline_color = outline_color; //ALLEGRO_COLOR{1, 1, 1, 1};
+
+      if (menu_option_chosen)
+      {
+         float selection_animation_length = menu_option_selection_to_activation_delay;
+         float selection_strobes_per_second = 14.0f;
+
+         float menu_option_chosen_at_age = AllegroFlare::MotionKit::age(menu_option_chosen_at, time_now);
+         bool strobe_on = AllegroFlare::MotionKit::strobe(
+            menu_option_chosen_at,
+            time_now,
+            selection_strobes_per_second
+         );
+
+         float menu_option_chosen_at_normalized_age = AllegroFlare::MotionKit::normalize_age(
+            menu_option_chosen_at,
+            menu_option_chosen_at + selection_animation_length,
+            time_now
+         );
+         ALLEGRO_COLOR cursor_color_a = AllegroFlare::ColorKit::fade(result_fill_color, 1.0);
+         ALLEGRO_COLOR cursor_color_b = AllegroFlare::ColorKit::fade(result_fill_color, 0.5);
+         ALLEGRO_COLOR cursor_animation_at_rest_color = AllegroFlare::ColorKit::fade(result_fill_color, 0.2);
+
+         ALLEGRO_COLOR strobing_color = AllegroFlare::ColorKit::mix(
+            cursor_color_a,
+            cursor_color_b,
+            strobe_on ? 1.0f : 0.0f
+         );
+
+         result_fill_color = AllegroFlare::ColorKit::mix(
+            strobing_color,
+            cursor_animation_at_rest_color,
+            menu_option_chosen_at_normalized_age
+         );
+      }
+
+      float h_box_width = width * 0.5;
+      float h_box_height = height * 0.5;
+
+      // draw the fill
+      al_draw_filled_rectangle(x-h_box_width, y-h_box_height, x+h_box_width, y+h_box_height, result_fill_color);
+
+      // draw the outline (which is invisible by default)
+      al_draw_rectangle(
+         x-h_box_width,
+         y-h_box_height,
+         x+h_box_width,
+         y+h_box_height,
+         result_outline_color,
+         outline_stroke_thickness
+      );
+      return;
+    body_dependency_symbols:
+      - fmod
+      - AllegroFlare::MotionKit
+      - AllegroFlare::ColorKit
+
+
+  - name: draw_menu
+    guards: [ al_is_primitives_addon_initialized() ]
+    body: |
+      // TODO: review guards on this function
+      ALLEGRO_FONT *menu_font = obtain_menu_font();
+      //int surface_width = 1920;
+      //int surface_height = 1080;
+      float h_font_line_height = (int)(al_get_font_line_height(menu_font) * 0.5f);
+      float menu_item_vertical_spacing = (int)(al_get_font_line_height(menu_font) * 1.5f);
+      int menu_item_num = 0;
+
+      // get longest menu option text length
+      int longest_menu_option_text_width = 0;
+      for (auto &menu_option : menu_options)
+      {
+         std::string menu_item_text = std::get<0>(menu_option);
+         int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
+         if (this_menu_item_text_width > longest_menu_option_text_width)
+            longest_menu_option_text_width = this_menu_item_text_width;
+      }
+
+      // render each menu item
+      for (auto &menu_option : menu_options)
+      {
+         bool showing_cursor_on_this_option = false;
+         if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
+         std::string menu_item_text = std::get<0>(menu_option);
+
+         ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
+            ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;
+
+         float x = menu_position_x;
+         float y = menu_position_y + menu_item_vertical_spacing * menu_item_num;
+
+         if (showing_cursor_on_this_option)
+         {
+            float box_width = longest_menu_option_text_width + 148;
+            float box_height = al_get_font_line_height(menu_font) + 6;
+
+            draw_cursor_box(
+               x,
+               y,
+               box_width,
+               box_height,
+               menu_selector_color,
+               menu_selector_outline_color,
+               menu_selector_outline_stroke_thickness,
+               menu_option_chosen,
+               menu_option_chosen_at,
+               menu_option_selection_to_activation_delay,
+               al_get_time()
+            );
+         }
+
+         al_draw_text(
+            menu_font,
+            this_menu_text_color,
+            (int)x,
+            (int)(y-h_font_line_height),
+            ALLEGRO_ALIGN_CENTER,
+            menu_item_text.c_str()
+         );
+
+         menu_item_num++;
+      }
+      return;
+    body_dependency_symbols:
+      - al_draw_rectangle
+      - al_draw_filled_rectangle
+      - al_is_primitives_addon_initialized
+
+
+  - name: draw_confirmation_dialog
+    guards: [ al_is_primitives_addon_initialized() ]
+    body: |
+      // TODO: review guards on this function
+      ALLEGRO_FONT *menu_font = obtain_menu_font();
+      //int surface_width = 1920;
+      //int surface_height = 1080;
+      float h_font_line_height = (int)(al_get_font_line_height(menu_font) * 0.5f);
+      float menu_item_vertical_spacing = (int)(al_get_font_line_height(menu_font) * 1.4f);
+      int menu_item_num = 0;
+
+      // get longest menu option text length
+      int longest_menu_option_text_width = 0;
+      auto confirmation_dialog_menu_options = build_confirmation_dialog_menu_options();
+      for (auto &menu_option : confirmation_dialog_menu_options)
+      {
+         std::string menu_item_text = std::get<0>(menu_option);
+         int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
+         if (this_menu_item_text_width > longest_menu_option_text_width)
+            longest_menu_option_text_width = this_menu_item_text_width;
+      }
+
+      // render each menu item
+      
+      for (auto &menu_option : confirmation_dialog_menu_options)
+      {
+         bool showing_cursor_on_this_option = false;
+         if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
+         std::string menu_item_text = std::get<0>(menu_option);
+
+         ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
+            ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;
+
+         float x = menu_position_x + 200;
+         float y = menu_position_y + menu_item_vertical_spacing * menu_item_num;
+
+         if (showing_cursor_on_this_option)
+         {
+            float box_width = longest_menu_option_text_width + 148;
+            float box_height = al_get_font_line_height(menu_font) + 6;
+
+            draw_cursor_box(
+               x,
+               y,
+               box_width,
+               box_height,
+               menu_selector_color,
+               menu_selector_outline_color,
+               menu_selector_outline_stroke_thickness,
+               menu_option_chosen,
+               menu_option_chosen_at,
+               menu_option_selection_to_activation_delay,
+               al_get_time()
+            );
+         }
+
+         al_draw_text(
+            menu_font,
+            this_menu_text_color,
+            (int)x,
+            (int)(y-h_font_line_height),
+            ALLEGRO_ALIGN_CENTER,
+            menu_item_text.c_str()
+         );
+
+         menu_item_num++;
+      }
+      return;
+    body_dependency_symbols:
+      - al_draw_rectangle
+      - al_draw_filled_rectangle
+      - al_is_primitives_addon_initialized
+
+
+  - name: infer_current_menu_option_value
+    type: std::string
+    body: |
+      if (menu_options.empty()) return "";
+      if (cursor_position < 0 || cursor_position >= menu_options.size())
+      {
+         throw std::runtime_error("[AllegroFlare/Screens/TitledMenuScreen]: error: cursor_position is not in "
+                                  "a valid position to get the current menu choice's value.");
+      }
+      std::string current_menu_option_value = std::get<1>(menu_options[cursor_position]);
+      return current_menu_option_value;
+
+
+  - name: infer_current_menu_option_label
+    type: std::string
+    body: |
+      if (menu_options.empty()) return "";
+      if (cursor_position < 0 || cursor_position >= menu_options.size())
+      {
+         throw std::runtime_error("[AllegroFlare/Screens/TitledMenuScreen]: error: cursor_position is not in "
+                                  "a valid position to get the current menu choice's label.");
+      }
+      std::string current_menu_option_value = std::get<1>(menu_options[cursor_position]);
+      return current_menu_option_value;
+
+
+  - name: play_menu_move_sound_effect
+    body: |
+      // TODO: Call a callback
+      //event_emitter->emit_play_sound_effect_event(menu_move_sound_effect_identifier);
+      return;
+
+
+  - name: play_menu_select_option_sound_effect
+    body: |
+      // TODO: Call a callback
+      //event_emitter->emit_play_sound_effect_event(menu_select_option_sound_effect_identifier);
+      return;
+
+
+  - name: obtain_title_font
+    private: true
+    type: ALLEGRO_FONT*
+    guards: [ font_bin ]
+    body: |
+      std::stringstream composite_font_str;
+      composite_font_str << title_font_name << " " << title_font_size;
+      return font_bin->auto_get(composite_font_str.str());
+
+
+  - name: obtain_menu_font
+    private: true
+    type: ALLEGRO_FONT*
+    guards: [ font_bin ]
+    body: |
+      std::stringstream composite_font_str;
+      composite_font_str << menu_font_name << " " << menu_font_size;
+      return font_bin->auto_get(composite_font_str.str());
+
+
+  - name: obtain_copyright_font
+    private: true
+    type: ALLEGRO_FONT*
+    guards: [ font_bin ]
+    body: |
+      std::stringstream composite_font_str;
+      composite_font_str << copyright_font_name << " " << copyright_font_size;
+      return font_bin->auto_get(composite_font_str.str());
+
+
+  - name: obtain_title_bitmap
+    private: true
+    type: ALLEGRO_BITMAP*
+    guards: [ bitmap_bin ]
+    body: |
+      return bitmap_bin->auto_get(title_bitmap_name);
+
+
+  - name: joy_button_down_func
+    virtual: true
+    override: true
+    parameters:
+      - name: ev
+        type: ALLEGRO_EVENT*
+        default_argument: nullptr
+    body: |
+      // NOTE: These joystick controls are intended to be temporary, and eventually replaced with virtual controls
+      // TODO: Replace these with virtual controls
+      select_menu_option();
+      return;
+
+
+  - name: joy_axis_func
+    virtual: true
+    override: true
+    parameters:
+      - name: ev
+        type: ALLEGRO_EVENT*
+        default_argument: nullptr
+    body: |
+      // NOTE: These joystick controls are intended to be temporary, and eventually replaced with virtual controls
+      // TODO: Replace these with virtual controls
+
+      static float axis_x = 0;
+      static float axis_y = 0;
+
+      int stick = ev->joystick.stick;
+      int axis = ev->joystick.axis;
+      float pos = ev->joystick.pos;
+
+      float min_stick_break_threshold = 0.4;
+
+      switch (stick)
+      {
+         case 0: { // The primary joystick, on the left
+           if (axis == 0) // horizontal axis
+           {
+              //if (axis_x < min_stick_break_threshold && pos >= min_stick_break_threshold) 
+                  //level_select_element.move_cursor_right();
+              //if (axis_x > -min_stick_break_threshold && pos <= -min_stick_break_threshold) 
+                  //level_select_element.move_cursor_left();
+              axis_x = pos;
+           }
+           else if (axis == 1) // vertical axis
+           {
+              if (axis_y < min_stick_break_threshold && pos >= min_stick_break_threshold) move_cursor_down();
+                  //level_select_element.move_cursor_down();
+              if (axis_y > -min_stick_break_threshold && pos <= -min_stick_break_threshold) move_cursor_up();
+                  //level_select_element.move_cursor_up();
+              axis_y = pos;
+           }
+         } break;
+
+         case 1: { // The secondary joystick, on the right
+         } break;
+
+         case 2: { // The hat, on the left
+         } break;
+      }
+
+      return;
+
+
+  - name: virtual_control_button_down_func
+    virtual: true
+    override: true
+    parameters:
+      - name: player
+        type: AllegroFlare::Player*
+        default_argument: nullptr
+      - name: virtual_controller
+        type: AllegroFlare::VirtualControllers::Base*
+        default_argument: nullptr
+      - name: virtual_controller_button_num
+        type: int
+        default_argument: 0
+      - name: is_repeat
+        type: bool
+        default_argument: false
+    body: |
+      if (!processing_user_input_on_main_menu()) return;
+
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_UP) move_cursor_up();
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_DOWN) move_cursor_down();
+      if (virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_A
+         || virtual_controller_button_num == VirtualControllers::GenericController::BUTTON_MENU
+         )
+      {
+         select_menu_option();
+      }
+    body_dependency_symbols:
+      - AllegroFlare::VirtualControllers::GenericController
+
+
+  - name: menu_is_empty
+    type: bool
+    private: true
+    body: |
+      return menu_options.empty();
+
+
+  - name: menu_has_items
+    type: bool
+    private: true
+    body: |
+      return !menu_is_empty();
+
+
+  - name: build_default_menu_options
+    type: std::vector<std::pair<std::string, std::string>>
+    static: true
+    body: |
+      std::vector<std::pair<std::string, std::string>> result;
+      result = {
+         { "Start new game", "start_new_game" },
+         { "Credits", "show_credits" },
+         { "Exit", "exit_game*" }
+      };
+      return result;
+
+
+  - name: build_confirmation_dialog_menu_options
+    type: std::vector<std::pair<std::string, std::string>>
+    static: true
+    body: |
+      std::vector<std::pair<std::string, std::string>> result;
+      result = {
+         { "yes", "exit_game" },
+         { "no", "close_confirmation_dialog" },
+      };
+      return result;
+
+
+dependencies:
+
+
+  - symbol: fmod
+    headers: [ cmath ]
+  - symbol: al_get_time
+    headers: [ allegro5/allegro.h ]
+  - symbol: ALLEGRO_FLARE_EVENT_START_NEW_GAME
+    headers: [ AllegroFlare/EventNames.hpp ]
+  - symbol: std::vector<std::pair<std::string, std::string>>
+    headers: [ vector, utility, string ]
+  - symbol: AllegroFlare::Screens::Base
+    headers: [ AllegroFlare/Screens/Base.hpp ]
+  - symbol: ALLEGRO_COLOR
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Placement2D
+    headers: [ AllegroFlare/Placement2D.hpp ]
+  - symbol: AllegroFlare::VirtualController
+    headers: [ AllegroFlare/VirtualController.hpp ]
+  - symbol: al_draw_rectangle
+    headers: [ allegro5/allegro_primitives.h ]
+  - symbol: al_draw_filled_rectangle
+    headers: [ allegro5/allegro_primitives.h ]
+  - symbol: al_is_primitives_addon_initialized
+    headers: [ allegro5/allegro_primitives.h ]
+  - symbol: ALLEGRO_BITMAP
+    headers: [ allegro5/allegro.h ]
+  - symbol: ALLEGRO_FONT
+    headers: [ allegro5/allegro_font.h ]
+  - symbol: AllegroFlare::FontBin
+    headers: [ AllegroFlare/FontBin.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
+  - symbol: AllegroFlare::Player
+    headers: [ AllegroFlare/Player.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::Base
+    headers: [ AllegroFlare/VirtualControllers/Base.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::GenericController
+    headers: [ AllegroFlare/VirtualControllers/GenericController.hpp ]
+  - symbol: AllegroFlare::Player
+    headers: [ AllegroFlare/Player.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::Base
+    headers: [ AllegroFlare/VirtualControllers/Base.hpp ]
+  - symbol: AllegroFlare::VirtualControllers::GenericController
+    headers: [ AllegroFlare/VirtualControllers/GenericController.hpp ]
+  - symbol: AllegroFlare::Screens::TitledMenuScreen
+    headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
+  - symbol: AllegroFlare::MotionKit
+    headers: [ AllegroFlare/MotionKit.hpp ]
+  - symbol: AllegroFlare::ColorKit
+    headers: [ AllegroFlare/ColorKit.hpp ]
+  - symbol: AllegroFlare::Elements::Backgrounds::Base
+    headers: [ AllegroFlare/Elements/Backgrounds/Base.hpp ]
+  - symbol: ALLEGRO_EVENT
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+
+

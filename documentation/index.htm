@@ -54,6 +54,7 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
+  <li><a href="#quintessence/AllegroFlare/Screens/TitledMenuScreen.q.yml">quintessence/AllegroFlare/Screens/TitledMenuScreen.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/DynamicsWorld.q.yml">quintessence/BulletPhysics/DynamicsWorld.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Basic.q.yml">quintessence/BulletPhysics/Examples/Basic.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</a></li>
@@ -67,6 +68,495 @@ table td
   <li><a href="#quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</a></li>
 </ul>
 <h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/AllegroFlare/Screens/TitledMenuScreen.q.yml">quintessence/AllegroFlare/Screens/TitledMenuScreen.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">font_bin</td>
+  <td class="property">AllegroFlare::FontBin*</td>
+</tr>
+<tr>
+  <td class="property">bitmap_bin</td>
+  <td class="property">AllegroFlare::BitmapBin*</td>
+</tr>
+<tr>
+  <td class="property">surface_width</td>
+  <td class="property">std::size_t</td>
+</tr>
+<tr>
+  <td class="property">surface_height</td>
+  <td class="property">std::size_t</td>
+</tr>
+<tr>
+  <td class="property">title_text</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">copyright_text</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">title_bitmap_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">title_font_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">menu_font_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">copyright_font_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">title_text_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">menu_text_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">menu_selector_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">menu_selector_outline_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">menu_selected_text_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">copyright_text_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">menu_selector_outline_stroke_thickness</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">title_font_size</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">menu_font_size</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">copyright_font_size</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">menu_options</td>
+  <td class="property">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_menu_choice_callback_func</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_menu_choice_callback_func_user_data</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
+  <td class="property">on_finished_callback_func</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_finished_callback_func_user_data</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
+  <td class="property">title_position_x</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">title_position_y</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">menu_position_x</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">menu_position_y</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">cursor_position</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">menu_move_sound_effect_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">menu_move_sound_effect_enabled</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">menu_select_option_sound_effect_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">menu_select_option_sound_effect_enabled</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">menu_option_selection_to_activation_delay</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">reveal_duration</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">reveal_started_at</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">showing_menu</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">showing_copyright</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">state</td>
+  <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">state_is_busy</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">state_changed_at</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">state_accumulated_age</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">menu_option_chosen</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">menu_option_chosen_at</td>
+  <td class="property">double</td>
+</tr>
+<tr>
+  <td class="property">menu_option_activated</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">showing_confirmation_dialog</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destroyed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>TODO</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>start</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_font_name</b>(std::string font_name=&quot;[unset-font_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>reveal</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update</b>(float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_valid_state</b>(uint32_t state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">double</td>
+  <td class="method"><b>infer_age</b>(double time_of_event=0.0, double time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">double</td>
+  <td class="method"><b>infer_reveal_age</b>(double time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">double</td>
+  <td class="method"><b>infer_reveal_age_n</b>(double time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>show_menu</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_activate</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>skip_to_title</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_menu_options</b>(std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt; menu_options={})</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>move_cursor_up</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>move_cursor_down</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>activate_current_selected_menu_option</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>select_menu_option</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>current_menu_option_must_be_confirmed</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>processing_user_input_on_main_menu</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>primary_update_func</b>(double time_now=0.0, double time_step=0.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>primary_render_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>render</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_title</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_copyright_text</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_menu</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_confirmation_dialog</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>infer_current_menu_option_value</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>infer_current_menu_option_label</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>play_menu_move_sound_effect</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>play_menu_select_option_sound_effect</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">ALLEGRO_FONT*</td>
+  <td class="private_method"><b>obtain_title_font</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">ALLEGRO_FONT*</td>
+  <td class="private_method"><b>obtain_menu_font</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">ALLEGRO_FONT*</td>
+  <td class="private_method"><b>obtain_copyright_font</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">ALLEGRO_BITMAP*</td>
+  <td class="private_method"><b>obtain_title_bitmap</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>joy_button_down_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>joy_axis_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_button_down_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
+</tr>
+<tr>
+  <td class="private_method">bool</td>
+  <td class="private_method"><b>menu_is_empty</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">bool</td>
+  <td class="private_method"><b>menu_has_items</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+  <td class="method"><b>build_default_menu_options</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+  <td class="method"><b>build_confirmation_dialog_menu_options</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;fmod&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_get_time&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FLARE_EVENT_START_NEW_GAME&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventNames.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;&quot;, &quot;headers&quot;=&gt;[&quot;vector&quot;, &quot;utility&quot;, &quot;string&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_COLOR&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Placement2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Placement2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_draw_rectangle&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_primitives.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_draw_filled_rectangle&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_primitives.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_is_primitives_addon_initialized&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_primitives.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_BITMAP&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::FontBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/FontBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Player&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Player.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::GenericController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/GenericController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Player&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Player.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::GenericController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/GenericController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::TitledMenuScreen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/TitledMenuScreen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::MotionKit&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/MotionKit.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ColorKit&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ColorKit.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::Backgrounds::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/Backgrounds/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_EVENT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -1530,7 +2020,95 @@ table td
 <h1>Dependents</h1>
 <pre>
 {
+  "fmod": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "al_get_time": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "ALLEGRO_FLARE_EVENT_START_NEW_GAME": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "std/vector<std/pair<std/string, std/string>>": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/Screens/Base": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "ALLEGRO_COLOR": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/Placement2D": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/VirtualController": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "al_draw_rectangle": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "al_draw_filled_rectangle": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "al_is_primitives_addon_initialized": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_BITMAP": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "ALLEGRO_FONT": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Player": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/TitledMenuScreen": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/MotionKit": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/ColorKit": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "AllegroFlare/Elements/Backgrounds/Base": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
+  "ALLEGRO_EVENT": [
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Gameplay/Screen"
+  ],
   "AllegroFlare/Logger": [
+    "AllegroFlare/Screens/TitledMenuScreen",
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
@@ -1654,18 +2232,6 @@ table td
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Gameplay/Screen"
   ],
-  "AllegroFlare/FontBin": [
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/BitmapBin": [
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "ALLEGRO_FONT": [
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],
@@ -1742,24 +2308,6 @@ table td
   ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
-  ],
-  "ALLEGRO_EVENT": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/EventEmitter": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "al_is_primitives_addon_initialized": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/Player": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/Base": [
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/GenericController": [
-    "BulletPhysics/Gameplay/Screen"
   ],
   "AllegroFlare/AssetStudio/Database": [
     "BulletPhysics/Gameplay/Screen"
