@@ -87,6 +87,7 @@ namespace AllegroFlare
          double menu_option_chosen_at;
          bool menu_option_activated;
          bool showing_confirmation_dialog;
+         bool upcase_menu_items;
          bool initialized;
          bool destroyed;
          void move_cursor_up();
@@ -139,6 +140,7 @@ namespace AllegroFlare
          void set_menu_select_option_sound_effect_enabled(bool menu_select_option_sound_effect_enabled);
          void set_menu_option_selection_to_activation_delay(double menu_option_selection_to_activation_delay);
          void set_reveal_duration(double reveal_duration);
+         void set_upcase_menu_items(bool upcase_menu_items);
          std::size_t get_surface_width() const;
          std::size_t get_surface_height() const;
          std::string get_title_text() const;
@@ -173,6 +175,7 @@ namespace AllegroFlare
          bool get_menu_select_option_sound_effect_enabled() const;
          double get_menu_option_selection_to_activation_delay() const;
          double get_reveal_duration() const;
+         bool get_upcase_menu_items() const;
          bool get_initialized() const;
          void TODO();
          void initialize();
@@ -201,6 +204,7 @@ namespace AllegroFlare
          void draw_footer_text();
          static void draw_cursor_box(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=al_get_time());
          void draw_menu();
+         std::string transform_menu_item_text(std::string menu_item_text="[unset-menu_item_text]");
          void draw_confirmation_dialog();
          std::string infer_current_menu_option_value();
          std::string infer_current_menu_option_label();

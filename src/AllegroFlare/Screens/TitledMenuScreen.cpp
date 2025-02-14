@@ -7,6 +7,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/MotionKit.hpp>
 #include <AllegroFlare/Placement2D.hpp>
+#include <AllegroFlare/StringTransformer.hpp>
 #include <AllegroFlare/VirtualControllers/GenericController.hpp>
 #include <algorithm>
 #include <allegro5/allegro_primitives.h>
@@ -73,6 +74,7 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_option_chosen_at(0.0)
    , menu_option_activated(false)
    , showing_confirmation_dialog(false)
+   , upcase_menu_items(false)
    , initialized(false)
    , destroyed(false)
 {
@@ -290,6 +292,12 @@ void TitledMenuScreen::set_reveal_duration(double reveal_duration)
 }
 
 
+void TitledMenuScreen::set_upcase_menu_items(bool upcase_menu_items)
+{
+   this->upcase_menu_items = upcase_menu_items;
+}
+
+
 std::size_t TitledMenuScreen::get_surface_width() const
 {
    return surface_width;
@@ -491,6 +499,12 @@ double TitledMenuScreen::get_menu_option_selection_to_activation_delay() const
 double TitledMenuScreen::get_reveal_duration() const
 {
    return reveal_duration;
+}
+
+
+bool TitledMenuScreen::get_upcase_menu_items() const
+{
+   return upcase_menu_items;
 }
 
 
@@ -1078,7 +1092,8 @@ void TitledMenuScreen::draw_menu()
    int longest_menu_option_text_width = 0;
    for (auto &menu_option : menu_options)
    {
-      std::string menu_item_text = std::get<0>(menu_option);
+      std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
+
       int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
       if (this_menu_item_text_width > longest_menu_option_text_width)
          longest_menu_option_text_width = this_menu_item_text_width;
@@ -1089,7 +1104,7 @@ void TitledMenuScreen::draw_menu()
    {
       bool showing_cursor_on_this_option = false;
       if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
-      std::string menu_item_text = std::get<0>(menu_option);
+      std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
 
       ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
          ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;
@@ -1131,6 +1146,12 @@ void TitledMenuScreen::draw_menu()
    return;
 }
 
+std::string TitledMenuScreen::transform_menu_item_text(std::string menu_item_text)
+{
+   if (upcase_menu_items) menu_item_text = AllegroFlare::StringTransformer(menu_item_text).upcase().get_text();
+   return menu_item_text;
+}
+
 void TitledMenuScreen::draw_confirmation_dialog()
 {
    if (!(al_is_primitives_addon_initialized()))
@@ -1153,7 +1174,8 @@ void TitledMenuScreen::draw_confirmation_dialog()
    auto confirmation_dialog_menu_options = build_confirmation_dialog_menu_options();
    for (auto &menu_option : confirmation_dialog_menu_options)
    {
-      std::string menu_item_text = std::get<0>(menu_option);
+      std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
+
       int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
       if (this_menu_item_text_width > longest_menu_option_text_width)
          longest_menu_option_text_width = this_menu_item_text_width;
@@ -1165,7 +1187,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
    {
       bool showing_cursor_on_this_option = false;
       if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
-      std::string menu_item_text = std::get<0>(menu_option);
+      std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
 
       ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
          ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;

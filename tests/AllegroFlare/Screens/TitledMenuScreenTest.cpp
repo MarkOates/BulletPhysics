@@ -73,6 +73,26 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture, CAP
    title_screen.render();
 
    al_flip_display();
+
+   title_screen.destroy();
+   SUCCEED();
+}
+
+
+TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
+   CAPTURE__render__when_upcase_menu_items_is_true__will_render_menu_items_in_all_caps)
+{
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
+   title_screen.initialize();
+
+   title_screen.set_upcase_menu_items(true);
+   title_screen.reveal();
+
+   title_screen.render();
+
+   al_flip_display();
+
+   title_screen.destroy();
    SUCCEED();
 }
 
@@ -88,6 +108,8 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.render();
 
    al_flip_display();
+
+   title_screen.destroy();
    SUCCEED();
 }
 
@@ -104,6 +126,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.render();
 
    al_flip_display();
+   title_screen.destroy();
    SUCCEED();
 }
 
@@ -229,28 +252,28 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFixture,
-   FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer)
+   TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
    title_screen.initialize();
 
    framework_register_and_activate_screen("title_screen", &title_screen);
 
-   framework_run_loop(3);
+   framework_run_loop(1);
 
    title_screen.destroy();
 }
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroFlareFrameworksFullFixture,
-   FOCUS__TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer_2)
+   TIMED_INTERACTIVE__will_work_in_a_frameworks_full_context__with_a_non_display_backbuffer_2)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_framework_data_folder_path());
    title_screen.initialize();
 
    framework_register_and_activate_screen("title_screen", &title_screen);
 
-   framework_run_loop(3);
+   framework_run_loop(1);
 
    title_screen.destroy();
 }

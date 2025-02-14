@@ -95,6 +95,9 @@
     "BulletPhysics/Examples/Mesh",
     "BulletPhysics/GameplayMetaState/Basic"
   ],
+  "AllegroFlare/StringTransformer": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",

@@ -287,6 +287,12 @@ properties:
     type: bool
     init_with: false
 
+  - name: upcase_menu_items
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
+
   - name: initialized
     type: bool
     init_with: false
@@ -905,7 +911,8 @@ methods:
       int longest_menu_option_text_width = 0;
       for (auto &menu_option : menu_options)
       {
-         std::string menu_item_text = std::get<0>(menu_option);
+         std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
+
          int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
          if (this_menu_item_text_width > longest_menu_option_text_width)
             longest_menu_option_text_width = this_menu_item_text_width;
@@ -916,7 +923,7 @@ methods:
       {
          bool showing_cursor_on_this_option = false;
          if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
-         std::string menu_item_text = std::get<0>(menu_option);
+         std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
 
          ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
             ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;
@@ -960,6 +967,18 @@ methods:
       - al_draw_rectangle
       - al_draw_filled_rectangle
       - al_is_primitives_addon_initialized
+      - AllegroFlare::StringTransformer
+
+
+  - name: transform_menu_item_text
+    type: std::string
+    parameters:
+      - name: menu_item_text
+        type: std::string
+        default_argument: '"[unset-menu_item_text]"'
+    body: |
+      if (upcase_menu_items) menu_item_text = AllegroFlare::StringTransformer(menu_item_text).upcase().get_text();
+      return menu_item_text;
 
 
   - name: draw_confirmation_dialog
@@ -978,7 +997,8 @@ methods:
       auto confirmation_dialog_menu_options = build_confirmation_dialog_menu_options();
       for (auto &menu_option : confirmation_dialog_menu_options)
       {
-         std::string menu_item_text = std::get<0>(menu_option);
+         std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
+
          int this_menu_item_text_width = al_get_text_width(menu_font, menu_item_text.c_str());
          if (this_menu_item_text_width > longest_menu_option_text_width)
             longest_menu_option_text_width = this_menu_item_text_width;
@@ -990,7 +1010,7 @@ methods:
       {
          bool showing_cursor_on_this_option = false;
          if (menu_item_num == cursor_position) showing_cursor_on_this_option = true;
-         std::string menu_item_text = std::get<0>(menu_option);
+         std::string menu_item_text = transform_menu_item_text(std::get<0>(menu_option));
 
          ALLEGRO_COLOR this_menu_text_color = showing_cursor_on_this_option
             ? (menu_option_chosen ? menu_text_color : menu_selected_text_color) : menu_text_color;
