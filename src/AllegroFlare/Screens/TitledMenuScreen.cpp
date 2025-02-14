@@ -890,7 +890,6 @@ void TitledMenuScreen::primary_update_func(double time_now, double time_step)
    state_accumulated_age += time_step;
 
    update(state_accumulated_age); // TODO: Fix methods' signature and arguments
-   render();
    return;
 }
 

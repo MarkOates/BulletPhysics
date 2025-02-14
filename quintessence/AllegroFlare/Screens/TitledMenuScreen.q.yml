@@ -697,7 +697,6 @@ methods:
       state_accumulated_age += time_step;
       
       update(state_accumulated_age); // TODO: Fix methods' signature and arguments
-      render();
       return;
 
 
@@ -1309,5 +1308,7 @@ dependencies:
     headers: [ allegro5/allegro.h ]
   - symbol: AllegroFlare::Logger
     headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: AllegroFlare::StringTransformer
+    headers: [ AllegroFlare/StringTransformer.hpp ]
 
 
