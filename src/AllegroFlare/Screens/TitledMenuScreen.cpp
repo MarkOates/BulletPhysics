@@ -53,9 +53,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , on_finished_callback_func()
    , on_finished_callback_func_user_data(nullptr)
    , title_position_x(1920 / 2)
-   , title_position_y((1080 / 24 * 9))
+   , title_position_y((1080 / 48 * 18))
    , menu_position_x(1920 / 2)
-   , menu_position_y(1080 / 12 * 7)
+   , menu_position_y(1080 / 24 * 14)
    , menu_item_vertical_spacing_distance(0.0f)
    , menu_item_vertical_spacing_font_line_height_multiplier(1.75f)
    , menu_item_vertical_spacing_integerize_positions(true)
@@ -67,6 +67,7 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_option_selection_to_activation_delay(1.0)
    , reveal_duration(1.0)
    , reveal_started_at(0.0)
+   , title_revealed(false)
    , showing_menu(false)
    , showing_footer_text(false)
    , state(STATE_UNDEF)
@@ -690,10 +691,13 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
    if (!override_if_busy && state_is_busy) return;
    uint32_t previous_state = this->state;
 
+   this->state = state;
+   state_changed_at = state_accumulated_age;
+
    switch (state)
    {
       case STATE_REVEALING:
-         reveal_started_at = al_get_time(); // TODO: Consider injecting time
+         reveal_started_at = state_accumulated_age;
          cursor_position = 0;
          showing_menu = false;
          showing_footer_text = false;
@@ -705,13 +709,14 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
       case STATE_REVEALED_AND_AWAITING_USER_INPUT:
          menu_option_chosen = false;
          menu_option_activated = false;
+         title_revealed = true;
          show_menu();
       break;
 
       case STATE_MENU_OPTION_IS_CHOSEN:
          menu_option_chosen = true;
          menu_option_activated = false;
-         menu_option_chosen_at = al_get_time();
+         menu_option_chosen_at = state_accumulated_age;
       break;
 
       case STATE_AWAITING_USER_CONFIRMATION:
@@ -726,9 +731,6 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
       break;
    }
 
-   this->state = state;
-   state_changed_at = al_get_time();
-
    return;
 }
 
@@ -739,7 +741,7 @@ void TitledMenuScreen::reveal()
    return;
 }
 
-void TitledMenuScreen::update(float time_now)
+void TitledMenuScreen::update()
 {
    if (!(initialized))
    {
@@ -762,7 +764,7 @@ void TitledMenuScreen::update(float time_now)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::update]: error: guard \"is_valid_state(state)\" not met");
    }
-   float state_age = infer_age(state_changed_at, time_now);
+   float state_age = infer_age(state_changed_at, state_accumulated_age);
 
    switch (state)
    {
@@ -821,21 +823,22 @@ double TitledMenuScreen::infer_age(double time_of_event, double time_now)
    return std::max(0.0, time_now - time_of_event);
 }
 
-double TitledMenuScreen::infer_reveal_age(double time_now)
+double TitledMenuScreen::infer_reveal_age()
 {
-   return std::max(0.0, infer_age(reveal_started_at, time_now));
+   return std::max(0.0, infer_age(reveal_started_at, state_accumulated_age));
 }
 
-double TitledMenuScreen::infer_reveal_age_n(double time_now)
+double TitledMenuScreen::infer_title_reveal_opacity()
 {
    if (!((reveal_duration != 0.0)))
    {
       std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::infer_reveal_age_n]: error: guard \"(reveal_duration != 0.0)\" not met.";
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::infer_title_reveal_opacity]: error: guard \"(reveal_duration != 0.0)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::infer_reveal_age_n]: error: guard \"(reveal_duration != 0.0)\" not met");
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::infer_title_reveal_opacity]: error: guard \"(reveal_duration != 0.0)\" not met");
    }
-   return std::max(0.0, std::min(1.0, infer_reveal_age(time_now) / reveal_duration));
+   if (title_revealed) return 1.0;
+   return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
 }
 
 void TitledMenuScreen::show_menu()
@@ -941,8 +944,7 @@ bool TitledMenuScreen::is_state(uint32_t possible_state)
 void TitledMenuScreen::primary_update_func(double time_now, double time_step)
 {
    state_accumulated_age += time_step;
-
-   update(state_accumulated_age); // TODO: Fix methods' signature and arguments
+   update();
    return;
 }
 
@@ -987,7 +989,7 @@ void TitledMenuScreen::draw_title()
    if (!title_bitmap_name.empty())
    {
       ALLEGRO_BITMAP *title_bitmap = obtain_title_bitmap();
-      float reveal_opacity = infer_reveal_age_n();
+      float reveal_opacity = infer_title_reveal_opacity();
       ALLEGRO_COLOR tint = ALLEGRO_COLOR{reveal_opacity, reveal_opacity, reveal_opacity, reveal_opacity};
       if (title_bitmap)
       {
@@ -1005,7 +1007,7 @@ void TitledMenuScreen::draw_title()
    {
       // TODO: review guards on this function
       ALLEGRO_FONT *title_font = obtain_title_font();
-      float reveal_opacity = infer_reveal_age_n();
+      float reveal_opacity = infer_title_reveal_opacity();
       ALLEGRO_COLOR revealed_color = ALLEGRO_COLOR{
          reveal_opacity * title_text_color.r,
          reveal_opacity * title_text_color.g,
@@ -1178,7 +1180,7 @@ void TitledMenuScreen::draw_menu()
             menu_option_chosen,
             menu_option_chosen_at,
             menu_option_selection_to_activation_delay,
-            al_get_time()
+            state_accumulated_age
          );
       }
 
@@ -1261,7 +1263,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
             menu_option_chosen,
             menu_option_chosen_at,
             menu_option_selection_to_activation_delay,
-            al_get_time()
+            state_accumulated_age
          );
       }
 

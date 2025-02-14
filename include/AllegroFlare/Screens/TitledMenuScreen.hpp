@@ -83,6 +83,7 @@ namespace AllegroFlare
          double menu_option_selection_to_activation_delay;
          double reveal_duration;
          double reveal_started_at;
+         bool title_revealed;
          bool showing_menu;
          bool showing_footer_text;
          uint32_t state;
@@ -196,11 +197,11 @@ namespace AllegroFlare
          void set_font_name(std::string font_name="[unset-font_name]");
          void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
          void reveal();
-         void update(float time_now=al_get_time());
+         void update();
          static bool is_valid_state(uint32_t state=STATE_UNDEF);
-         double infer_age(double time_of_event=0.0, double time_now=al_get_time());
-         double infer_reveal_age(double time_now=al_get_time());
-         double infer_reveal_age_n(double time_now=al_get_time());
+         double infer_age(double time_of_event=0.0, double time_now=0.0);
+         double infer_reveal_age();
+         double infer_title_reveal_opacity();
          void show_menu();
          virtual void on_activate() override;
          void skip_to_title();
@@ -214,7 +215,7 @@ namespace AllegroFlare
          void render();
          void draw_title();
          void draw_footer_text();
-         static void draw_cursor_box(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=al_get_time());
+         static void draw_cursor_box(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=0.0);
          float calculate_menu_item_vertical_spacing();
          void draw_menu();
          std::string transform_menu_item_text(std::string menu_item_text="[unset-menu_item_text]");

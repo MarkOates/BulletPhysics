@@ -241,6 +241,10 @@ table td
   <td class="property">double</td>
 </tr>
 <tr>
+  <td class="property">title_revealed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">showing_menu</td>
   <td class="property">bool</td>
 </tr>
@@ -349,7 +353,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>update</b>(float time_now=al_get_time())</td>
+  <td class="method"><b>update</b>()</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -357,15 +361,15 @@ table td
 </tr>
 <tr>
   <td class="method">double</td>
-  <td class="method"><b>infer_age</b>(double time_of_event=0.0, double time_now=al_get_time())</td>
+  <td class="method"><b>infer_age</b>(double time_of_event=0.0, double time_now=0.0)</td>
 </tr>
 <tr>
   <td class="method">double</td>
-  <td class="method"><b>infer_reveal_age</b>(double time_now=al_get_time())</td>
+  <td class="method"><b>infer_reveal_age</b>()</td>
 </tr>
 <tr>
   <td class="method">double</td>
-  <td class="method"><b>infer_reveal_age_n</b>(double time_now=al_get_time())</td>
+  <td class="method"><b>infer_title_reveal_opacity</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -433,7 +437,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=al_get_time())</td>
+  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=0.0)</td>
 </tr>
 <tr>
   <td class="method">float</td>
@@ -516,9 +520,6 @@ table td
 <div class="property-box dependencies">     <table>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;fmod&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
-</tr>
-<tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_get_time&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FLARE_EVENT_START_NEW_GAME&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventNames.hpp&quot;]}</td>
@@ -2068,9 +2069,6 @@ table td
 <pre>
 {
   "fmod": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "al_get_time": [
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
   "ALLEGRO_FLARE_EVENT_START_NEW_GAME": [

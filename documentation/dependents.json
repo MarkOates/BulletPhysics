@@ -2,9 +2,6 @@
   "fmod": [
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
-  "al_get_time": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
   "ALLEGRO_FLARE_EVENT_START_NEW_GAME": [
     "AllegroFlare/Screens/TitledMenuScreen"
   ],

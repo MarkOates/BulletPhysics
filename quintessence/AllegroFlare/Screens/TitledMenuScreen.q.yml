@@ -186,7 +186,7 @@ properties:
 
   - name: title_position_y
     type: float
-    init_with: (1080 / 24 * 9)
+    init_with: (1080 / 48 * 18)
     getter: true
     setter: true
 
@@ -198,7 +198,7 @@ properties:
 
   - name: menu_position_y
     type: float
-    init_with: 1080 / 12 * 7
+    init_with: 1080 / 24 * 14
     getter: true
     setter: true
 
@@ -264,6 +264,10 @@ properties:
   - name: reveal_started_at
     type: double
     init_with: 0.0
+
+  - name: title_revealed
+    type: bool
+    init_with: false
 
   - name: showing_menu
     type: bool
@@ -447,10 +451,13 @@ methods:
       if (!override_if_busy && state_is_busy) return;
       uint32_t previous_state = this->state;
 
+      this->state = state;
+      state_changed_at = state_accumulated_age;
+
       switch (state)
       {
          case STATE_REVEALING:
-            reveal_started_at = al_get_time(); // TODO: Consider injecting time
+            reveal_started_at = state_accumulated_age;
             cursor_position = 0;
             showing_menu = false;
             showing_footer_text = false;
@@ -462,13 +469,14 @@ methods:
          case STATE_REVEALED_AND_AWAITING_USER_INPUT:
             menu_option_chosen = false;
             menu_option_activated = false;
+            title_revealed = true;
             show_menu();
          break;
 
          case STATE_MENU_OPTION_IS_CHOSEN:
             menu_option_chosen = true;
             menu_option_activated = false;
-            menu_option_chosen_at = al_get_time();
+            menu_option_chosen_at = state_accumulated_age;
          break;
 
          case STATE_AWAITING_USER_CONFIRMATION:
@@ -483,9 +491,6 @@ methods:
          break;
       }
 
-      this->state = state;
-      state_changed_at = al_get_time();
-
       return;
 
 
@@ -497,13 +502,9 @@ methods:
 
 
   - name: update
-    parameters:
-      - name: time_now
-        type: float
-        default_argument: al_get_time()
     guards: [ initialized, (!destroyed), is_valid_state(state) ]
     body: |
-      float state_age = infer_age(state_changed_at, time_now);
+      float state_age = infer_age(state_changed_at, state_accumulated_age);
 
       switch (state)
       {
@@ -573,7 +574,7 @@ methods:
         default_argument: 0.0
       - name: time_now
         type: double
-        default_argument: al_get_time()
+        default_argument: 0.0
     body: |
       return std::max(0.0, time_now - time_of_event);
     body_dependency_symbols:
@@ -582,25 +583,18 @@ methods:
 
   - name: infer_reveal_age
     type: double
-    parameters:
-      - name: time_now
-        type: double
-        default_argument: al_get_time()
     body: |
-      return std::max(0.0, infer_age(reveal_started_at, time_now));
+      return std::max(0.0, infer_age(reveal_started_at, state_accumulated_age));
     body_dependency_symbols:
       - std::max
 
 
-  - name: infer_reveal_age_n
+  - name: infer_title_reveal_opacity
     type: double
-    parameters:
-      - name: time_now
-        type: double
-        default_argument: al_get_time()
     guards: [ (reveal_duration != 0.0) ]
     body: |
-      return std::max(0.0, std::min(1.0, infer_reveal_age(time_now) / reveal_duration));
+      if (title_revealed) return 1.0;
+      return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
     body_dependency_symbols:
       - std::max
       - std::min
@@ -737,8 +731,7 @@ methods:
         default_argument: 0.0
     body: |
       state_accumulated_age += time_step;
-      
-      update(state_accumulated_age); // TODO: Fix methods' signature and arguments
+      update();
       return;
 
 
@@ -765,7 +758,7 @@ methods:
       if (!title_bitmap_name.empty())
       {
          ALLEGRO_BITMAP *title_bitmap = obtain_title_bitmap();
-         float reveal_opacity = infer_reveal_age_n();
+         float reveal_opacity = infer_title_reveal_opacity();
          ALLEGRO_COLOR tint = ALLEGRO_COLOR{reveal_opacity, reveal_opacity, reveal_opacity, reveal_opacity};
          if (title_bitmap)
          {
@@ -783,7 +776,7 @@ methods:
       {
          // TODO: review guards on this function
          ALLEGRO_FONT *title_font = obtain_title_font();
-         float reveal_opacity = infer_reveal_age_n();
+         float reveal_opacity = infer_title_reveal_opacity();
          ALLEGRO_COLOR revealed_color = ALLEGRO_COLOR{
             reveal_opacity * title_text_color.r,
             reveal_opacity * title_text_color.g,
@@ -870,8 +863,7 @@ methods:
         default_argument: 1.0f
       - name: time_now
         type: float
-        default_argument: al_get_time()
-        default_argument_dependency_symbols: [ al_get_time ]
+        default_argument: 0.0
     body: |
       ALLEGRO_COLOR result_fill_color = fill_color; //ALLEGRO_COLOR{0, 0, 0, 0};
       ALLEGRO_COLOR result_outline_color = outline_color; //ALLEGRO_COLOR{1, 1, 1, 1};
@@ -995,7 +987,7 @@ methods:
                menu_option_chosen,
                menu_option_chosen_at,
                menu_option_selection_to_activation_delay,
-               al_get_time()
+               state_accumulated_age
             );
          }
 
@@ -1082,7 +1074,7 @@ methods:
                menu_option_chosen,
                menu_option_chosen_at,
                menu_option_selection_to_activation_delay,
-               al_get_time()
+               state_accumulated_age
             );
          }
 
@@ -1322,8 +1314,6 @@ dependencies:
 
   - symbol: fmod
     headers: [ cmath ]
-  - symbol: al_get_time
-    headers: [ allegro5/allegro.h ]
   - symbol: ALLEGRO_FLARE_EVENT_START_NEW_GAME
     headers: [ AllegroFlare/EventNames.hpp ]
   - symbol: std::vector<std::pair<std::string, std::string>>
