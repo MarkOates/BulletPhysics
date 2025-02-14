@@ -86,6 +86,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.initialize();
 
    title_screen.set_upcase_menu_items(true);
+   title_screen.set_menu_font_name("RobotoCondensed-Regular.ttf");
    title_screen.reveal();
 
    title_screen.render();

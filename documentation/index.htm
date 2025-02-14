@@ -197,6 +197,18 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">menu_item_vertical_spacing_distance</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">menu_item_vertical_spacing_font_line_height_multiplier</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">menu_item_vertical_spacing_integerize_positions</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">cursor_position</td>
   <td class="property">int</td>
 </tr>
@@ -283,6 +295,18 @@ table td
 <tr>
   <td class="property">DEFAULT_DATA_FOLDER_PATH</td>
   <td class="property">char*</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_TITLE_FONT_SIZE</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_MENU_FONT_SIZE</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_FOOTER_FONT_SIZE</td>
+  <td class="property">int</td>
 </tr>
 <tr>
   <td class="property">TYPE</td>
@@ -410,6 +434,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>calculate_menu_item_vertical_spacing</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>

@@ -56,6 +56,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , title_position_y((1080 / 24 * 9))
    , menu_position_x(1920 / 2)
    , menu_position_y(1080 / 12 * 7)
+   , menu_item_vertical_spacing_distance(0.0f)
+   , menu_item_vertical_spacing_font_line_height_multiplier(1.75f)
+   , menu_item_vertical_spacing_integerize_positions(true)
    , cursor_position(0)
    , menu_move_sound_effect_identifier("menu_move")
    , menu_move_sound_effect_enabled(true)
@@ -253,6 +256,24 @@ void TitledMenuScreen::set_menu_position_x(float menu_position_x)
 void TitledMenuScreen::set_menu_position_y(float menu_position_y)
 {
    this->menu_position_y = menu_position_y;
+}
+
+
+void TitledMenuScreen::set_menu_item_vertical_spacing_distance(float menu_item_vertical_spacing_distance)
+{
+   this->menu_item_vertical_spacing_distance = menu_item_vertical_spacing_distance;
+}
+
+
+void TitledMenuScreen::set_menu_item_vertical_spacing_font_line_height_multiplier(float menu_item_vertical_spacing_font_line_height_multiplier)
+{
+   this->menu_item_vertical_spacing_font_line_height_multiplier = menu_item_vertical_spacing_font_line_height_multiplier;
+}
+
+
+void TitledMenuScreen::set_menu_item_vertical_spacing_integerize_positions(bool menu_item_vertical_spacing_integerize_positions)
+{
+   this->menu_item_vertical_spacing_integerize_positions = menu_item_vertical_spacing_integerize_positions;
 }
 
 
@@ -457,6 +478,24 @@ float TitledMenuScreen::get_menu_position_x() const
 float TitledMenuScreen::get_menu_position_y() const
 {
    return menu_position_y;
+}
+
+
+float TitledMenuScreen::get_menu_item_vertical_spacing_distance() const
+{
+   return menu_item_vertical_spacing_distance;
+}
+
+
+float TitledMenuScreen::get_menu_item_vertical_spacing_font_line_height_multiplier() const
+{
+   return menu_item_vertical_spacing_font_line_height_multiplier;
+}
+
+
+bool TitledMenuScreen::get_menu_item_vertical_spacing_integerize_positions() const
+{
+   return menu_item_vertical_spacing_integerize_positions;
 }
 
 
@@ -1071,6 +1110,16 @@ void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float heig
    return;
 }
 
+float TitledMenuScreen::calculate_menu_item_vertical_spacing()
+{
+   ALLEGRO_FONT *menu_font = obtain_menu_font();
+   float result =
+      (al_get_font_line_height(menu_font) * menu_item_vertical_spacing_font_line_height_multiplier)
+      + menu_item_vertical_spacing_distance;
+   if (menu_item_vertical_spacing_integerize_positions) result = (int)result;
+   return result;
+}
+
 void TitledMenuScreen::draw_menu()
 {
    if (!(al_is_primitives_addon_initialized()))
@@ -1085,7 +1134,7 @@ void TitledMenuScreen::draw_menu()
    //int surface_width = 1920;
    //int surface_height = 1080;
    float h_font_line_height = (int)(al_get_font_line_height(menu_font) * 0.5f);
-   float menu_item_vertical_spacing = (int)(al_get_font_line_height(menu_font) * 1.5f);
+   float menu_item_vertical_spacing = calculate_menu_item_vertical_spacing();
    int menu_item_num = 0;
 
    // get longest menu option text length
@@ -1114,8 +1163,9 @@ void TitledMenuScreen::draw_menu()
 
       if (showing_cursor_on_this_option)
       {
-         float box_width = longest_menu_option_text_width + 148;
-         float box_height = al_get_font_line_height(menu_font) + 6;
+         float box_width = longest_menu_option_text_width + 126;
+         //float box_width = longest_menu_option_text_width + 148;
+         float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
 
          draw_cursor_box(
             x,
@@ -1166,7 +1216,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
    //int surface_width = 1920;
    //int surface_height = 1080;
    float h_font_line_height = (int)(al_get_font_line_height(menu_font) * 0.5f);
-   float menu_item_vertical_spacing = (int)(al_get_font_line_height(menu_font) * 1.4f);
+   float menu_item_vertical_spacing = calculate_menu_item_vertical_spacing();
    int menu_item_num = 0;
 
    // get longest menu option text length
