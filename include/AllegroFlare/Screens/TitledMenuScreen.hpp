@@ -78,8 +78,12 @@ namespace AllegroFlare
          int menu_font_size;
          int footer_text_font_size;
          std::vector<std::pair<std::string, std::string>> menu_options;
+         std::string empty_state_text;
          std::string empty_state_text_font_name;
          int empty_state_text_font_size;
+         ALLEGRO_COLOR empty_state_text_color;
+         float empty_state_text_x;
+         float empty_state_text_y;
          bool upcase_empty_state_text;
          std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> on_menu_selection_change_callback_func;
          void* on_menu_selection_change_callback_func_user_data;
@@ -136,7 +140,7 @@ namespace AllegroFlare
 
 
       public:
-         TitledMenuScreen(std::string data_folder_path=DEFAULT_DATA_FOLDER_PATH, std::size_t surface_width=1920, std::size_t surface_height=1080, std::string title_text="Untitled Game", std::string footer_text="© Copyright 2024", std::string title_bitmap_name="", std::string title_font_name="Oswald-Medium.ttf", std::string menu_font_name="Inter-Regular.ttf", std::string footer_text_font_name="Inter-Regular.ttf", ALLEGRO_COLOR title_text_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_text_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_selected_text_color=ALLEGRO_COLOR{0, 0, 0, 1}, ALLEGRO_COLOR menu_selector_fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_selector_outline_color=ALLEGRO_COLOR{0, 0, 0, 0}, float menu_selector_outline_stroke_thickness=2.0f, float menu_selector_roundness=0.0f, bool menu_selector_roundness_is_fit_to_max=false, bool show_triangle_cursor=false, float triangle_cursor_height=20.0f, bool match_triangle_cursor_height_to_box_height=true, ALLEGRO_COLOR footer_text_color=ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}, int title_font_size=DEFAULT_TITLE_FONT_SIZE, int menu_font_size=DEFAULT_MENU_FONT_SIZE, int footer_text_font_size=DEFAULT_FOOTER_FONT_SIZE, std::string empty_state_text_font_name="Inter-Regular.ttf", int empty_state_text_font_size=DEFAULT_EMPTY_STATE_TEXT_FONT_SIZE);
+         TitledMenuScreen(std::string data_folder_path=DEFAULT_DATA_FOLDER_PATH, std::size_t surface_width=1920, std::size_t surface_height=1080, std::string title_text="Untitled Game", std::string footer_text="© Copyright 2024", std::string title_bitmap_name="", std::string title_font_name="Oswald-Medium.ttf", std::string menu_font_name="Inter-Regular.ttf", std::string footer_text_font_name="Inter-Regular.ttf", ALLEGRO_COLOR title_text_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_text_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_selected_text_color=ALLEGRO_COLOR{0, 0, 0, 1}, ALLEGRO_COLOR menu_selector_fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR menu_selector_outline_color=ALLEGRO_COLOR{0, 0, 0, 0}, float menu_selector_outline_stroke_thickness=2.0f, float menu_selector_roundness=0.0f, bool menu_selector_roundness_is_fit_to_max=false, bool show_triangle_cursor=false, float triangle_cursor_height=20.0f, bool match_triangle_cursor_height_to_box_height=true, ALLEGRO_COLOR footer_text_color=ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}, int title_font_size=DEFAULT_TITLE_FONT_SIZE, int menu_font_size=DEFAULT_MENU_FONT_SIZE, int footer_text_font_size=DEFAULT_FOOTER_FONT_SIZE, std::string empty_state_text="Press any key to continue", std::string empty_state_text_font_name="Inter-Regular.ttf", int empty_state_text_font_size=DEFAULT_EMPTY_STATE_TEXT_FONT_SIZE, ALLEGRO_COLOR empty_state_text_color=ALLEGRO_COLOR{0.3, 0.3, 0.3, 0.3}, float empty_state_text_x=1920 / 2, float empty_state_text_y=1080 / 12 * 7);
          virtual ~TitledMenuScreen();
 
          void set_data_folder_path(std::string data_folder_path);
@@ -163,8 +167,12 @@ namespace AllegroFlare
          void set_title_font_size(int title_font_size);
          void set_menu_font_size(int menu_font_size);
          void set_footer_text_font_size(int footer_text_font_size);
+         void set_empty_state_text(std::string empty_state_text);
          void set_empty_state_text_font_name(std::string empty_state_text_font_name);
          void set_empty_state_text_font_size(int empty_state_text_font_size);
+         void set_empty_state_text_color(ALLEGRO_COLOR empty_state_text_color);
+         void set_empty_state_text_x(float empty_state_text_x);
+         void set_empty_state_text_y(float empty_state_text_y);
          void set_upcase_empty_state_text(bool upcase_empty_state_text);
          void set_on_menu_selection_change_callback_func(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> on_menu_selection_change_callback_func);
          void set_on_menu_selection_change_callback_func_user_data(void* on_menu_selection_change_callback_func_user_data);
@@ -213,8 +221,12 @@ namespace AllegroFlare
          int get_menu_font_size() const;
          int get_footer_text_font_size() const;
          std::vector<std::pair<std::string, std::string>> get_menu_options() const;
+         std::string get_empty_state_text() const;
          std::string get_empty_state_text_font_name() const;
          int get_empty_state_text_font_size() const;
+         ALLEGRO_COLOR get_empty_state_text_color() const;
+         float get_empty_state_text_x() const;
+         float get_empty_state_text_y() const;
          bool get_upcase_empty_state_text() const;
          std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> get_on_menu_selection_change_callback_func() const;
          void* get_on_menu_selection_change_callback_func_user_data() const;
@@ -255,7 +267,7 @@ namespace AllegroFlare
          double infer_age(double time_of_event=0.0, double time_now=0.0);
          double infer_reveal_age();
          double infer_title_reveal_opacity();
-         void show_menu();
+         void xxx_show_menu();
          virtual void on_activate() override;
          void skip_to_title();
          void clear_menu_options();

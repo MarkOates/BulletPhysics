@@ -92,7 +92,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.set_menu_selector_outline_color(ALLEGRO_COLOR{1, 1, 1, 1});
    title_screen.set_menu_selector_fill_color(ALLEGRO_COLOR{0.0, 0.0, 0.0, 0.8});
    title_screen.set_menu_selected_text_color(ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0});
-   title_screen.set_menu_selector_roundness(32.0f);
+   title_screen.set_menu_selector_roundness(16.0f);
 
 
    title_screen.render();
@@ -127,7 +127,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
-   FOCUS__CAPTURE__render__when_there_are_no_menu_options_and_empty_state_text_is_present__will_appear_as_expected)
+   CAPTURE__render__when_there_are_no_menu_options_and_empty_state_text_is_present__will_appear_as_expected)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.initialize();

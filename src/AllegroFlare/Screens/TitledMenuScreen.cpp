@@ -24,7 +24,7 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, bool show_triangle_cursor, float triangle_cursor_height, bool match_triangle_cursor_height_to_box_height, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size, std::string empty_state_text_font_name, int empty_state_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, bool show_triangle_cursor, float triangle_cursor_height, bool match_triangle_cursor_height_to_box_height, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size, std::string empty_state_text, std::string empty_state_text_font_name, int empty_state_text_font_size, ALLEGRO_COLOR empty_state_text_color, float empty_state_text_x, float empty_state_text_y)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
    , font_bin({})
@@ -53,8 +53,12 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_font_size(menu_font_size)
    , footer_text_font_size(footer_text_font_size)
    , menu_options(build_default_menu_options())
+   , empty_state_text(empty_state_text)
    , empty_state_text_font_name(empty_state_text_font_name)
    , empty_state_text_font_size(empty_state_text_font_size)
+   , empty_state_text_color(empty_state_text_color)
+   , empty_state_text_x(empty_state_text_x)
+   , empty_state_text_y(empty_state_text_y)
    , upcase_empty_state_text(false)
    , on_menu_selection_change_callback_func()
    , on_menu_selection_change_callback_func_user_data(nullptr)
@@ -83,7 +87,7 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , reveal_started_at(0.0)
    , title_revealed(false)
    , showing_menu(false)
-   , showing_empty_state_text(true)
+   , showing_empty_state_text(false)
    , showing_footer_text(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
@@ -257,6 +261,12 @@ void TitledMenuScreen::set_footer_text_font_size(int footer_text_font_size)
 }
 
 
+void TitledMenuScreen::set_empty_state_text(std::string empty_state_text)
+{
+   this->empty_state_text = empty_state_text;
+}
+
+
 void TitledMenuScreen::set_empty_state_text_font_name(std::string empty_state_text_font_name)
 {
    this->empty_state_text_font_name = empty_state_text_font_name;
@@ -266,6 +276,24 @@ void TitledMenuScreen::set_empty_state_text_font_name(std::string empty_state_te
 void TitledMenuScreen::set_empty_state_text_font_size(int empty_state_text_font_size)
 {
    this->empty_state_text_font_size = empty_state_text_font_size;
+}
+
+
+void TitledMenuScreen::set_empty_state_text_color(ALLEGRO_COLOR empty_state_text_color)
+{
+   this->empty_state_text_color = empty_state_text_color;
+}
+
+
+void TitledMenuScreen::set_empty_state_text_x(float empty_state_text_x)
+{
+   this->empty_state_text_x = empty_state_text_x;
+}
+
+
+void TitledMenuScreen::set_empty_state_text_y(float empty_state_text_y)
+{
+   this->empty_state_text_y = empty_state_text_y;
 }
 
 
@@ -557,6 +585,12 @@ std::vector<std::pair<std::string, std::string>> TitledMenuScreen::get_menu_opti
 }
 
 
+std::string TitledMenuScreen::get_empty_state_text() const
+{
+   return empty_state_text;
+}
+
+
 std::string TitledMenuScreen::get_empty_state_text_font_name() const
 {
    return empty_state_text_font_name;
@@ -566,6 +600,24 @@ std::string TitledMenuScreen::get_empty_state_text_font_name() const
 int TitledMenuScreen::get_empty_state_text_font_size() const
 {
    return empty_state_text_font_size;
+}
+
+
+ALLEGRO_COLOR TitledMenuScreen::get_empty_state_text_color() const
+{
+   return empty_state_text_color;
+}
+
+
+float TitledMenuScreen::get_empty_state_text_x() const
+{
+   return empty_state_text_x;
+}
+
+
+float TitledMenuScreen::get_empty_state_text_y() const
+{
+   return empty_state_text_y;
 }
 
 
@@ -900,7 +952,10 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
          menu_option_chosen = false;
          menu_option_activated = false;
          title_revealed = true;
-         show_menu();
+         showing_menu = true;
+         showing_footer_text = true;
+         if (menu_options.empty()) showing_empty_state_text = true;
+         //show_menu();
       break;
 
       case STATE_MENU_OPTION_IS_CHOSEN:
@@ -1024,10 +1079,11 @@ double TitledMenuScreen::infer_title_reveal_opacity()
    return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
 }
 
-void TitledMenuScreen::show_menu()
+void TitledMenuScreen::xxx_show_menu()
 {
    showing_menu = true;
    showing_footer_text = true;
+   if (menu_options.empty()) showing_empty_state_text = true;
    return;
 }
 
@@ -1256,7 +1312,7 @@ void TitledMenuScreen::draw_footer_text()
       footer_text_font,
       footer_text_color,
       surface_width/2,
-      surface_height - 80 - (int)(number_of_lines * line_height / 2),
+      surface_height - 72 - (int)(number_of_lines * line_height / 2),
       surface_width * 2,
       line_height,
       ALLEGRO_ALIGN_CENTER,
@@ -1385,10 +1441,10 @@ void TitledMenuScreen::draw_cursor_triangle(float x, float y, float length, floa
 
 void TitledMenuScreen::draw_empty_state_text()
 {
-   std::string empty_state_text = "Press any key to continue";
-   ALLEGRO_COLOR empty_state_text_color = ALLEGRO_COLOR{0.3, 0.3, 0.3, 0.3};
-   float empty_state_text_x = 1920 / 2;
-   float empty_state_text_y = 1080 / 12 * 7;
+   //std::string empty_state_text = "Press any key to continue";
+   //ALLEGRO_COLOR empty_state_text_color = ALLEGRO_COLOR{0.3, 0.3, 0.3, 0.3};
+   //float empty_state_text_x = 1920 / 2;
+   //float empty_state_text_y = 1080 / 12 * 7;
    //std::string empty_state_text_font_name = "RobotoCondensed-Regular.ttf";
    //std::string empty_state_text_font_size = -46;
 
