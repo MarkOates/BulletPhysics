@@ -1914,6 +1914,39 @@ AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_pause
    return result;
 }
 
+AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_title_screen(std::string data_folder_path, std::string game_title, std::string footer_text_probably_copyright_game_name_and_version)
+{
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::create_standard_title_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::create_standard_title_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
+   }
+   AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+   // Title
+   result->set_title_text(game_title);
+
+   // Footer
+   result->set_footer_text(footer_text_probably_copyright_game_name_and_version);
+
+   // Menus
+   result->set_menu_options({
+      { "Start new game", "start_new_game" },
+      { "Credits", "show_credits" },
+      { "Exit", "exit_game*" }
+   });
+   result->set_show_triangle_cursor(true);
+
+   // Menu Font
+   result->set_menu_font_name("RobotoCondensed-Regular.ttf");
+
+   result->initialize();
+
+   return result;
+}
+
 
 } // namespace Screens
 } // namespace AllegroFlare

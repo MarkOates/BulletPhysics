@@ -46,7 +46,7 @@ properties:
 
   - name: footer_text
     type: std::string
-    init_with: '"© Copyright 2024"'
+    init_with: '"© Copyright 2025"'
     constructor_arg: true
     getter: true
     setter: true
@@ -1663,6 +1663,47 @@ methods:
       result->set_menu_options({
          { "Resume", "resume" },
          { "Exit to Title Screen", "exit_to_title_screen" },
+      });
+      result->set_show_triangle_cursor(true);
+
+      // Menu Font
+      result->set_menu_font_name("RobotoCondensed-Regular.ttf");
+
+      result->initialize();
+
+      return result;
+    body_dependency_symbols:
+      - AllegroFlare::Screens::TitledMenuScreen
+
+
+  - name: create_standard_title_screen
+    static: true
+    type: AllegroFlare::Screens::TitledMenuScreen*
+    parameters:
+      - name: data_folder_path
+        type: std::string
+        default_argument: DEFAULT_DATA_FOLDER_PATH
+      - name: game_title
+        type: std::string
+        default_argument: '""'
+      - name: footer_text_probably_copyright_game_name_and_version
+        type: std::string
+        default_argument: '""'
+    guards: [ (data_folder_path != DEFAULT_DATA_FOLDER_PATH) ]
+    body: |
+      AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+      // Title
+      result->set_title_text(game_title);
+
+      // Footer
+      result->set_footer_text(footer_text_probably_copyright_game_name_and_version);
+
+      // Menus
+      result->set_menu_options({
+         { "Start new game", "start_new_game" },
+         { "Credits", "show_credits" },
+         { "Exit", "exit_game*" }
       });
       result->set_show_triangle_cursor(true);
 
