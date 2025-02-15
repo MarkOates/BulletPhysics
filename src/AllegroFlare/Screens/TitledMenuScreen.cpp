@@ -7,6 +7,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/MotionKit.hpp>
 #include <AllegroFlare/Placement2D.hpp>
+#include <AllegroFlare/Screens/TitledMenuScreen.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
 #include <AllegroFlare/VirtualControllers/GenericController.hpp>
 #include <algorithm>
@@ -1489,7 +1490,7 @@ void TitledMenuScreen::draw_menu()
    float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
    float cursor_triangle_distance = 32.0f;
    float cursor_triangle_side_length =
-      match_triangle_cursor_height_to_box_height ? box_height * 1.05f : triangle_cursor_height;
+      match_triangle_cursor_height_to_box_height ? box_height * 0.85f : triangle_cursor_height;
 
    // render each menu item
    for (auto &menu_option : menu_options)
@@ -1878,6 +1879,38 @@ std::vector<std::pair<std::string, std::string>> TitledMenuScreen::build_confirm
       { "yes", "exit_game" },
       { "no", "close_confirmation_dialog" },
    };
+   return result;
+}
+
+AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_pause_screen(std::string data_folder_path, std::string footer_text_probably_game_name_and_version)
+{
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::create_standard_pause_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::create_standard_pause_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
+   }
+   AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+   // Title
+   result->set_title_text("PAUSED");
+
+   // Footer
+   result->set_footer_text(footer_text_probably_game_name_and_version);
+
+   // Menus
+   result->set_menu_options({
+      { "Resume", "resume" },
+      { "Exit to Title Screen", "exit_to_title_screen" },
+   });
+   result->set_show_triangle_cursor(true);
+
+   // Menu Font
+   result->set_menu_font_name("RobotoCondensed-Regular.ttf");
+
+   result->initialize();
+
    return result;
 }
 
