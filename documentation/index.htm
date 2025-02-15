@@ -185,8 +185,16 @@ table td
   <td class="property">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
 </tr>
 <tr>
+  <td class="property">on_menu_selection_change_callback_func</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_menu_selection_change_callback_func_user_data</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
   <td class="property">on_menu_choice_callback_func</td>
-  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, void*)&gt;</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)&gt;</td>
 </tr>
 <tr>
   <td class="property">on_menu_choice_callback_func_user_data</td>
@@ -198,6 +206,22 @@ table td
 </tr>
 <tr>
   <td class="property">on_finished_callback_func_user_data</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
+  <td class="property">on_play_menu_move_sound_effect</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_play_menu_move_sound_effect_user_data</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
+  <td class="property">on_play_menu_choose_sound_effect</td>
+  <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_play_menu_choose_sound_effect_user_data</td>
   <td class="property">void*</td>
 </tr>
 <tr>
@@ -241,15 +265,15 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
-  <td class="property">menu_select_option_sound_effect_identifier</td>
+  <td class="property">menu_choose_option_sound_effect_identifier</td>
   <td class="property">std::string</td>
 </tr>
 <tr>
-  <td class="property">menu_select_option_sound_effect_enabled</td>
+  <td class="property">menu_choose_option_sound_effect_enabled</td>
   <td class="property">bool</td>
 </tr>
 <tr>
-  <td class="property">menu_option_selection_to_activation_delay</td>
+  <td class="property">menu_option_chosen_to_activation_delay</td>
   <td class="property">double</td>
 </tr>
 <tr>
@@ -429,6 +453,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>signal_menu_selection_change</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>activate_current_selected_menu_option</b>()</td>
 </tr>
 <tr>
@@ -469,7 +497,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float roundness=6.0f, float outline_stroke_thickness=1.0f, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment=AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=0.0)</td>
+  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float roundness=6.0f, float outline_stroke_thickness=1.0f, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment=AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_chosen_to_activation_delay=1.0f, float time_now=0.0)</td>
 </tr>
 <tr>
   <td class="method">float</td>

@@ -53,10 +53,16 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_font_size(menu_font_size)
    , footer_text_font_size(footer_text_font_size)
    , menu_options(build_default_menu_options())
+   , on_menu_selection_change_callback_func()
+   , on_menu_selection_change_callback_func_user_data(nullptr)
    , on_menu_choice_callback_func()
    , on_menu_choice_callback_func_user_data(nullptr)
    , on_finished_callback_func()
    , on_finished_callback_func_user_data(nullptr)
+   , on_play_menu_move_sound_effect()
+   , on_play_menu_move_sound_effect_user_data(nullptr)
+   , on_play_menu_choose_sound_effect()
+   , on_play_menu_choose_sound_effect_user_data(nullptr)
    , title_position_x(1920 / 2)
    , title_position_y((1080 / 48 * 18))
    , menu_position_x(1920 / 2)
@@ -67,9 +73,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , cursor_position(0)
    , menu_move_sound_effect_identifier("menu_move")
    , menu_move_sound_effect_enabled(true)
-   , menu_select_option_sound_effect_identifier("menu_select")
-   , menu_select_option_sound_effect_enabled(true)
-   , menu_option_selection_to_activation_delay(1.0)
+   , menu_choose_option_sound_effect_identifier("menu_select")
+   , menu_choose_option_sound_effect_enabled(true)
+   , menu_option_chosen_to_activation_delay(1.0)
    , reveal_duration(1.0)
    , reveal_started_at(0.0)
    , title_revealed(false)
@@ -247,7 +253,19 @@ void TitledMenuScreen::set_footer_text_font_size(int footer_text_font_size)
 }
 
 
-void TitledMenuScreen::set_on_menu_choice_callback_func(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> on_menu_choice_callback_func)
+void TitledMenuScreen::set_on_menu_selection_change_callback_func(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> on_menu_selection_change_callback_func)
+{
+   this->on_menu_selection_change_callback_func = on_menu_selection_change_callback_func;
+}
+
+
+void TitledMenuScreen::set_on_menu_selection_change_callback_func_user_data(void* on_menu_selection_change_callback_func_user_data)
+{
+   this->on_menu_selection_change_callback_func_user_data = on_menu_selection_change_callback_func_user_data;
+}
+
+
+void TitledMenuScreen::set_on_menu_choice_callback_func(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> on_menu_choice_callback_func)
 {
    this->on_menu_choice_callback_func = on_menu_choice_callback_func;
 }
@@ -268,6 +286,30 @@ void TitledMenuScreen::set_on_finished_callback_func(std::function<void(AllegroF
 void TitledMenuScreen::set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data)
 {
    this->on_finished_callback_func_user_data = on_finished_callback_func_user_data;
+}
+
+
+void TitledMenuScreen::set_on_play_menu_move_sound_effect(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> on_play_menu_move_sound_effect)
+{
+   this->on_play_menu_move_sound_effect = on_play_menu_move_sound_effect;
+}
+
+
+void TitledMenuScreen::set_on_play_menu_move_sound_effect_user_data(void* on_play_menu_move_sound_effect_user_data)
+{
+   this->on_play_menu_move_sound_effect_user_data = on_play_menu_move_sound_effect_user_data;
+}
+
+
+void TitledMenuScreen::set_on_play_menu_choose_sound_effect(std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> on_play_menu_choose_sound_effect)
+{
+   this->on_play_menu_choose_sound_effect = on_play_menu_choose_sound_effect;
+}
+
+
+void TitledMenuScreen::set_on_play_menu_choose_sound_effect_user_data(void* on_play_menu_choose_sound_effect_user_data)
+{
+   this->on_play_menu_choose_sound_effect_user_data = on_play_menu_choose_sound_effect_user_data;
 }
 
 
@@ -325,21 +367,21 @@ void TitledMenuScreen::set_menu_move_sound_effect_enabled(bool menu_move_sound_e
 }
 
 
-void TitledMenuScreen::set_menu_select_option_sound_effect_identifier(std::string menu_select_option_sound_effect_identifier)
+void TitledMenuScreen::set_menu_choose_option_sound_effect_identifier(std::string menu_choose_option_sound_effect_identifier)
 {
-   this->menu_select_option_sound_effect_identifier = menu_select_option_sound_effect_identifier;
+   this->menu_choose_option_sound_effect_identifier = menu_choose_option_sound_effect_identifier;
 }
 
 
-void TitledMenuScreen::set_menu_select_option_sound_effect_enabled(bool menu_select_option_sound_effect_enabled)
+void TitledMenuScreen::set_menu_choose_option_sound_effect_enabled(bool menu_choose_option_sound_effect_enabled)
 {
-   this->menu_select_option_sound_effect_enabled = menu_select_option_sound_effect_enabled;
+   this->menu_choose_option_sound_effect_enabled = menu_choose_option_sound_effect_enabled;
 }
 
 
-void TitledMenuScreen::set_menu_option_selection_to_activation_delay(double menu_option_selection_to_activation_delay)
+void TitledMenuScreen::set_menu_option_chosen_to_activation_delay(double menu_option_chosen_to_activation_delay)
 {
-   this->menu_option_selection_to_activation_delay = menu_option_selection_to_activation_delay;
+   this->menu_option_chosen_to_activation_delay = menu_option_chosen_to_activation_delay;
 }
 
 
@@ -493,7 +535,19 @@ std::vector<std::pair<std::string, std::string>> TitledMenuScreen::get_menu_opti
 }
 
 
-std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> TitledMenuScreen::get_on_menu_choice_callback_func() const
+std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> TitledMenuScreen::get_on_menu_selection_change_callback_func() const
+{
+   return on_menu_selection_change_callback_func;
+}
+
+
+void* TitledMenuScreen::get_on_menu_selection_change_callback_func_user_data() const
+{
+   return on_menu_selection_change_callback_func_user_data;
+}
+
+
+std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)> TitledMenuScreen::get_on_menu_choice_callback_func() const
 {
    return on_menu_choice_callback_func;
 }
@@ -514,6 +568,30 @@ std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> TitledMenuS
 void* TitledMenuScreen::get_on_finished_callback_func_user_data() const
 {
    return on_finished_callback_func_user_data;
+}
+
+
+std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> TitledMenuScreen::get_on_play_menu_move_sound_effect() const
+{
+   return on_play_menu_move_sound_effect;
+}
+
+
+void* TitledMenuScreen::get_on_play_menu_move_sound_effect_user_data() const
+{
+   return on_play_menu_move_sound_effect_user_data;
+}
+
+
+std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)> TitledMenuScreen::get_on_play_menu_choose_sound_effect() const
+{
+   return on_play_menu_choose_sound_effect;
+}
+
+
+void* TitledMenuScreen::get_on_play_menu_choose_sound_effect_user_data() const
+{
+   return on_play_menu_choose_sound_effect_user_data;
 }
 
 
@@ -577,21 +655,21 @@ bool TitledMenuScreen::get_menu_move_sound_effect_enabled() const
 }
 
 
-std::string TitledMenuScreen::get_menu_select_option_sound_effect_identifier() const
+std::string TitledMenuScreen::get_menu_choose_option_sound_effect_identifier() const
 {
-   return menu_select_option_sound_effect_identifier;
+   return menu_choose_option_sound_effect_identifier;
 }
 
 
-bool TitledMenuScreen::get_menu_select_option_sound_effect_enabled() const
+bool TitledMenuScreen::get_menu_choose_option_sound_effect_enabled() const
 {
-   return menu_select_option_sound_effect_enabled;
+   return menu_choose_option_sound_effect_enabled;
 }
 
 
-double TitledMenuScreen::get_menu_option_selection_to_activation_delay() const
+double TitledMenuScreen::get_menu_option_chosen_to_activation_delay() const
 {
-   return menu_option_selection_to_activation_delay;
+   return menu_option_chosen_to_activation_delay;
 }
 
 
@@ -852,10 +930,9 @@ void TitledMenuScreen::update()
       break;
 
       case STATE_MENU_OPTION_IS_CHOSEN:
-         if (!menu_option_activated && state_age > menu_option_selection_to_activation_delay)
+         if (!menu_option_activated && state_age > menu_option_chosen_to_activation_delay)
          {
-            //std::string current_menu_option_value = infer_current_menu_option_value();
-            activate_current_selected_menu_option(); //current_menu_option_value);
+            activate_current_selected_menu_option();
             menu_option_chosen = false;
             menu_option_activated = true;
             set_state(STATE_FINISHED);
@@ -917,7 +994,6 @@ void TitledMenuScreen::show_menu()
 void TitledMenuScreen::on_activate()
 {
    start();
-   //set_state(STATE_REVEALING);
    return;
 }
 
@@ -931,6 +1007,8 @@ void TitledMenuScreen::clear_menu_options()
 {
    menu_options.clear();
    cursor_position = 0;
+   signal_menu_selection_change(); // TODO: Consider if this is correct behavior, consider adding an option, possibly
+                                   // an argument to this method
    return;
 }
 
@@ -938,6 +1016,8 @@ void TitledMenuScreen::set_menu_options(std::vector<std::pair<std::string, std::
 {
    this->menu_options = menu_options;
    cursor_position = 0;
+   signal_menu_selection_change(); // TODO: Consider if this is correct behavior, consider adding an option, possibly
+                                   // an argument to this method
    return;
 }
 
@@ -947,8 +1027,10 @@ void TitledMenuScreen::move_cursor_up()
 
    if (menu_move_sound_effect_enabled) play_menu_move_sound_effect();
 
+   int previous_position = cursor_position;
    cursor_position--;
    if (cursor_position < 0) cursor_position += menu_options.size();
+   if (cursor_position != previous_position) signal_menu_selection_change();
 
    return;
 }
@@ -959,20 +1041,35 @@ void TitledMenuScreen::move_cursor_down()
 
    if (menu_move_sound_effect_enabled) play_menu_move_sound_effect();
 
+   int previous_position = cursor_position;
    cursor_position++;
    if (cursor_position >= menu_options.size()) cursor_position = cursor_position % menu_options.size();
+   if (cursor_position != previous_position) signal_menu_selection_change();
 
+   return;
+}
+
+void TitledMenuScreen::signal_menu_selection_change()
+{
+   // TODO: Test this logic
+   std::string current_menu_option_value = infer_current_menu_option_value();
+   on_menu_selection_change_callback_func(
+      this,
+      current_menu_option_value,
+      on_menu_selection_change_callback_func_user_data
+   );
    return;
 }
 
 void TitledMenuScreen::activate_current_selected_menu_option()
 {
-   // TODO: Consider case where there is an emtpy list
-   // TODO: Remove the emit_game_event as a technique here, rely on callback only
-   std::string current_menu_option_value = infer_current_menu_option_value();
-   //event_emitter->emit_game_event(current_menu_option_value);
+   // TODO: Consider a case where there is an empty list
    // TODO: Test this callback
-   if (on_menu_choice_callback_func) on_menu_choice_callback_func(this, on_menu_choice_callback_func_user_data);
+   if (on_menu_choice_callback_func)
+   {
+      std::string current_menu_option_value = infer_current_menu_option_value();
+      on_menu_choice_callback_func(this, current_menu_option_value, on_menu_choice_callback_func_user_data);
+   }
    return;
 }
 
@@ -992,7 +1089,7 @@ void TitledMenuScreen::select_menu_option()
    if (current_menu_option_must_be_confirmed()) set_state(STATE_AWAITING_USER_CONFIRMATION);
    else set_state(STATE_MENU_OPTION_IS_CHOSEN);
 
-   if (menu_select_option_sound_effect_enabled) play_menu_select_option_sound_effect();
+   if (menu_choose_option_sound_effect_enabled) play_menu_select_option_sound_effect();
 
    return;
 }
@@ -1128,7 +1225,7 @@ void TitledMenuScreen::draw_footer_text()
    return;
 }
 
-void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float height, ALLEGRO_COLOR fill_color, ALLEGRO_COLOR outline_color, float roundness, float outline_stroke_thickness, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment, bool menu_option_chosen, float menu_option_chosen_at, float menu_option_selection_to_activation_delay, float time_now)
+void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float height, ALLEGRO_COLOR fill_color, ALLEGRO_COLOR outline_color, float roundness, float outline_stroke_thickness, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment, bool menu_option_chosen, float menu_option_chosen_at, float menu_option_chosen_to_activation_delay, float time_now)
 {
    ALLEGRO_COLOR result_fill_color = fill_color; //ALLEGRO_COLOR{0, 0, 0, 0};
    ALLEGRO_COLOR result_outline_color = outline_color; //ALLEGRO_COLOR{1, 1, 1, 1};
@@ -1151,7 +1248,7 @@ void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float heig
 
    if (menu_option_chosen)
    {
-      float selection_animation_length = menu_option_selection_to_activation_delay;
+      float selection_animation_length = menu_option_chosen_to_activation_delay;
       float selection_strobes_per_second = 14.0f;
 
       float menu_option_chosen_at_age = AllegroFlare::MotionKit::age(menu_option_chosen_at, time_now);
@@ -1310,7 +1407,7 @@ void TitledMenuScreen::draw_menu()
             AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
             menu_option_chosen_at,
-            menu_option_selection_to_activation_delay,
+            menu_option_chosen_to_activation_delay,
             state_accumulated_age
          );
 
@@ -1407,7 +1504,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
             AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
             menu_option_chosen_at,
-            menu_option_selection_to_activation_delay,
+            menu_option_chosen_to_activation_delay,
             state_accumulated_age
          );
       }
@@ -1452,15 +1549,19 @@ std::string TitledMenuScreen::infer_current_menu_option_label()
 
 void TitledMenuScreen::play_menu_move_sound_effect()
 {
-   // TODO: Call a callback
-   //event_emitter->emit_play_sound_effect_event(menu_move_sound_effect_identifier);
+   if (on_play_menu_move_sound_effect)
+   {
+      on_play_menu_move_sound_effect(this, on_play_menu_move_sound_effect_user_data);
+   }
    return;
 }
 
 void TitledMenuScreen::play_menu_select_option_sound_effect()
 {
-   // TODO: Call a callback
-   //event_emitter->emit_play_sound_effect_event(menu_select_option_sound_effect_identifier);
+   if (on_play_menu_choose_sound_effect)
+   {
+      on_play_menu_choose_sound_effect(this, on_play_menu_choose_sound_effect_user_data);
+   }
    return;
 }
 

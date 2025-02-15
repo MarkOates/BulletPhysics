@@ -180,7 +180,7 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
    //pause_screen->set_event_emitter(event_emitter);
    pause_screen->set_title_text("PAUSED");
    pause_screen->set_menu_options(menu_options);
-   pause_screen->set_menu_option_selection_to_activation_delay(0.0);
+   pause_screen->set_menu_option_chosen_to_activation_delay(0.0);
    pause_screen->set_reveal_duration(0.0);
 
    pause_screen->initialize();
@@ -191,12 +191,8 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
    // TODO: Add actions to menu items
 
    pause_screen->set_on_menu_choice_callback_func(
-      [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, void* user_data){
-      //[event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
-         // TODO: Perform different action depending on selected menu item
-         // TODO: Use event emitter from pause_screen
-
-         std::string current_menu_option_value = pause_screen->infer_current_menu_option_value();
+      [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, std::string value, void* user_data){
+         std::string current_menu_option_value = value;
          if (current_menu_option_value == "resume_gameplay")
          {
             event_emitter->emit_router_event(
