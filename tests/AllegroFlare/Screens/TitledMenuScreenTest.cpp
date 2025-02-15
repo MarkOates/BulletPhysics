@@ -105,7 +105,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
-   FOCUS__CAPTURE__render__when_there_are_no_menu_options_present__will_not_blow_up)
+   CAPTURE__render__when_there_are_no_menu_options_present__will_not_blow_up)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.initialize();
