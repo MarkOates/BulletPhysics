@@ -128,6 +128,13 @@ properties:
     getter: true
     setter: true
 
+  - name: menu_selector_roundness_is_fit_to_max
+    type: bool
+    init_with: false
+    constructor_arg: true
+    getter: true
+    setter: true
+
   - name: footer_text_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}
@@ -160,6 +167,7 @@ properties:
     type: std::vector<std::pair<std::string, std::string>>
     init_with: 'build_default_menu_options()'
     getter: true
+    setter: explicit
 
   - name: on_menu_choice_callback_func
     type: std::function<void(AllegroFlare::Screens::TitledMenuScreen*, void*)>
@@ -1039,8 +1047,8 @@ methods:
          if (showing_cursor_on_this_option)
          {
             float box_width = longest_menu_option_text_width + 126;
-            //float box_width = longest_menu_option_text_width + 148;
             float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+            float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
             draw_cursor_box(
                x,
@@ -1049,7 +1057,7 @@ methods:
                box_height,
                menu_selector_fill_color,
                menu_selector_outline_color,
-               menu_selector_roundness,
+               roundness,
                menu_selector_outline_stroke_thickness,
                AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,
@@ -1130,6 +1138,7 @@ methods:
          {
             float box_width = longest_menu_option_text_width + 148;
             float box_height = al_get_font_line_height(menu_font) + 6;
+            float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
             draw_cursor_box(
                x,
@@ -1138,7 +1147,7 @@ methods:
                box_height,
                menu_selector_fill_color,
                menu_selector_outline_color,
-               menu_selector_roundness,
+               roundness,
                menu_selector_outline_stroke_thickness,
                AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,

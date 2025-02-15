@@ -24,7 +24,7 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
    , font_bin({})
@@ -44,6 +44,7 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_selector_outline_color(menu_selector_outline_color)
    , menu_selector_outline_stroke_thickness(menu_selector_outline_stroke_thickness)
    , menu_selector_roundness(menu_selector_roundness)
+   , menu_selector_roundness_is_fit_to_max(menu_selector_roundness_is_fit_to_max)
    , footer_text_color(footer_text_color)
    , title_font_size(title_font_size)
    , menu_font_size(menu_font_size)
@@ -192,6 +193,12 @@ void TitledMenuScreen::set_menu_selector_outline_stroke_thickness(float menu_sel
 void TitledMenuScreen::set_menu_selector_roundness(float menu_selector_roundness)
 {
    this->menu_selector_roundness = menu_selector_roundness;
+}
+
+
+void TitledMenuScreen::set_menu_selector_roundness_is_fit_to_max(bool menu_selector_roundness_is_fit_to_max)
+{
+   this->menu_selector_roundness_is_fit_to_max = menu_selector_roundness_is_fit_to_max;
 }
 
 
@@ -408,6 +415,12 @@ float TitledMenuScreen::get_menu_selector_outline_stroke_thickness() const
 float TitledMenuScreen::get_menu_selector_roundness() const
 {
    return menu_selector_roundness;
+}
+
+
+bool TitledMenuScreen::get_menu_selector_roundness_is_fit_to_max() const
+{
+   return menu_selector_roundness_is_fit_to_max;
 }
 
 
@@ -1207,8 +1220,8 @@ void TitledMenuScreen::draw_menu()
       if (showing_cursor_on_this_option)
       {
          float box_width = longest_menu_option_text_width + 126;
-         //float box_width = longest_menu_option_text_width + 148;
          float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+         float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
          draw_cursor_box(
             x,
@@ -1217,7 +1230,7 @@ void TitledMenuScreen::draw_menu()
             box_height,
             menu_selector_fill_color,
             menu_selector_outline_color,
-            menu_selector_roundness,
+            roundness,
             menu_selector_outline_stroke_thickness,
             AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
@@ -1294,6 +1307,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
       {
          float box_width = longest_menu_option_text_width + 148;
          float box_height = al_get_font_line_height(menu_font) + 6;
+         float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
          draw_cursor_box(
             x,
@@ -1302,7 +1316,7 @@ void TitledMenuScreen::draw_confirmation_dialog()
             box_height,
             menu_selector_fill_color,
             menu_selector_outline_color,
-            menu_selector_roundness,
+            roundness,
             menu_selector_outline_stroke_thickness,
             AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
