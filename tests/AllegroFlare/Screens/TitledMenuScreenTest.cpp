@@ -89,6 +89,11 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.set_menu_font_name("RobotoCondensed-Regular.ttf");
    title_screen.reveal();
 
+   title_screen.set_menu_selector_outline_color(ALLEGRO_COLOR{1, 1, 1, 1});
+   title_screen.set_menu_selector_fill_color(ALLEGRO_COLOR{0.0, 0.0, 0.0, 0.8});
+   title_screen.set_menu_selected_text_color(ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0});
+
+
    title_screen.render();
 
    al_flip_display();
@@ -99,7 +104,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
-   FOCUS__CAPTURE__render__when_stylized_as_a_pause_screen__will_look_nice)
+   CAPTURE__render__when_stylized_as_a_pause_screen__will_look_nice)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.initialize();

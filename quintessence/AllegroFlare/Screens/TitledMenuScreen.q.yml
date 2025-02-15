@@ -93,7 +93,14 @@ properties:
     getter: true
     setter: true
 
-  - name: menu_selector_color
+  - name: menu_selected_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0, 0, 0, 1}
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: menu_selector_fill_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{1, 1, 1, 1}
     constructor_arg: true
@@ -103,13 +110,6 @@ properties:
   - name: menu_selector_outline_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{0, 0, 0, 0}
-    constructor_arg: true
-    getter: true
-    setter: true
-
-  - name: menu_selected_text_color
-    type: ALLEGRO_COLOR
-    init_with: ALLEGRO_COLOR{0, 0, 0, 1}
     constructor_arg: true
     getter: true
     setter: true
@@ -372,6 +372,15 @@ enums:
       - STATE_MENU_OPTION_IS_CHOSEN
       - STATE_AWAITING_USER_CONFIRMATION
       - STATE_FINISHED
+
+
+  - name: OutlineStrokeAlignment
+    scope: public
+    enumerators:
+      - OUTLINE_STROKE_ALIGNMENT_UNDEF
+      - OUTLINE_STROKE_ALIGNMENT_INSIDE
+      - OUTLINE_STROKE_ALIGNMENT_CENTER
+      - OUTLINE_STROKE_ALIGNMENT_OUTSIDE
 
 
 methods:
@@ -869,6 +878,9 @@ methods:
       - name: outline_stroke_thickness
         type: float
         default_argument: 1.0f
+      - name: outline_stroke_alignment
+        type: AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment
+        default_argument: AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE
       - name: menu_option_chosen
         type: bool
         default_argument: false
@@ -884,6 +896,22 @@ methods:
     body: |
       ALLEGRO_COLOR result_fill_color = fill_color; //ALLEGRO_COLOR{0, 0, 0, 0};
       ALLEGRO_COLOR result_outline_color = outline_color; //ALLEGRO_COLOR{1, 1, 1, 1};
+
+      float outline_stroke_alignment_adjustment = 0.0f;
+      switch (outline_stroke_alignment)
+      {
+         case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE: {
+            outline_stroke_alignment_adjustment = 0.5f;
+         } break;
+
+         case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_CENTER: {
+            outline_stroke_alignment_adjustment = 0.0f;
+         } break;
+
+         case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_OUTSIDE: {
+            outline_stroke_alignment_adjustment = -0.5f;
+         } break;
+      }
 
       if (menu_option_chosen)
       {
@@ -927,10 +955,10 @@ methods:
 
       // draw the outline (which is invisible by default)
       al_draw_rectangle(
-         x-h_box_width,
-         y-h_box_height,
-         x+h_box_width,
-         y+h_box_height,
+         x-h_box_width + outline_stroke_thickness * outline_stroke_alignment_adjustment,
+         y-h_box_height + outline_stroke_thickness * outline_stroke_alignment_adjustment,
+         x+h_box_width - outline_stroke_thickness * outline_stroke_alignment_adjustment,
+         y+h_box_height - outline_stroke_thickness * outline_stroke_alignment_adjustment,
          result_outline_color,
          outline_stroke_thickness
       );
@@ -998,9 +1026,10 @@ methods:
                y,
                box_width,
                box_height,
-               menu_selector_color,
+               menu_selector_fill_color,
                menu_selector_outline_color,
                menu_selector_outline_stroke_thickness,
+               AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,
                menu_option_chosen_at,
                menu_option_selection_to_activation_delay,
@@ -1085,9 +1114,10 @@ methods:
                y,
                box_width,
                box_height,
-               menu_selector_color,
+               menu_selector_fill_color,
                menu_selector_outline_color,
                menu_selector_outline_stroke_thickness,
+               AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,
                menu_option_chosen_at,
                menu_option_selection_to_activation_delay,
@@ -1385,5 +1415,7 @@ dependencies:
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: AllegroFlare::StringTransformer
     headers: [ AllegroFlare/StringTransformer.hpp ]
+  - symbol: AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment
+    headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
 
 

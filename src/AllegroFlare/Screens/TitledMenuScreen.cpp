@@ -24,7 +24,7 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selector_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, ALLEGRO_COLOR footer_text_color, float menu_selector_outline_stroke_thickness, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
    , font_bin({})
@@ -39,9 +39,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , footer_text_font_name(footer_text_font_name)
    , title_text_color(title_text_color)
    , menu_text_color(menu_text_color)
-   , menu_selector_color(menu_selector_color)
-   , menu_selector_outline_color(menu_selector_outline_color)
    , menu_selected_text_color(menu_selected_text_color)
+   , menu_selector_fill_color(menu_selector_fill_color)
+   , menu_selector_outline_color(menu_selector_outline_color)
    , footer_text_color(footer_text_color)
    , menu_selector_outline_stroke_thickness(menu_selector_outline_stroke_thickness)
    , title_font_size(title_font_size)
@@ -164,21 +164,21 @@ void TitledMenuScreen::set_menu_text_color(ALLEGRO_COLOR menu_text_color)
 }
 
 
-void TitledMenuScreen::set_menu_selector_color(ALLEGRO_COLOR menu_selector_color)
+void TitledMenuScreen::set_menu_selected_text_color(ALLEGRO_COLOR menu_selected_text_color)
 {
-   this->menu_selector_color = menu_selector_color;
+   this->menu_selected_text_color = menu_selected_text_color;
+}
+
+
+void TitledMenuScreen::set_menu_selector_fill_color(ALLEGRO_COLOR menu_selector_fill_color)
+{
+   this->menu_selector_fill_color = menu_selector_fill_color;
 }
 
 
 void TitledMenuScreen::set_menu_selector_outline_color(ALLEGRO_COLOR menu_selector_outline_color)
 {
    this->menu_selector_outline_color = menu_selector_outline_color;
-}
-
-
-void TitledMenuScreen::set_menu_selected_text_color(ALLEGRO_COLOR menu_selected_text_color)
-{
-   this->menu_selected_text_color = menu_selected_text_color;
 }
 
 
@@ -374,21 +374,21 @@ ALLEGRO_COLOR TitledMenuScreen::get_menu_text_color() const
 }
 
 
-ALLEGRO_COLOR TitledMenuScreen::get_menu_selector_color() const
+ALLEGRO_COLOR TitledMenuScreen::get_menu_selected_text_color() const
 {
-   return menu_selector_color;
+   return menu_selected_text_color;
+}
+
+
+ALLEGRO_COLOR TitledMenuScreen::get_menu_selector_fill_color() const
+{
+   return menu_selector_fill_color;
 }
 
 
 ALLEGRO_COLOR TitledMenuScreen::get_menu_selector_outline_color() const
 {
    return menu_selector_outline_color;
-}
-
-
-ALLEGRO_COLOR TitledMenuScreen::get_menu_selected_text_color() const
-{
-   return menu_selected_text_color;
 }
 
 
@@ -1056,10 +1056,26 @@ void TitledMenuScreen::draw_footer_text()
    return;
 }
 
-void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float height, ALLEGRO_COLOR fill_color, ALLEGRO_COLOR outline_color, float outline_stroke_thickness, bool menu_option_chosen, float menu_option_chosen_at, float menu_option_selection_to_activation_delay, float time_now)
+void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float height, ALLEGRO_COLOR fill_color, ALLEGRO_COLOR outline_color, float outline_stroke_thickness, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment, bool menu_option_chosen, float menu_option_chosen_at, float menu_option_selection_to_activation_delay, float time_now)
 {
    ALLEGRO_COLOR result_fill_color = fill_color; //ALLEGRO_COLOR{0, 0, 0, 0};
    ALLEGRO_COLOR result_outline_color = outline_color; //ALLEGRO_COLOR{1, 1, 1, 1};
+
+   float outline_stroke_alignment_adjustment = 0.0f;
+   switch (outline_stroke_alignment)
+   {
+      case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE: {
+         outline_stroke_alignment_adjustment = 0.5f;
+      } break;
+
+      case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_CENTER: {
+         outline_stroke_alignment_adjustment = 0.0f;
+      } break;
+
+      case AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_OUTSIDE: {
+         outline_stroke_alignment_adjustment = -0.5f;
+      } break;
+   }
 
    if (menu_option_chosen)
    {
@@ -1103,10 +1119,10 @@ void TitledMenuScreen::draw_cursor_box(float x, float y, float width, float heig
 
    // draw the outline (which is invisible by default)
    al_draw_rectangle(
-      x-h_box_width,
-      y-h_box_height,
-      x+h_box_width,
-      y+h_box_height,
+      x-h_box_width + outline_stroke_thickness * outline_stroke_alignment_adjustment,
+      y-h_box_height + outline_stroke_thickness * outline_stroke_alignment_adjustment,
+      x+h_box_width - outline_stroke_thickness * outline_stroke_alignment_adjustment,
+      y+h_box_height - outline_stroke_thickness * outline_stroke_alignment_adjustment,
       result_outline_color,
       outline_stroke_thickness
    );
@@ -1175,9 +1191,10 @@ void TitledMenuScreen::draw_menu()
             y,
             box_width,
             box_height,
-            menu_selector_color,
+            menu_selector_fill_color,
             menu_selector_outline_color,
             menu_selector_outline_stroke_thickness,
+            AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
             menu_option_chosen_at,
             menu_option_selection_to_activation_delay,
@@ -1258,9 +1275,10 @@ void TitledMenuScreen::draw_confirmation_dialog()
             y,
             box_width,
             box_height,
-            menu_selector_color,
+            menu_selector_fill_color,
             menu_selector_outline_color,
             menu_selector_outline_stroke_thickness,
+            AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
             menu_option_chosen,
             menu_option_chosen_at,
             menu_option_selection_to_activation_delay,

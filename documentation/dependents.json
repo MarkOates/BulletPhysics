@@ -97,6 +97,9 @@
   "AllegroFlare/StringTransformer": [
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
+  "AllegroFlare/Screens/TitledMenuScreen/OutlineStrokeAlignment": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
