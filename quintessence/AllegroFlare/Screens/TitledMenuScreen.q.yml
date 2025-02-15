@@ -114,16 +114,23 @@ properties:
     getter: true
     setter: true
 
-  - name: footer_text_color
-    type: ALLEGRO_COLOR
-    init_with: ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}
+  - name: menu_selector_outline_stroke_thickness
+    type: float
+    init_with: 2.0f
     constructor_arg: true
     getter: true
     setter: true
 
-  - name: menu_selector_outline_stroke_thickness
+  - name: menu_selector_roundness
     type: float
-    init_with: 2.0f
+    init_with: 0.0f
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: footer_text_color
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}
     constructor_arg: true
     getter: true
     setter: true
@@ -875,6 +882,9 @@ methods:
       - name: outline_color
         type: ALLEGRO_COLOR
         default_argument: ALLEGRO_COLOR{1, 1, 1, 1}
+      - name: roundness
+        type: float
+        default_argument: 6.0f
       - name: outline_stroke_thickness
         type: float
         default_argument: 1.0f
@@ -949,16 +959,27 @@ methods:
 
       float h_box_width = width * 0.5;
       float h_box_height = height * 0.5;
+      //float roundness = 6.0f;
 
       // draw the fill
-      al_draw_filled_rectangle(x-h_box_width, y-h_box_height, x+h_box_width, y+h_box_height, result_fill_color);
+      al_draw_filled_rounded_rectangle(
+         x-h_box_width,
+         y-h_box_height,
+         x+h_box_width,
+         y+h_box_height,
+         roundness,
+         roundness,
+         result_fill_color
+      );
 
       // draw the outline (which is invisible by default)
-      al_draw_rectangle(
+      al_draw_rounded_rectangle(
          x-h_box_width + outline_stroke_thickness * outline_stroke_alignment_adjustment,
          y-h_box_height + outline_stroke_thickness * outline_stroke_alignment_adjustment,
          x+h_box_width - outline_stroke_thickness * outline_stroke_alignment_adjustment,
          y+h_box_height - outline_stroke_thickness * outline_stroke_alignment_adjustment,
+         roundness,
+         roundness,
          result_outline_color,
          outline_stroke_thickness
       );
@@ -1028,6 +1049,7 @@ methods:
                box_height,
                menu_selector_fill_color,
                menu_selector_outline_color,
+               menu_selector_roundness,
                menu_selector_outline_stroke_thickness,
                AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,
@@ -1116,6 +1138,7 @@ methods:
                box_height,
                menu_selector_fill_color,
                menu_selector_outline_color,
+               menu_selector_roundness,
                menu_selector_outline_stroke_thickness,
                AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE,
                menu_option_chosen,

@@ -141,12 +141,16 @@ table td
   <td class="property">ALLEGRO_COLOR</td>
 </tr>
 <tr>
-  <td class="property">footer_text_color</td>
-  <td class="property">ALLEGRO_COLOR</td>
-</tr>
-<tr>
   <td class="property">menu_selector_outline_stroke_thickness</td>
   <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">menu_selector_roundness</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">footer_text_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
 </tr>
 <tr>
   <td class="property">title_font_size</td>
@@ -445,7 +449,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float outline_stroke_thickness=1.0f, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment=AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=0.0)</td>
+  <td class="method"><b>draw_cursor_box</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, ALLEGRO_COLOR fill_color=ALLEGRO_COLOR{1, 1, 1, 1}, ALLEGRO_COLOR outline_color=ALLEGRO_COLOR{1, 1, 1, 1}, float roundness=6.0f, float outline_stroke_thickness=1.0f, AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment outline_stroke_alignment=AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment::OUTLINE_STROKE_ALIGNMENT_INSIDE, bool menu_option_chosen=false, float menu_option_chosen_at=0.0f, float menu_option_selection_to_activation_delay=1.0f, float time_now=0.0)</td>
 </tr>
 <tr>
   <td class="method">float</td>
