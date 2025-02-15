@@ -219,6 +219,7 @@ namespace AllegroFlare
          void show_menu();
          virtual void on_activate() override;
          void skip_to_title();
+         void clear_menu_options();
          void set_menu_options(std::vector<std::pair<std::string, std::string>> menu_options={});
          virtual void activate_current_selected_menu_option();
          bool current_menu_option_must_be_confirmed();

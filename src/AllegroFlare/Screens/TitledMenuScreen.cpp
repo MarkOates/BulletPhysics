@@ -888,6 +888,13 @@ void TitledMenuScreen::skip_to_title()
    return;
 }
 
+void TitledMenuScreen::clear_menu_options()
+{
+   menu_options.clear();
+   cursor_position = 0;
+   return;
+}
+
 void TitledMenuScreen::set_menu_options(std::vector<std::pair<std::string, std::string>> menu_options)
 {
    this->menu_options = menu_options;

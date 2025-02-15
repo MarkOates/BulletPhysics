@@ -398,6 +398,15 @@ enums:
       - OUTLINE_STROKE_ALIGNMENT_OUTSIDE
 
 
+documentation:
+
+
+  - todos:
+      - Account for screen when there are no menu options
+      - Add "empty_state_text", "empty_state_text_color", "empty_state_text_x", "empty_state_text_y"
+        "empty_state_text_reveal_duration", "empty_state_text_font", "empty_state_text_font_size"
+
+
 methods:
 
 
@@ -660,6 +669,13 @@ methods:
   - name: skip_to_title
     body: |
       set_state(STATE_REVEALED_AND_AWAITING_USER_INPUT);
+      return;
+
+
+  - name: clear_menu_options
+    body: |
+      menu_options.clear();
+      cursor_position = 0;
       return;
 
 

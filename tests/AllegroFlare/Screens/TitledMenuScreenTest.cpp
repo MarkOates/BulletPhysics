@@ -105,6 +105,34 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
+   FOCUS__CAPTURE__render__when_there_are_no_menu_options_present__will_not_blow_up)
+{
+   AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
+   title_screen.initialize();
+
+   //title_screen.set_upcase_menu_items(true);
+   //title_screen.set_menu_font_name("RobotoCondensed-Regular.ttf");
+   title_screen.set_title_text("YOU WIN");
+   title_screen.set_footer_text("");
+   title_screen.clear_menu_options();
+   title_screen.reveal();
+
+   //title_screen.set_menu_selector_outline_color(ALLEGRO_COLOR{1, 1, 1, 1});
+   //title_screen.set_menu_selector_fill_color(ALLEGRO_COLOR{0.0, 0.0, 0.0, 0.8});
+   //title_screen.set_menu_selected_text_color(ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0});
+   //title_screen.set_menu_selector_roundness(32.0f);
+
+
+   title_screen.render();
+
+   al_flip_display();
+
+   title_screen.destroy();
+   SUCCEED();
+}
+
+
+TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    CAPTURE__render__when_stylized_as_a_pause_screen__will_look_nice)
 {
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
