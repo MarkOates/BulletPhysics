@@ -955,7 +955,6 @@ void TitledMenuScreen::set_state(uint32_t state, bool override_if_busy)
          showing_menu = true;
          showing_footer_text = true;
          if (menu_options.empty()) showing_empty_state_text = true;
-         //show_menu();
       break;
 
       case STATE_MENU_OPTION_IS_CHOSEN:
@@ -1077,14 +1076,6 @@ double TitledMenuScreen::infer_title_reveal_opacity()
    if (reveal_duration <= 0.0) return 1.0;
    if (title_revealed) return 1.0;
    return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
-}
-
-void TitledMenuScreen::xxx_show_menu()
-{
-   showing_menu = true;
-   showing_footer_text = true;
-   if (menu_options.empty()) showing_empty_state_text = true;
-   return;
 }
 
 void TitledMenuScreen::on_activate()

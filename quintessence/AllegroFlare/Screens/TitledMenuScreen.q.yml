@@ -640,7 +640,6 @@ methods:
             showing_menu = true;
             showing_footer_text = true;
             if (menu_options.empty()) showing_empty_state_text = true;
-            //show_menu();
          break;
 
          case STATE_MENU_OPTION_IS_CHOSEN:
@@ -767,14 +766,6 @@ methods:
     body_dependency_symbols:
       - std::max
       - std::min
-
-
-  - name: xxx_show_menu
-    body: |
-      showing_menu = true;
-      showing_footer_text = true;
-      if (menu_options.empty()) showing_empty_state_text = true;
-      return;
 
 
   - name: on_activate

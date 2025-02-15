@@ -267,7 +267,6 @@ namespace AllegroFlare
          double infer_age(double time_of_event=0.0, double time_now=0.0);
          double infer_reveal_age();
          double infer_title_reveal_opacity();
-         void xxx_show_menu();
          virtual void on_activate() override;
          void skip_to_title();
          void clear_menu_options();

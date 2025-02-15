@@ -110,10 +110,6 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.initialize();
 
-   //title_screen.set_upcase_menu_items(true);
-   //title_screen.set_menu_font_name("RobotoCondensed-Regular.ttf");
-   title_screen.set_title_text("YOU WIN");
-   title_screen.set_footer_text("");
    title_screen.clear_menu_options();
    title_screen.reveal();
 
@@ -132,10 +128,10 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    AllegroFlare::Screens::TitledMenuScreen title_screen(get_data_folder_path());
    title_screen.initialize();
 
-   title_screen.set_title_text("YOU WIN");
-   title_screen.set_footer_text("");
+   //title_screen.set_title_text("YOU WIN");
+   //title_screen.set_footer_text("");
    title_screen.set_upcase_empty_state_text(true);
-   title_screen.set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
+   //title_screen.set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
    title_screen.clear_menu_options();
    title_screen.reveal();
 
