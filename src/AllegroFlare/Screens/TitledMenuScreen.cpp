@@ -1051,6 +1051,8 @@ void TitledMenuScreen::move_cursor_down()
 
 void TitledMenuScreen::signal_menu_selection_change()
 {
+   if (!on_menu_selection_change_callback_func) return;
+
    // TODO: Test this logic
    std::string current_menu_option_value = infer_current_menu_option_value();
    on_menu_selection_change_callback_func(
@@ -1063,13 +1065,11 @@ void TitledMenuScreen::signal_menu_selection_change()
 
 void TitledMenuScreen::activate_current_selected_menu_option()
 {
+   if (!on_menu_choice_callback_func) return;
    // TODO: Consider a case where there is an empty list
    // TODO: Test this callback
-   if (on_menu_choice_callback_func)
-   {
-      std::string current_menu_option_value = infer_current_menu_option_value();
-      on_menu_choice_callback_func(this, current_menu_option_value, on_menu_choice_callback_func_user_data);
-   }
+   std::string current_menu_option_value = infer_current_menu_option_value();
+   on_menu_choice_callback_func(this, current_menu_option_value, on_menu_choice_callback_func_user_data);
    return;
 }
 
