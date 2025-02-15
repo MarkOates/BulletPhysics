@@ -11,9 +11,10 @@
 #include <AllegroFlare/Levels/Base.hpp>
 #include <AllegroFlare/LoadASavedGame/SaveSlots/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
+#include <AllegroFlare/Screens/Base.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
-#include <AllegroFlare/Screens/PauseScreen.hpp>
 #include <AllegroFlare/Screens/Subscreen/Screen.hpp>
+#include <AllegroFlare/Screens/TitledMenuScreen.hpp>
 #include <BulletPhysics/Examples/Knockdown.hpp>
 #include <string>
 #include <tuple>
@@ -35,7 +36,7 @@ namespace BulletPhysics
          private:
             BulletPhysics::Examples::Knockdown* primary_gameplay_screen;
             AllegroFlare::Screens::Subscreen::Screen* primary_gameplay_subscreen;
-            AllegroFlare::Screens::PauseScreen* pause_screen;
+            AllegroFlare::Screens::TitledMenuScreen* pause_screen;
 
          protected:
 
@@ -52,7 +53,7 @@ namespace BulletPhysics
             virtual AllegroFlare::Screens::Gameplay* create_primary_gameplay_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual void destroy_primary_gameplay_screen() override;
             virtual AllegroFlare::Screens::Subscreen::Screen* create_primary_gameplay_subscreen(AllegroFlare::Runners::Complete* runner=nullptr) override;
-            virtual AllegroFlare::Screens::PauseScreen* create_pause_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
+            virtual AllegroFlare::Screens::Base* create_pause_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual void handle_primary_gameplay_screen_paused() override;
             virtual void handle_primary_gameplay_screen_unpaused() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_logos_storyboard_pages() override;

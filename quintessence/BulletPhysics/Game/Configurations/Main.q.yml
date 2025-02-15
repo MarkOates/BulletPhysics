@@ -18,7 +18,7 @@ properties:
     init_with: nullptr
 
   - name: pause_screen
-    type: AllegroFlare::Screens::PauseScreen*
+    type: AllegroFlare::Screens::TitledMenuScreen*
     init_with: nullptr
 
   - name: TYPE
@@ -150,6 +150,7 @@ methods:
 
       // Set the exit screen behavior
       primary_gameplay_subscreen->set_on_exit_callback_func(
+      //primary_gameplay_subscreen->set_on_finished_callback_func(
          [event_emitter](AllegroFlare::Screens::Subscreen::Screen* pause_screen, void* user_data){
             event_emitter->emit_router_event(
                AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
@@ -159,6 +160,7 @@ methods:
          }
       );
       primary_gameplay_subscreen->set_on_exit_callback_func_user_data(nullptr);
+      //primary_gameplay_subscreen->set_on_finished_callback_func_user_data(nullptr);
 
       primary_gameplay_subscreen->initialize();
 
@@ -168,7 +170,8 @@ methods:
   - name: create_pause_screen
     virtual: true
     override: true
-    type: AllegroFlare::Screens::PauseScreen*
+    xtype: AllegroFlare::Screens::PauseScreen*
+    type: AllegroFlare::Screens::Base*
     parameters:
       - name: runner
         type: AllegroFlare::Runners::Complete*
@@ -186,11 +189,17 @@ methods:
 
       // NOTE: No pause screen is used in this game, however, a pause screen is needed because upstream in the system
       // a  cannot be registered as a screen. // TODO: Fix this
-      pause_screen = new AllegroFlare::Screens::PauseScreen;
-      pause_screen->set_font_bin(font_bin);
-      pause_screen->set_bitmap_bin(bitmap_bin);
-      pause_screen->set_event_emitter(event_emitter);
+      //pause_screen = new AllegroFlare::Screens::PauseScreen;
+      pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
+         // TODO: Destroy pause screen
+      //headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
+      //pause_screen->set_font_bin(font_bin);
+      //pause_screen->set_bitmap_bin(bitmap_bin);
+      //pause_screen->set_event_emitter(event_emitter);
+      pause_screen->set_title_text("PAUSED");
       pause_screen->set_menu_options(menu_options);
+
+      pause_screen->initialize();
 
       //pause_screen->set_foreground(shared_foreground);
       //pause_screen->set_background(shared_background);
@@ -198,7 +207,8 @@ methods:
       // TODO: Add actions to menu items
 
       pause_screen->set_on_menu_choice_callback_func(
-         [event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
+         [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, void* user_data){
+         //[event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
             // TODO: Perform different action depending on selected menu item
             // TODO: Use event emitter from pause_screen
 
@@ -233,8 +243,10 @@ methods:
       pause_screen->set_on_menu_choice_callback_func_user_data(nullptr);
 
       // Set the exit screen behavior
-      pause_screen->set_on_exit_callback_func(
-         [event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
+      //pause_screen->set_on_exit_callback_func(
+      pause_screen->set_on_finished_callback_func(
+         [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, void* user_data){
+         //[event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
             event_emitter->emit_router_event(
                AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
                nullptr,
@@ -242,7 +254,8 @@ methods:
             );
          }
       );
-      pause_screen->set_on_exit_callback_func_user_data(nullptr);
+      //pause_screen->set_on_exit_callback_func_user_data(nullptr);
+      pause_screen->set_on_finished_callback_func_user_data(nullptr);
 
       return pause_screen;
 
@@ -689,5 +702,9 @@ dependencies:
     headers: [ AllegroFlare/Screens/Subscreen/Screen.hpp ]
   - symbol: BulletPhysics::Examples::Knockdown
     headers: [ BulletPhysics/Examples/Knockdown.hpp ]
+  - symbol: AllegroFlare::Screens::TitledMenuScreen
+    headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
+  - symbol: AllegroFlare::Screens::Base
+    headers: [ AllegroFlare/Screens/Base.hpp ]
 
 

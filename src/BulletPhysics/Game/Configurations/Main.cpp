@@ -134,6 +134,7 @@ AllegroFlare::Screens::Subscreen::Screen* Main::create_primary_gameplay_subscree
 
    // Set the exit screen behavior
    primary_gameplay_subscreen->set_on_exit_callback_func(
+   //primary_gameplay_subscreen->set_on_finished_callback_func(
       [event_emitter](AllegroFlare::Screens::Subscreen::Screen* pause_screen, void* user_data){
          event_emitter->emit_router_event(
             AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
@@ -143,13 +144,14 @@ AllegroFlare::Screens::Subscreen::Screen* Main::create_primary_gameplay_subscree
       }
    );
    primary_gameplay_subscreen->set_on_exit_callback_func_user_data(nullptr);
+   //primary_gameplay_subscreen->set_on_finished_callback_func_user_data(nullptr);
 
    primary_gameplay_subscreen->initialize();
 
    return primary_gameplay_subscreen;
 }
 
-AllegroFlare::Screens::PauseScreen* Main::create_pause_screen(AllegroFlare::Runners::Complete* runner)
+AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Complete* runner)
 {
    if (!((!pause_screen)))
    {
@@ -169,11 +171,17 @@ AllegroFlare::Screens::PauseScreen* Main::create_pause_screen(AllegroFlare::Runn
 
    // NOTE: No pause screen is used in this game, however, a pause screen is needed because upstream in the system
    // a  cannot be registered as a screen. // TODO: Fix this
-   pause_screen = new AllegroFlare::Screens::PauseScreen;
-   pause_screen->set_font_bin(font_bin);
-   pause_screen->set_bitmap_bin(bitmap_bin);
-   pause_screen->set_event_emitter(event_emitter);
+   //pause_screen = new AllegroFlare::Screens::PauseScreen;
+   pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
+      // TODO: Destroy pause screen
+   //headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
+   //pause_screen->set_font_bin(font_bin);
+   //pause_screen->set_bitmap_bin(bitmap_bin);
+   //pause_screen->set_event_emitter(event_emitter);
+   pause_screen->set_title_text("PAUSED");
    pause_screen->set_menu_options(menu_options);
+
+   pause_screen->initialize();
 
    //pause_screen->set_foreground(shared_foreground);
    //pause_screen->set_background(shared_background);
@@ -181,7 +189,8 @@ AllegroFlare::Screens::PauseScreen* Main::create_pause_screen(AllegroFlare::Runn
    // TODO: Add actions to menu items
 
    pause_screen->set_on_menu_choice_callback_func(
-      [event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
+      [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, void* user_data){
+      //[event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
          // TODO: Perform different action depending on selected menu item
          // TODO: Use event emitter from pause_screen
 
@@ -216,8 +225,10 @@ AllegroFlare::Screens::PauseScreen* Main::create_pause_screen(AllegroFlare::Runn
    pause_screen->set_on_menu_choice_callback_func_user_data(nullptr);
 
    // Set the exit screen behavior
-   pause_screen->set_on_exit_callback_func(
-      [event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
+   //pause_screen->set_on_exit_callback_func(
+   pause_screen->set_on_finished_callback_func(
+      [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, void* user_data){
+      //[event_emitter](AllegroFlare::Screens::PauseScreen* pause_screen, void* user_data){
          event_emitter->emit_router_event(
             AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
             nullptr,
@@ -225,7 +236,8 @@ AllegroFlare::Screens::PauseScreen* Main::create_pause_screen(AllegroFlare::Runn
          );
       }
    );
-   pause_screen->set_on_exit_callback_func_user_data(nullptr);
+   //pause_screen->set_on_exit_callback_func_user_data(nullptr);
+   pause_screen->set_on_finished_callback_func_user_data(nullptr);
 
    return pause_screen;
 }

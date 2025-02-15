@@ -1496,7 +1496,7 @@ table td
 </tr>
 <tr>
   <td class="property">pause_screen</td>
-  <td class="property">AllegroFlare::Screens::PauseScreen*</td>
+  <td class="property">AllegroFlare::Screens::TitledMenuScreen*</td>
 </tr>
 <tr>
   <td class="property">TYPE</td>
@@ -1538,7 +1538,7 @@ table td
   <td class="method"><b>create_primary_gameplay_subscreen</b>(AllegroFlare::Runners::Complete* runner=nullptr)</td>
 </tr>
 <tr>
-  <td class="method">AllegroFlare::Screens::PauseScreen*</td>
+  <td class="method">AllegroFlare::Screens::Base*</td>
   <td class="method"><b>create_pause_screen</b>(AllegroFlare::Runners::Complete* runner=nullptr)</td>
 </tr>
 <tr>
@@ -1682,6 +1682,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;BulletPhysics::Examples::Knockdown&quot;, &quot;headers&quot;=&gt;[&quot;BulletPhysics/Examples/Knockdown.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::TitledMenuScreen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/TitledMenuScreen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Base.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2078,7 +2084,8 @@ table td
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
   "AllegroFlare/Screens/Base": [
-    "AllegroFlare/Screens/TitledMenuScreen"
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Game/Configurations/Main"
   ],
   "ALLEGRO_COLOR": [
     "AllegroFlare/Screens/TitledMenuScreen"
@@ -2137,7 +2144,8 @@ table td
     "BulletPhysics/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/TitledMenuScreen": [
-    "AllegroFlare/Screens/TitledMenuScreen"
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Game/Configurations/Main"
   ],
   "AllegroFlare/MotionKit": [
     "AllegroFlare/Screens/TitledMenuScreen"

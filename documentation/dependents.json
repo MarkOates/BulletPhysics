@@ -9,7 +9,8 @@
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
   "AllegroFlare/Screens/Base": [
-    "AllegroFlare/Screens/TitledMenuScreen"
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Game/Configurations/Main"
   ],
   "ALLEGRO_COLOR": [
     "AllegroFlare/Screens/TitledMenuScreen"
@@ -68,7 +69,8 @@
     "BulletPhysics/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/TitledMenuScreen": [
-    "AllegroFlare/Screens/TitledMenuScreen"
+    "AllegroFlare/Screens/TitledMenuScreen",
+    "BulletPhysics/Game/Configurations/Main"
   ],
   "AllegroFlare/MotionKit": [
     "AllegroFlare/Screens/TitledMenuScreen"
