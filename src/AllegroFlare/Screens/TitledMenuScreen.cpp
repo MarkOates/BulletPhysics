@@ -308,12 +308,6 @@ void TitledMenuScreen::set_menu_option_selection_to_activation_delay(double menu
 }
 
 
-void TitledMenuScreen::set_reveal_duration(double reveal_duration)
-{
-   this->reveal_duration = reveal_duration;
-}
-
-
 void TitledMenuScreen::set_upcase_menu_items(bool upcase_menu_items)
 {
    this->upcase_menu_items = upcase_menu_items;
@@ -560,6 +554,19 @@ void TitledMenuScreen::TODO()
    // either "highlighted" or "chosen" depending on the casses.
    // Setup the "on_finished", indicating the title screen has "timed out" and may want to loop back around
      // to logos or something
+   return;
+}
+
+void TitledMenuScreen::set_reveal_duration(double reveal_duration)
+{
+   if (!((reveal_duration >= 0.0)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::set_reveal_duration]: error: guard \"(reveal_duration >= 0.0)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::set_reveal_duration]: error: guard \"(reveal_duration >= 0.0)\" not met");
+   }
+   this->reveal_duration = reveal_duration;
    return;
 }
 
@@ -830,13 +837,7 @@ double TitledMenuScreen::infer_reveal_age()
 
 double TitledMenuScreen::infer_title_reveal_opacity()
 {
-   if (!((reveal_duration != 0.0)))
-   {
-      std::stringstream error_message;
-      error_message << "[AllegroFlare::Screens::TitledMenuScreen::infer_title_reveal_opacity]: error: guard \"(reveal_duration != 0.0)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::infer_title_reveal_opacity]: error: guard \"(reveal_duration != 0.0)\" not met");
-   }
+   if (reveal_duration <= 0.0) return 1.0;
    if (title_revealed) return 1.0;
    return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
 }

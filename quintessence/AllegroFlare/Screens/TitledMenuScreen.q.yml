@@ -259,7 +259,7 @@ properties:
     type: double
     init_with: 1.0
     getter: true
-    setter: true
+    setter: explicit
 
   - name: reveal_started_at
     type: double
@@ -330,6 +330,12 @@ properties:
     static: true
     constexpr: true
 
+  - name: DEFAULT_REVEAL_DURATION
+    type: double
+    init_with: 1.0
+    static: true
+    constexpr: true
+
   - name: DEFAULT_TITLE_FONT_SIZE
     type: int
     init_with: -132
@@ -377,6 +383,17 @@ methods:
       // either "highlighted" or "chosen" depending on the casses.
       // Setup the "on_finished", indicating the title screen has "timed out" and may want to loop back around
         // to logos or something
+      return;
+
+
+  - name: set_reveal_duration
+    parameters:
+      - name: reveal_duration
+        type: double
+        default_argument: DEFAULT_REVEAL_DURATION
+    guards: [ (reveal_duration >= 0.0) ]
+    body: |
+      this->reveal_duration = reveal_duration;
       return;
 
 
@@ -591,8 +608,8 @@ methods:
 
   - name: infer_title_reveal_opacity
     type: double
-    guards: [ (reveal_duration != 0.0) ]
     body: |
+      if (reveal_duration <= 0.0) return 1.0;
       if (title_revealed) return 1.0;
       return std::max(0.0, std::min(1.0, infer_reveal_age() / reveal_duration));
     body_dependency_symbols:

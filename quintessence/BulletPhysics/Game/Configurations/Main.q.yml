@@ -198,6 +198,8 @@ methods:
       //pause_screen->set_event_emitter(event_emitter);
       pause_screen->set_title_text("PAUSED");
       pause_screen->set_menu_options(menu_options);
+      pause_screen->set_menu_option_selection_to_activation_delay(0.0);
+      pause_screen->set_reveal_duration(0.0);
 
       pause_screen->initialize();
 

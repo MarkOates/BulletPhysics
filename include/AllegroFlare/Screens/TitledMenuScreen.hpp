@@ -25,6 +25,7 @@ namespace AllegroFlare
       {
       public:
          static constexpr char* DEFAULT_DATA_FOLDER_PATH = (char*)"[unset-data_folder_path]";
+         static constexpr double DEFAULT_REVEAL_DURATION = 1.0;
          static constexpr int DEFAULT_TITLE_FONT_SIZE = -132;
          static constexpr int DEFAULT_MENU_FONT_SIZE = -36;
          static constexpr int DEFAULT_FOOTER_FONT_SIZE = -20;
@@ -149,7 +150,6 @@ namespace AllegroFlare
          void set_menu_select_option_sound_effect_identifier(std::string menu_select_option_sound_effect_identifier);
          void set_menu_select_option_sound_effect_enabled(bool menu_select_option_sound_effect_enabled);
          void set_menu_option_selection_to_activation_delay(double menu_option_selection_to_activation_delay);
-         void set_reveal_duration(double reveal_duration);
          void set_upcase_menu_items(bool upcase_menu_items);
          std::size_t get_surface_width() const;
          std::size_t get_surface_height() const;
@@ -191,6 +191,7 @@ namespace AllegroFlare
          bool get_upcase_menu_items() const;
          bool get_initialized() const;
          void TODO();
+         void set_reveal_duration(double reveal_duration=DEFAULT_REVEAL_DURATION);
          void initialize();
          void destroy();
          void start();
