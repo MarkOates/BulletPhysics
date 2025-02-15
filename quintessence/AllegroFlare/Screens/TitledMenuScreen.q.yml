@@ -190,6 +190,26 @@ properties:
     getter: true
     setter: explicit
 
+  - name: empty_state_text_font_name
+    type: std::string
+    init_with: '"Inter-Regular.ttf"'
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: empty_state_text_font_size
+    type: int
+    init_with: DEFAULT_EMPTY_STATE_TEXT_FONT_SIZE
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: upcase_empty_state_text
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
+
   - name: on_menu_selection_change_callback_func
     type: std::function<void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)>
     init_with: ''
@@ -347,6 +367,10 @@ properties:
     type: bool
     init_with: false
 
+  - name: showing_empty_state_text
+    type: bool
+    init_with: true
+
   - name: showing_footer_text
     type: bool
     init_with: false
@@ -419,6 +443,12 @@ properties:
   - name: DEFAULT_MENU_FONT_SIZE
     type: int
     init_with: -36
+    static: true
+    constexpr: true
+
+  - name: DEFAULT_EMPTY_STATE_TEXT_FONT_SIZE
+    type: int
+    init_with: -42
     static: true
     constexpr: true
 
@@ -884,6 +914,7 @@ methods:
       draw_title();
       if (showing_footer_text) draw_footer_text();
       if (showing_menu) draw_menu();
+      if (showing_empty_state_text) draw_empty_state_text();
       if (showing_confirmation_dialog) draw_confirmation_dialog();
       return;
 
@@ -1144,6 +1175,33 @@ methods:
       - std::sqrt
 
 
+  - name: draw_empty_state_text
+    body: |
+      std::string empty_state_text = "Press any key to continue";
+      ALLEGRO_COLOR empty_state_text_color = ALLEGRO_COLOR{0.3, 0.3, 0.3, 0.3};
+      float empty_state_text_x = 1920 / 2;
+      float empty_state_text_y = 1080 / 12 * 7;
+      //std::string empty_state_text_font_name = "RobotoCondensed-Regular.ttf";
+      //std::string empty_state_text_font_size = -46;
+
+      ALLEGRO_FONT *empty_state_text_font = obtain_empty_state_text_font(); // TODO: Fix this to obtain empty state font
+      float h_font_line_height = (int)(al_get_font_line_height(empty_state_text_font) * 0.5f);
+      std::string text = upcase_empty_state_text
+                       ? AllegroFlare::StringTransformer(empty_state_text).upcase().get_text()
+                       : empty_state_text;
+
+      al_draw_text(
+         empty_state_text_font,
+         empty_state_text_color,
+         (int)empty_state_text_x,
+         (int)(empty_state_text_y-h_font_line_height),
+         ALLEGRO_ALIGN_CENTER,
+         text.c_str()
+      );
+
+      return;
+
+
   - name: draw_menu
     guards: [ al_is_primitives_addon_initialized() ]
     body: |
@@ -1389,6 +1447,16 @@ methods:
     body: |
       std::stringstream composite_font_str;
       composite_font_str << menu_font_name << " " << menu_font_size;
+      return font_bin.auto_get(composite_font_str.str());
+
+
+  - name: obtain_empty_state_text_font
+    private: true
+    type: ALLEGRO_FONT*
+    guards: [ initialized, (!destroyed) ]
+    body: |
+      std::stringstream composite_font_str;
+      composite_font_str << empty_state_text_font_name << " " << empty_state_text_font_size;
       return font_bin.auto_get(composite_font_str.str());
 
 

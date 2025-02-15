@@ -185,6 +185,18 @@ table td
   <td class="property">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
 </tr>
 <tr>
+  <td class="property">empty_state_text_font_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">empty_state_text_font_size</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">upcase_empty_state_text</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">on_menu_selection_change_callback_func</td>
   <td class="property">std::function&lt;void(AllegroFlare::Screens::TitledMenuScreen*, std::string, void*)&gt;</td>
 </tr>
@@ -293,6 +305,10 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">showing_empty_state_text</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">showing_footer_text</td>
   <td class="property">bool</td>
 </tr>
@@ -354,6 +370,10 @@ table td
 </tr>
 <tr>
   <td class="property">DEFAULT_MENU_FONT_SIZE</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_EMPTY_STATE_TEXT_FONT_SIZE</td>
   <td class="property">int</td>
 </tr>
 <tr>
@@ -509,6 +529,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>draw_empty_state_text</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>draw_menu</b>()</td>
 </tr>
 <tr>
@@ -542,6 +566,10 @@ table td
 <tr>
   <td class="private_method">ALLEGRO_FONT*</td>
   <td class="private_method"><b>obtain_menu_font</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">ALLEGRO_FONT*</td>
+  <td class="private_method"><b>obtain_empty_state_text_font</b>()</td>
 </tr>
 <tr>
   <td class="private_method">ALLEGRO_FONT*</td>

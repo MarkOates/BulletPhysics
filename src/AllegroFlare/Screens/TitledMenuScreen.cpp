@@ -24,7 +24,7 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, bool show_triangle_cursor, float triangle_cursor_height, bool match_triangle_cursor_height_to_box_height, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, bool show_triangle_cursor, float triangle_cursor_height, bool match_triangle_cursor_height_to_box_height, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size, std::string empty_state_text_font_name, int empty_state_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
    , font_bin({})
@@ -53,6 +53,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_font_size(menu_font_size)
    , footer_text_font_size(footer_text_font_size)
    , menu_options(build_default_menu_options())
+   , empty_state_text_font_name(empty_state_text_font_name)
+   , empty_state_text_font_size(empty_state_text_font_size)
+   , upcase_empty_state_text(false)
    , on_menu_selection_change_callback_func()
    , on_menu_selection_change_callback_func_user_data(nullptr)
    , on_menu_choice_callback_func()
@@ -80,6 +83,7 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , reveal_started_at(0.0)
    , title_revealed(false)
    , showing_menu(false)
+   , showing_empty_state_text(true)
    , showing_footer_text(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
@@ -250,6 +254,24 @@ void TitledMenuScreen::set_menu_font_size(int menu_font_size)
 void TitledMenuScreen::set_footer_text_font_size(int footer_text_font_size)
 {
    this->footer_text_font_size = footer_text_font_size;
+}
+
+
+void TitledMenuScreen::set_empty_state_text_font_name(std::string empty_state_text_font_name)
+{
+   this->empty_state_text_font_name = empty_state_text_font_name;
+}
+
+
+void TitledMenuScreen::set_empty_state_text_font_size(int empty_state_text_font_size)
+{
+   this->empty_state_text_font_size = empty_state_text_font_size;
+}
+
+
+void TitledMenuScreen::set_upcase_empty_state_text(bool upcase_empty_state_text)
+{
+   this->upcase_empty_state_text = upcase_empty_state_text;
 }
 
 
@@ -532,6 +554,24 @@ int TitledMenuScreen::get_footer_text_font_size() const
 std::vector<std::pair<std::string, std::string>> TitledMenuScreen::get_menu_options() const
 {
    return menu_options;
+}
+
+
+std::string TitledMenuScreen::get_empty_state_text_font_name() const
+{
+   return empty_state_text_font_name;
+}
+
+
+int TitledMenuScreen::get_empty_state_text_font_size() const
+{
+   return empty_state_text_font_size;
+}
+
+
+bool TitledMenuScreen::get_upcase_empty_state_text() const
+{
+   return upcase_empty_state_text;
 }
 
 
@@ -1150,6 +1190,7 @@ void TitledMenuScreen::render()
    draw_title();
    if (showing_footer_text) draw_footer_text();
    if (showing_menu) draw_menu();
+   if (showing_empty_state_text) draw_empty_state_text();
    if (showing_confirmation_dialog) draw_confirmation_dialog();
    return;
 }
@@ -1340,6 +1381,33 @@ void TitledMenuScreen::draw_cursor_triangle(float x, float y, float length, floa
    //std::cout << "Bottom-left point: (" << x_bottom << ", " << y_bottom << ")\n";
 
    al_draw_filled_triangle(x, y, x_top, y_top, x_bottom, y_bottom, color);
+}
+
+void TitledMenuScreen::draw_empty_state_text()
+{
+   std::string empty_state_text = "Press any key to continue";
+   ALLEGRO_COLOR empty_state_text_color = ALLEGRO_COLOR{0.3, 0.3, 0.3, 0.3};
+   float empty_state_text_x = 1920 / 2;
+   float empty_state_text_y = 1080 / 12 * 7;
+   //std::string empty_state_text_font_name = "RobotoCondensed-Regular.ttf";
+   //std::string empty_state_text_font_size = -46;
+
+   ALLEGRO_FONT *empty_state_text_font = obtain_empty_state_text_font(); // TODO: Fix this to obtain empty state font
+   float h_font_line_height = (int)(al_get_font_line_height(empty_state_text_font) * 0.5f);
+   std::string text = upcase_empty_state_text
+                    ? AllegroFlare::StringTransformer(empty_state_text).upcase().get_text()
+                    : empty_state_text;
+
+   al_draw_text(
+      empty_state_text_font,
+      empty_state_text_color,
+      (int)empty_state_text_x,
+      (int)(empty_state_text_y-h_font_line_height),
+      ALLEGRO_ALIGN_CENTER,
+      text.c_str()
+   );
+
+   return;
 }
 
 void TitledMenuScreen::draw_menu()
@@ -1604,6 +1672,27 @@ ALLEGRO_FONT* TitledMenuScreen::obtain_menu_font()
    }
    std::stringstream composite_font_str;
    composite_font_str << menu_font_name << " " << menu_font_size;
+   return font_bin.auto_get(composite_font_str.str());
+}
+
+ALLEGRO_FONT* TitledMenuScreen::obtain_empty_state_text_font()
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_empty_state_text_font]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_empty_state_text_font]: error: guard \"initialized\" not met");
+   }
+   if (!((!destroyed)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::obtain_empty_state_text_font]: error: guard \"(!destroyed)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::obtain_empty_state_text_font]: error: guard \"(!destroyed)\" not met");
+   }
+   std::stringstream composite_font_str;
+   composite_font_str << empty_state_text_font_name << " " << empty_state_text_font_size;
    return font_bin.auto_get(composite_font_str.str());
 }
 
