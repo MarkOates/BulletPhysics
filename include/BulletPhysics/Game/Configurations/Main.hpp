@@ -54,6 +54,7 @@ namespace BulletPhysics
             virtual void destroy_primary_gameplay_screen() override;
             virtual AllegroFlare::Screens::Subscreen::Screen* create_primary_gameplay_subscreen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual AllegroFlare::Screens::Base* create_pause_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
+            virtual void destroy_pause_screen() override;
             virtual void handle_primary_gameplay_screen_paused() override;
             virtual void handle_primary_gameplay_screen_unpaused() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_logos_storyboard_pages() override;

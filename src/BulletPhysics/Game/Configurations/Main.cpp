@@ -242,6 +242,12 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
    return pause_screen;
 }
 
+void Main::destroy_pause_screen()
+{
+   pause_screen->destroy();
+   return;
+}
+
 void Main::handle_primary_gameplay_screen_paused()
 {
    if (!(primary_gameplay_screen))

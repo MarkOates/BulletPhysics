@@ -260,6 +260,14 @@ methods:
       return pause_screen;
 
 
+  - name: destroy_pause_screen
+    virtual: true
+    override: true
+    body: |
+      pause_screen->destroy();
+      return;
+
+
   - name: handle_primary_gameplay_screen_paused
     virtual: true
     override: true
