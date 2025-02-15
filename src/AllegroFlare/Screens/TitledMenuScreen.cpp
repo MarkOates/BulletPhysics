@@ -24,7 +24,7 @@ namespace Screens
 {
 
 
-TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size)
+TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t surface_width, std::size_t surface_height, std::string title_text, std::string footer_text, std::string title_bitmap_name, std::string title_font_name, std::string menu_font_name, std::string footer_text_font_name, ALLEGRO_COLOR title_text_color, ALLEGRO_COLOR menu_text_color, ALLEGRO_COLOR menu_selected_text_color, ALLEGRO_COLOR menu_selector_fill_color, ALLEGRO_COLOR menu_selector_outline_color, float menu_selector_outline_stroke_thickness, float menu_selector_roundness, bool menu_selector_roundness_is_fit_to_max, bool show_triangle_cursor, float triangle_cursor_height, bool match_triangle_cursor_height_to_box_height, ALLEGRO_COLOR footer_text_color, int title_font_size, int menu_font_size, int footer_text_font_size)
    : AllegroFlare::Screens::Base(AllegroFlare::Screens::TitledMenuScreen::TYPE)
    , data_folder_path(data_folder_path)
    , font_bin({})
@@ -45,6 +45,9 @@ TitledMenuScreen::TitledMenuScreen(std::string data_folder_path, std::size_t sur
    , menu_selector_outline_stroke_thickness(menu_selector_outline_stroke_thickness)
    , menu_selector_roundness(menu_selector_roundness)
    , menu_selector_roundness_is_fit_to_max(menu_selector_roundness_is_fit_to_max)
+   , show_triangle_cursor(show_triangle_cursor)
+   , triangle_cursor_height(triangle_cursor_height)
+   , match_triangle_cursor_height_to_box_height(match_triangle_cursor_height_to_box_height)
    , footer_text_color(footer_text_color)
    , title_font_size(title_font_size)
    , menu_font_size(menu_font_size)
@@ -199,6 +202,24 @@ void TitledMenuScreen::set_menu_selector_roundness(float menu_selector_roundness
 void TitledMenuScreen::set_menu_selector_roundness_is_fit_to_max(bool menu_selector_roundness_is_fit_to_max)
 {
    this->menu_selector_roundness_is_fit_to_max = menu_selector_roundness_is_fit_to_max;
+}
+
+
+void TitledMenuScreen::set_show_triangle_cursor(bool show_triangle_cursor)
+{
+   this->show_triangle_cursor = show_triangle_cursor;
+}
+
+
+void TitledMenuScreen::set_triangle_cursor_height(float triangle_cursor_height)
+{
+   this->triangle_cursor_height = triangle_cursor_height;
+}
+
+
+void TitledMenuScreen::set_match_triangle_cursor_height_to_box_height(bool match_triangle_cursor_height_to_box_height)
+{
+   this->match_triangle_cursor_height_to_box_height = match_triangle_cursor_height_to_box_height;
 }
 
 
@@ -421,6 +442,24 @@ float TitledMenuScreen::get_menu_selector_roundness() const
 bool TitledMenuScreen::get_menu_selector_roundness_is_fit_to_max() const
 {
    return menu_selector_roundness_is_fit_to_max;
+}
+
+
+bool TitledMenuScreen::get_show_triangle_cursor() const
+{
+   return show_triangle_cursor;
+}
+
+
+float TitledMenuScreen::get_triangle_cursor_height() const
+{
+   return triangle_cursor_height;
+}
+
+
+bool TitledMenuScreen::get_match_triangle_cursor_height_to_box_height() const
+{
+   return match_triangle_cursor_height_to_box_height;
 }
 
 
@@ -1183,6 +1222,29 @@ float TitledMenuScreen::calculate_menu_item_vertical_spacing()
    return result;
 }
 
+void TitledMenuScreen::draw_cursor_triangle(float x, float y, float length, float height, ALLEGRO_COLOR color)
+{
+
+   // Calculate offsets using 60 degrees
+   //float dx = side_length / 2.0f;
+   //float dy = (side_length * std::sqrt(3.0f)) / 2.0f;
+   float hh = height * 0.5f;
+   //float dy = (side_length * std::sqrt(3.0f)) / 2.0f;
+
+   // Compute the two missing points
+   float x_top = x - length;
+   float y_top = y - hh;
+   float x_bottom = x - length;
+   float y_bottom = y + hh;
+
+   // Output the three points
+   //std::cout << "Rightmost point:   (" << x << ", " << y << ")\n";
+   //std::cout << "Top-left point:    (" << x_top << ", " << y_top << ")\n";
+   //std::cout << "Bottom-left point: (" << x_bottom << ", " << y_bottom << ")\n";
+
+   al_draw_filled_triangle(x, y, x_top, y_top, x_bottom, y_bottom, color);
+}
+
 void TitledMenuScreen::draw_menu()
 {
    if (!(al_is_primitives_addon_initialized()))
@@ -1211,6 +1273,12 @@ void TitledMenuScreen::draw_menu()
          longest_menu_option_text_width = this_menu_item_text_width;
    }
 
+   float box_width = longest_menu_option_text_width + 126;
+   float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+   float cursor_triangle_distance = 32.0f;
+   float cursor_triangle_side_length =
+      match_triangle_cursor_height_to_box_height ? box_height * 1.05f : triangle_cursor_height;
+
    // render each menu item
    for (auto &menu_option : menu_options)
    {
@@ -1226,8 +1294,8 @@ void TitledMenuScreen::draw_menu()
 
       if (showing_cursor_on_this_option)
       {
-         float box_width = longest_menu_option_text_width + 126;
-         float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+         //float box_width = longest_menu_option_text_width + 126;
+         //float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
          float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
          draw_cursor_box(
@@ -1245,6 +1313,17 @@ void TitledMenuScreen::draw_menu()
             menu_option_selection_to_activation_delay,
             state_accumulated_age
          );
+
+         if (show_triangle_cursor)
+         {
+            draw_cursor_triangle(
+               x - box_width * 0.5 - cursor_triangle_distance,
+               y, 
+               cursor_triangle_side_length * 0.8669254, // (sqrt(3) / 2)
+               cursor_triangle_side_length,
+               menu_selector_fill_color
+            );
+         }
       }
 
       al_draw_text(

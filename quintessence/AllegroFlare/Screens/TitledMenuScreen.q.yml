@@ -135,6 +135,27 @@ properties:
     getter: true
     setter: true
 
+  - name: show_triangle_cursor
+    type: bool
+    init_with: false
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: triangle_cursor_height
+    type: float
+    init_with: 20.0f
+    constructor_arg: true
+    getter: true
+    setter: true
+
+  - name: match_triangle_cursor_height_to_box_height
+    type: bool
+    init_with: true
+    constructor_arg: true
+    getter: true
+    setter: true
+
   - name: footer_text_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{0.35f, 0.35f, 0.35f, 0.35f}
@@ -1025,6 +1046,47 @@ methods:
       return result;
 
 
+  - name: draw_cursor_triangle
+    parameters:
+      - name: x
+        type: float
+        default_argument: 0.0f
+      - name: y
+        type: float
+        default_argument: 0.0f
+      - name: length
+        type: float
+        default_argument: 1.0f
+      - name: height
+        type: float
+        default_argument: 1.0f
+      - name: color
+        type: ALLEGRO_COLOR
+        default_argument: '{1, 1, 1, 1}'
+    body: |
+      
+      // Calculate offsets using 60 degrees
+      //float dx = side_length / 2.0f;
+      //float dy = (side_length * std::sqrt(3.0f)) / 2.0f;
+      float hh = height * 0.5f;
+      //float dy = (side_length * std::sqrt(3.0f)) / 2.0f;
+
+      // Compute the two missing points
+      float x_top = x - length;
+      float y_top = y - hh;
+      float x_bottom = x - length;
+      float y_bottom = y + hh;
+
+      // Output the three points
+      //std::cout << "Rightmost point:   (" << x << ", " << y << ")\n";
+      //std::cout << "Top-left point:    (" << x_top << ", " << y_top << ")\n";
+      //std::cout << "Bottom-left point: (" << x_bottom << ", " << y_bottom << ")\n";
+
+      al_draw_filled_triangle(x, y, x_top, y_top, x_bottom, y_bottom, color);
+    body_dependency_symbols:
+      - std::sqrt
+
+
   - name: draw_menu
     guards: [ al_is_primitives_addon_initialized() ]
     body: |
@@ -1047,6 +1109,12 @@ methods:
             longest_menu_option_text_width = this_menu_item_text_width;
       }
 
+      float box_width = longest_menu_option_text_width + 126;
+      float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+      float cursor_triangle_distance = 32.0f;
+      float cursor_triangle_side_length =
+         match_triangle_cursor_height_to_box_height ? box_height * 1.05f : triangle_cursor_height;
+
       // render each menu item
       for (auto &menu_option : menu_options)
       {
@@ -1062,8 +1130,8 @@ methods:
 
          if (showing_cursor_on_this_option)
          {
-            float box_width = longest_menu_option_text_width + 126;
-            float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
+            //float box_width = longest_menu_option_text_width + 126;
+            //float box_height = al_get_font_line_height(menu_font) + 16; // Previously 8
             float roundness = menu_selector_roundness_is_fit_to_max ? box_height * 0.5 : menu_selector_roundness;
 
             draw_cursor_box(
@@ -1081,6 +1149,17 @@ methods:
                menu_option_selection_to_activation_delay,
                state_accumulated_age
             );
+
+            if (show_triangle_cursor)
+            {
+               draw_cursor_triangle(
+                  x - box_width * 0.5 - cursor_triangle_distance,
+                  y, 
+                  cursor_triangle_side_length * 0.8669254, // (sqrt(3) / 2)
+                  cursor_triangle_side_length,
+                  menu_selector_fill_color
+               );
+            }
          }
 
          al_draw_text(
@@ -1100,6 +1179,7 @@ methods:
       - al_draw_filled_rectangle
       - al_is_primitives_addon_initialized
       - AllegroFlare::StringTransformer
+      - std::sqrt
 
 
   - name: transform_menu_item_text
@@ -1465,5 +1545,7 @@ dependencies:
     headers: [ AllegroFlare/StringTransformer.hpp ]
   - symbol: AllegroFlare::Screens::TitledMenuScreen::OutlineStrokeAlignment
     headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
+  - symbol: std::sqrt
+    headers: [ cmath ]
 
 

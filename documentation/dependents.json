@@ -100,6 +100,9 @@
   "AllegroFlare/Screens/TitledMenuScreen/OutlineStrokeAlignment": [
     "AllegroFlare/Screens/TitledMenuScreen"
   ],
+  "std/sqrt": [
+    "AllegroFlare/Screens/TitledMenuScreen"
+  ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",

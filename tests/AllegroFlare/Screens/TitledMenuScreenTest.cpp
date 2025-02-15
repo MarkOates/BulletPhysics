@@ -139,6 +139,10 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
    title_screen.initialize();
 
    title_screen.set_upcase_menu_items(true);
+   title_screen.set_show_triangle_cursor(true);
+   title_screen.set_match_triangle_cursor_height_to_box_height(false);
+   title_screen.set_triangle_cursor_height(32);
+
    title_screen.set_title_text("PAUSED");
    title_screen.set_menu_options(
       {
