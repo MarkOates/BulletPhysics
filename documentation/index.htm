@@ -54,7 +54,6 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
-  <li><a href="#quintessence/AllegroFlare/PlaytimeTracker.q.yml">quintessence/AllegroFlare/PlaytimeTracker.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/DynamicsWorld.q.yml">quintessence/BulletPhysics/DynamicsWorld.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Basic.q.yml">quintessence/BulletPhysics/Examples/Basic.q.yml</a></li>
   <li><a href="#quintessence/BulletPhysics/Examples/Cubes.q.yml">quintessence/BulletPhysics/Examples/Cubes.q.yml</a></li>
@@ -68,76 +67,6 @@ table td
   <li><a href="#quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml">quintessence/BulletPhysics/GameplayMetaState/Basic.q.yml</a></li>
 </ul>
 <h1>Components</h1>
-<br><br><br>
-<br><br><br>
-<ul>
-  <div class="component">
-    <h3 id="quintessence/AllegroFlare/PlaytimeTracker.q.yml">quintessence/AllegroFlare/PlaytimeTracker.q.yml</h3>
-    <p>(This component does not include supplementary documentation)</p>
-    <h3>Properties</h3>
-<div class="property-box properties">     <table>
-<tr>
-  <td class="property">previous_accumulated_playtime_msec</td>
-  <td class="property">std::chrono::milliseconds</td>
-</tr>
-<tr>
-  <td class="property">current_playtime_timer</td>
-  <td class="property">AllegroFlare::Timer</td>
-</tr>
-    </table>
-</div>    <h3>Methods</h3>
-<div class="property-box methods">     <table>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>start</b>()</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>pause</b>()</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>unpause</b>()</td>
-</tr>
-<tr>
-  <td class="method">std::chrono::milliseconds</td>
-  <td class="method"><b>calculate_total_playtime</b>()</td>
-</tr>
-<tr>
-  <td class="method">std::string</td>
-  <td class="method"><b>formatted_current_total_playtime_hms</b>()</td>
-</tr>
-<tr>
-  <td class="method">std::string</td>
-  <td class="method"><b>to_string</b>()</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>from_string</b>(std::string milliseconds_str=&quot;0&quot;)</td>
-</tr>
-<tr>
-  <td class="method">std::string</td>
-  <td class="method"><b>milliseconds_to_string</b>(std::chrono::milliseconds milliseconds={})</td>
-</tr>
-<tr>
-  <td class="method">std::chrono::milliseconds</td>
-  <td class="method"><b>milliseconds_from_string</b>(std::string milliseconds_str=&quot;0&quot;)</td>
-</tr>
-    </table>
-</div>    <h3>Dependencies</h3>
-<div class="property-box dependencies">     <table>
-<tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Timer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Timer.hpp&quot;]}</td>
-</tr>
-<tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::chrono::milliseconds&quot;, &quot;headers&quot;=&gt;[&quot;chrono&quot;]}</td>
-</tr>
-<tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::TimerFormatter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/TimerFormatter.hpp&quot;]}</td>
-</tr>
-    </table>
-</div>  </div>
-</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -1611,15 +1540,6 @@ table td
 <h1>Dependents</h1>
 <pre>
 {
-  "AllegroFlare/Timer": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
-  "std/chrono/milliseconds": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
-  "AllegroFlare/TimerFormatter": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
   "AllegroFlare/Logger": [
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",

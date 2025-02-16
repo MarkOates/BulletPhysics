@@ -1,13 +1,4 @@
 {
-  "AllegroFlare/Timer": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
-  "std/chrono/milliseconds": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
-  "AllegroFlare/TimerFormatter": [
-    "AllegroFlare/PlaytimeTracker"
-  ],
   "AllegroFlare/Logger": [
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
