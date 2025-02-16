@@ -1937,10 +1937,71 @@ AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_title
       { "Credits", "show_credits" },
       { "Exit", "exit_game*" }
    });
-   result->set_show_triangle_cursor(true);
 
    // Menu Font
    result->set_menu_font_name("RobotoCondensed-Regular.ttf");
+
+   result->initialize();
+
+   return result;
+}
+
+AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_game_won_screen(std::string data_folder_path, std::string title_text)
+{
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::create_standard_game_won_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::create_standard_game_won_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
+   }
+   // Some options could be "YOU WIN", "GAME OVER", "THANK YOU FOR PLAYING"
+   AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+   // Title
+   result->set_title_text("YOU WIN");
+   result->set_title_position_y(1080 / 14 * 6);
+
+   // Footer
+   result->set_footer_text(""); // Consider adding "clear_footer_text"
+
+   // Menus
+   result->clear_menu_options();
+
+   // Empty state text
+   //title_screen.set_upcase_empty_state_text(true);
+   result->set_empty_state_text(""); // Consider adding "
+   result->set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
+
+   result->initialize();
+
+   return result;
+}
+
+AllegroFlare::Screens::TitledMenuScreen* TitledMenuScreen::create_standard_game_over_screen(std::string data_folder_path)
+{
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[AllegroFlare::Screens::TitledMenuScreen::create_standard_game_over_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[AllegroFlare::Screens::TitledMenuScreen::create_standard_game_over_screen]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
+   }
+   AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+   // Title
+   result->set_title_text("GAME OVER");
+
+   // Footer
+   result->set_footer_text(""); // Consider adding "clear_footer_text"
+
+   // Menus
+   result->clear_menu_options();
+
+   // Empty state text
+   result->set_upcase_empty_state_text(true);
+   result->set_empty_state_text("Press any key to continue");
+   result->set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
 
    result->initialize();
 

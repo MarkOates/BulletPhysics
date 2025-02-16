@@ -1637,6 +1637,7 @@ methods:
 
 
 # Constructors
+# TODO: Consider moving these to a factory class
 
 
   - name: create_standard_pause_screen
@@ -1705,10 +1706,78 @@ methods:
          { "Credits", "show_credits" },
          { "Exit", "exit_game*" }
       });
-      result->set_show_triangle_cursor(true);
 
       // Menu Font
       result->set_menu_font_name("RobotoCondensed-Regular.ttf");
+
+      result->initialize();
+
+      return result;
+    body_dependency_symbols:
+      - AllegroFlare::Screens::TitledMenuScreen
+
+
+  - name: create_standard_game_won_screen
+    static: true
+    type: AllegroFlare::Screens::TitledMenuScreen*
+    parameters:
+      - name: data_folder_path
+        type: std::string
+        default_argument: DEFAULT_DATA_FOLDER_PATH
+      - name: title_text
+        type: std::string
+        default_argument: '"YOU WIN"'
+    guards: [ (data_folder_path != DEFAULT_DATA_FOLDER_PATH) ]
+    body: |
+      // Some options could be "YOU WIN", "GAME OVER", "THANK YOU FOR PLAYING"
+      AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+      // Title
+      result->set_title_text("YOU WIN");
+      result->set_title_position_y(1080 / 14 * 6);
+
+      // Footer
+      result->set_footer_text(""); // Consider adding "clear_footer_text"
+
+      // Menus
+      result->clear_menu_options();
+
+      // Empty state text
+      //title_screen.set_upcase_empty_state_text(true);
+      result->set_empty_state_text(""); // Consider adding "
+      result->set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
+
+      result->initialize();
+
+      return result;
+    body_dependency_symbols:
+      - AllegroFlare::Screens::TitledMenuScreen
+
+
+  - name: create_standard_game_over_screen
+    static: true
+    type: AllegroFlare::Screens::TitledMenuScreen*
+    parameters:
+      - name: data_folder_path
+        type: std::string
+        default_argument: DEFAULT_DATA_FOLDER_PATH
+    guards: [ (data_folder_path != DEFAULT_DATA_FOLDER_PATH) ]
+    body: |
+      AllegroFlare::Screens::TitledMenuScreen* result = new AllegroFlare::Screens::TitledMenuScreen(data_folder_path);
+
+      // Title
+      result->set_title_text("GAME OVER");
+
+      // Footer
+      result->set_footer_text(""); // Consider adding "clear_footer_text"
+
+      // Menus
+      result->clear_menu_options();
+
+      // Empty state text
+      result->set_upcase_empty_state_text(true);
+      result->set_empty_state_text("Press any key to continue");
+      result->set_empty_state_text_font_name("RobotoCondensed-Regular.ttf");
 
       result->initialize();
 

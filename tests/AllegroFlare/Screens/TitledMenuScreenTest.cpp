@@ -146,7 +146,7 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
 
 
 TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
-   CAPTURE__create_standard_pause_screen__will_create_a_valid_pause_screen_with_the_expected_properties)
+   FOCUS__CAPTURE__create_standard_pause_screen__will_create_a_valid_pause_screen_with_the_expected_properties)
 {
    auto screen = AllegroFlare::Screens::TitledMenuScreen::create_standard_pause_screen(
       get_data_folder_path(),
@@ -171,6 +171,42 @@ TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
       get_data_folder_path(),
       "Title of Game",
       "© Copyright 2025       clubcatt.com      v0.1.17"
+   );
+
+   screen->reveal();
+   screen->render();
+
+   al_flip_display();
+   al_rest(0.25);
+
+   screen->destroy();
+   SUCCEED();
+}
+
+
+TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
+   FOCUS__CAPTURE__create_standard_game_won_screen__will_create_a_valid_pause_screen_with_the_expected_properties)
+{
+   auto screen = AllegroFlare::Screens::TitledMenuScreen::create_standard_game_won_screen(
+      get_data_folder_path()
+   );
+
+   screen->reveal();
+   screen->render();
+
+   al_flip_display();
+   al_rest(0.25);
+
+   screen->destroy();
+   SUCCEED();
+}
+
+
+TEST_F(AllegroFlare_Screens_TitledMenuScreenTestWithAllegroRenderingFixture,
+   FOCUS__CAPTURE__create_standard_game_over_screen__will_create_a_valid_pause_screen_with_the_expected_properties)
+{
+   auto screen = AllegroFlare::Screens::TitledMenuScreen::create_standard_game_over_screen(
+      get_data_folder_path()
    );
 
    screen->reveal();
