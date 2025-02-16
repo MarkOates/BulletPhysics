@@ -1006,6 +1006,8 @@ methods:
 
 
   - name: destroy
+    virtual: true
+    override: true
     guards: [ (!destroyed), initialized ]
     body: |
       clear();

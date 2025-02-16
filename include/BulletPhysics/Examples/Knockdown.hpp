@@ -87,7 +87,7 @@ namespace BulletPhysics
          void capture_cube_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int cube_index=-1);
          void capture_shape_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, int shape_index=-1);
          void capture_rigid_body_position_and_rotation(AllegroFlare::Vec3D* position=nullptr, AllegroFlare::Vec3D* rotation_euler=nullptr, btRigidBody* rigid_body=nullptr);
-         void destroy();
+         virtual void destroy() override;
          void set_camera_to_start_position();
          void initialize_render();
          void destroy_render();

@@ -1,107 +1,11 @@
 {
-  "fmod": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "ALLEGRO_FLARE_EVENT_START_NEW_GAME": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "std/vector<std/pair<std/string, std/string>>": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/Screens/Base": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Game/Configurations/Main"
-  ],
-  "ALLEGRO_COLOR": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/Placement2D": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/VirtualController": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "al_draw_rectangle": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "al_draw_filled_rectangle": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "al_is_primitives_addon_initialized": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "ALLEGRO_BITMAP": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "ALLEGRO_FONT": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/FontBin": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/BitmapBin": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Examples/Knockdown",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/EventEmitter": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/Player": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/Base": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/GenericController": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
-  "AllegroFlare/Screens/TitledMenuScreen": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Game/Configurations/Main"
-  ],
-  "AllegroFlare/MotionKit": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/ColorKit": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/Elements/Backgrounds/Base": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "ALLEGRO_EVENT": [
-    "AllegroFlare/Screens/TitledMenuScreen",
-    "BulletPhysics/Gameplay/Screen"
-  ],
   "AllegroFlare/Logger": [
-    "AllegroFlare/Screens/TitledMenuScreen",
     "BulletPhysics/DynamicsWorld",
     "BulletPhysics/Examples/Basic",
     "BulletPhysics/Examples/Cubes",
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Examples/Mesh",
     "BulletPhysics/GameplayMetaState/Basic"
-  ],
-  "AllegroFlare/StringTransformer": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "AllegroFlare/Screens/TitledMenuScreen/OutlineStrokeAlignment": [
-    "AllegroFlare/Screens/TitledMenuScreen"
-  ],
-  "std/sqrt": [
-    "AllegroFlare/Screens/TitledMenuScreen"
   ],
   "btCollisionDispatcher": [
     "BulletPhysics/DynamicsWorld",
@@ -219,6 +123,18 @@
     "BulletPhysics/Examples/Knockdown",
     "BulletPhysics/Gameplay/Screen"
   ],
+  "AllegroFlare/FontBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
+    "BulletPhysics/Examples/Knockdown",
+    "BulletPhysics/Gameplay/Screen"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "BulletPhysics/Game/Configurations/Main"
   ],
@@ -293,8 +209,32 @@
   "AllegroFlare/Screens/Subscreen/Screen": [
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/Screens/TitledMenuScreen": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Screens/Base": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
+  ],
+  "ALLEGRO_EVENT": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "al_is_primitives_addon_initialized": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/Player": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "BulletPhysics/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "BulletPhysics/Gameplay/Screen"
   ],
   "AllegroFlare/AssetStudio/Database": [
     "BulletPhysics/Gameplay/Screen"
