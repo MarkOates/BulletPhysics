@@ -1118,38 +1118,8 @@ void Knockdown::primary_update_func(double time_now, double time_step)
    return;
 }
 
-void Knockdown::primary_render_func()
+void Knockdown::render_world()
 {
-   if (!(initialized))
-   {
-      std::stringstream error_message;
-      error_message << "[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met");
-   }
-   //AllegroFlare::Screens::Gameplay::primary_render_func();
-   if (get_gameplay_suspended())
-   {
-      ALLEGRO_FONT *font = get_any_font(&font_bin);
-      //get_any_font
-      al_draw_multiline_text(
-         font,
-         ALLEGRO_COLOR{1, 1, 1, 1},
-         1920/2,
-         1080-80*2,
-         1920,
-         al_get_font_line_height(font),
-         ALLEGRO_ALIGN_CENTER,
-         "PAUSED"
-      );
-      return;
-   }
-
-
-   camera3d.spin -= 0.0125 * 0.25;
-
-
-
    AllegroFlare::Model3D *sphere_model = model_bin.auto_get("unit_sphere-01.obj");
    AllegroFlare::Model3D *cube_model = model_bin.auto_get("centered_unit_cube-03.obj");
    //AllegroFlare::Model3D *shape_model = model_bin.auto_get("obscure_unit_tetrahedron-02.obj");
@@ -1284,9 +1254,14 @@ void Knockdown::primary_render_func()
             //shape_body_placement.restore_transform();
             al_use_transform(&previous_transform);
          }
+   }
+   return;
+}
 
-
-
+void Knockdown::render_hud()
+{
+   hud_camera.setup_dimensional_projection(al_get_target_bitmap());
+   {
       // Draw HUD
       {
          hud_camera.setup_dimensional_projection(al_get_target_bitmap());
@@ -1423,16 +1398,46 @@ void Knockdown::primary_render_func()
          state
    );
    */
+   return;
+}
 
-
-   //float dip_to_black_opacity = 0.0f;
-   dip_to_black_opacity = gameplay_meta_state.get_dip_to_black_opacity();//time_step_state(time_step);
-   if (dip_to_black_opacity >= 0.01f)
+void Knockdown::primary_render_func()
+{
+   if (!(initialized))
    {
-      al_draw_filled_rectangle(
-         0, 0, 1920, 1080, ALLEGRO_COLOR{0, 0, 0, dip_to_black_opacity}
-      );
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Examples::Knockdown::primary_render_func]: error: guard \"initialized\" not met");
    }
+   //AllegroFlare::Screens::Gameplay::primary_render_func();
+   if (get_gameplay_suspended())
+   {
+      ALLEGRO_FONT *font = get_any_font(&font_bin);
+      //get_any_font
+      al_draw_multiline_text(
+         font,
+         ALLEGRO_COLOR{1, 1, 1, 1},
+         1920/2,
+         1080-80*2,
+         1920,
+         al_get_font_line_height(font),
+         ALLEGRO_ALIGN_CENTER,
+         "PAUSED"
+      );
+      return;
+   }
+
+
+   camera3d.spin -= 0.0125 * 0.25;
+
+
+   // Render the world
+   render_world();
+
+
+   // Render the hud
+   render_hud();
 
 
    return;

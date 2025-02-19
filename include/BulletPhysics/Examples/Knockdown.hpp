@@ -92,6 +92,8 @@ namespace BulletPhysics
          void initialize_render();
          void destroy_render();
          virtual void primary_update_func(double time_now=al_get_time(), double time_step=1.0 / 60.0) override;
+         void render_world();
+         void render_hud();
          virtual void primary_render_func() override;
          ALLEGRO_FONT* get_any_font(AllegroFlare::FontBin* font_bin=nullptr, int size=-30);
          bool showing_final_score();
