@@ -53,7 +53,7 @@ enums:
       - GAMEPLAY_META_STATE_UNDEF
       - GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START
       - GAMEPLAY_META_STATE_OPENING_SEQUENCE
-      - GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL
+      - GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION
       - GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY
       - GAMEPLAY_META_STATE_TALLYING_SCORE
       - GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING
@@ -65,6 +65,9 @@ enums:
 documentation:
 
 
+  - todos:
+      - This class has a GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION which should be
+        optional. The alternative is the gameplay will commence immediately after the opening sequence state finishes.
   - notes:
       - This class handles and manages state designed around the most common gameplay meta-states, such as level opening
         sequences, ready banners, end-of-level score tallying, closing out, etc.
@@ -97,7 +100,7 @@ methods:
     override: true
     type: bool
     body: |
-      return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL)
+      return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION)
          || is_state(GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY)
          || is_state(GAMEPLAY_META_STATE_SCORE_PRESENTED_AND_WAITING_FOR_PLAYER_TO_CONTINUE);
 
@@ -143,7 +146,7 @@ methods:
             dip_to_black_opacity = 1.0f;
          } break;
 
-         case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
+         case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION: {
          } break;
 
          case GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY: {
@@ -212,11 +215,11 @@ methods:
             if (age > 2.0)
             {
                dip_to_black_opacity = 0.0f;
-               set_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+               set_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION);
             }
          } break;
 
-         case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL: {
+         case GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION: {
          } break;
 
          case GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY: {
@@ -268,7 +271,7 @@ methods:
       {
          GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START,
          GAMEPLAY_META_STATE_OPENING_SEQUENCE,
-         GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
+         GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION,
          GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY,
          GAMEPLAY_META_STATE_TALLYING_SCORE,
          GAMEPLAY_META_STATE_SCORE_TALLIED_AND_PRESENTING,
@@ -301,8 +304,8 @@ methods:
            "GAMEPLAY_META_STATE_LOADED_AND_WAITING_TO_START" },
          { GAMEPLAY_META_STATE_OPENING_SEQUENCE,
            "GAMEPLAY_META_STATE_OPENING_SEQUENCE" },
-         { GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL,
-           "GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL" },
+         { GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION,
+           "GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION" },
          { GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY,
            "GAMEPLAY_META_STATE_IN_ACTIVE_GAMEPLAY" },
          { GAMEPLAY_META_STATE_TALLYING_SCORE,
@@ -360,7 +363,7 @@ methods:
   - name: showing_gameplay_instructions
     type: bool
     body: |
-      return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_THROW_BALL);
+      return is_state(GAMEPLAY_META_STATE_WAITING_FOR_PLAYER_TO_INITIATE_GAME_STARTING_ACTION);
 
 
   - name: showing_press_any_key_to_continue_after_score_tally
