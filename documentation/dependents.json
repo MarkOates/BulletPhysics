@@ -212,6 +212,9 @@
   "AllegroFlare/Screens/TitledMenuScreen": [
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/Screens/TitledMenuScreenFactory": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "AllegroFlare/Screens/Base": [
     "BulletPhysics/Game/Configurations/Main"
   ],

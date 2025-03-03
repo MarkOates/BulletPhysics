@@ -8,6 +8,7 @@
 #include <AllegroFlare/GameEventDatas/AchievementUnlocked.hpp>
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
+#include <AllegroFlare/Screens/TitledMenuScreenFactory.hpp>
 #include <BulletPhysics/Gameplay/Level.hpp>
 #include <BulletPhysics/Gameplay/Screen.hpp>
 #include <functional>
@@ -160,20 +161,25 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::create_pause_screen]: error: guard \"(!pause_screen)\" not met");
    }
+   //auto RESUME_PAUSED_GAMEPLAY_EVENT_NAME =
+      //AllegroFlare::Screens::TitledMenuScreenFactory::RESUME_PAUSED_GAMEPLAY_EVENT_NAME;
+   //auto EXIT_TO_TITLE_SCREEN_EVENT_NAME =
+      //AllegroFlare::Screens::TitledMenuScreenFactory::EXIT_TO_TITLE_SCREEN_EVENT_NAME;
+
    //AllegroFlare::FontBin* font_bin = runner->get_font_bin();
    //AllegroFlare::BitmapBin* bitmap_bin = runner->get_bitmap_bin();
    AllegroFlare::EventEmitter* event_emitter = runner->get_event_emitter();
 
-   std::vector<std::pair<std::string, std::string>> menu_options = {
-      { "Resume", "resume_gameplay" },
-      { "Exit to Title Screen", "exit_to_title_screen" },
-   };
+   //std::vector<std::pair<std::string, std::string>> menu_options = {
+      //{ "Resume", RESUME_PAUSED_GAMEPLAY_EVENT_NAME },
+      //{ "Exit to Title Screen", EXIT_TO_TITLE_SCREEN_EVENT_NAME },
+   //};
 
    // NOTE: No pause screen is used in this game, however, a pause screen is needed because upstream in the system
    // a  cannot be registered as a screen. // TODO: Fix this
    //pause_screen = new AllegroFlare::Screens::PauseScreen;
    //pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
-   pause_screen = AllegroFlare::Screens::TitledMenuScreen::create_standard_pause_screen(
+   pause_screen = AllegroFlare::Screens::TitledMenuScreenFactory::create_standard_pause_screen(
       runner->get_framework()->get_data_folder_path()
       //runner->get_framework()->get_data_folder_path(), // TODO: Add "NAME OF GAME   v0.2.5" as footer text
    );
@@ -199,8 +205,13 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
 
    pause_screen->set_on_menu_choice_callback_func(
       [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, std::string value, void* user_data){
+         auto RESUME_PAUSED_GAMEPLAY_EVENT_NAME =
+            AllegroFlare::Screens::TitledMenuScreenFactory::RESUME_PAUSED_GAMEPLAY_EVENT_NAME;
+         auto EXIT_TO_TITLE_SCREEN_EVENT_NAME =
+            AllegroFlare::Screens::TitledMenuScreenFactory::EXIT_TO_TITLE_SCREEN_EVENT_NAME;
+
          std::string current_menu_option_value = value;
-         if (current_menu_option_value == "resume")
+         if (current_menu_option_value == RESUME_PAUSED_GAMEPLAY_EVENT_NAME)
          {
             event_emitter->emit_router_event(
                AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
@@ -208,7 +219,7 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
                al_get_time()
             );
          }
-         else if (current_menu_option_value == "exit_to_title_screen")
+         else if (current_menu_option_value == EXIT_TO_TITLE_SCREEN_EVENT_NAME)
          {
             // TODO: Add a "are you sure?" step here
             event_emitter->emit_router_event(
