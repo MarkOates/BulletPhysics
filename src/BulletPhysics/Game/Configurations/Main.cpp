@@ -160,8 +160,8 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::create_pause_screen]: error: guard \"(!pause_screen)\" not met");
    }
-   AllegroFlare::FontBin* font_bin = runner->get_font_bin();
-   AllegroFlare::BitmapBin* bitmap_bin = runner->get_bitmap_bin();
+   //AllegroFlare::FontBin* font_bin = runner->get_font_bin();
+   //AllegroFlare::BitmapBin* bitmap_bin = runner->get_bitmap_bin();
    AllegroFlare::EventEmitter* event_emitter = runner->get_event_emitter();
 
    std::vector<std::pair<std::string, std::string>> menu_options = {
@@ -172,18 +172,25 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
    // NOTE: No pause screen is used in this game, however, a pause screen is needed because upstream in the system
    // a  cannot be registered as a screen. // TODO: Fix this
    //pause_screen = new AllegroFlare::Screens::PauseScreen;
-   pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
+   //pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
+   pause_screen = AllegroFlare::Screens::TitledMenuScreen::create_standard_pause_screen(
+      runner->get_framework()->get_data_folder_path()
+      //runner->get_framework()->get_data_folder_path(), // TODO: Add "NAME OF GAME   v0.2.5" as footer text
+   );
+
+   //pause_screen = new AllegroFlare::Screens::TitledMenuScreen(runner->get_framework()->get_data_folder_path());
       // TODO: Destroy pause screen
    //headers: [ AllegroFlare/Screens/TitledMenuScreen.hpp ]
    //pause_screen->set_font_bin(font_bin);
    //pause_screen->set_bitmap_bin(bitmap_bin);
    //pause_screen->set_event_emitter(event_emitter);
-   pause_screen->set_title_text("PAUSED");
-   pause_screen->set_menu_options(menu_options);
-   pause_screen->set_menu_option_chosen_to_activation_delay(0.0);
-   pause_screen->set_reveal_duration(0.0);
 
-   pause_screen->initialize();
+   //pause_screen->set_title_text("PAUSED");
+   //pause_screen->set_menu_options(menu_options);
+   //pause_screen->set_menu_option_chosen_to_activation_delay(0.0);
+   //pause_screen->set_reveal_duration(0.0);
+
+   //pause_screen->initialize();
 
    //pause_screen->set_foreground(shared_foreground);
    //pause_screen->set_background(shared_background);
@@ -193,7 +200,7 @@ AllegroFlare::Screens::Base* Main::create_pause_screen(AllegroFlare::Runners::Co
    pause_screen->set_on_menu_choice_callback_func(
       [event_emitter](AllegroFlare::Screens::TitledMenuScreen* pause_screen, std::string value, void* user_data){
          std::string current_menu_option_value = value;
-         if (current_menu_option_value == "resume_gameplay")
+         if (current_menu_option_value == "resume")
          {
             event_emitter->emit_router_event(
                AllegroFlare::Routers::Standard::EVENT_UNPAUSE_GAME,
