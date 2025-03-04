@@ -218,6 +218,9 @@
   "AllegroFlare/Screens/Base": [
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "BulletPhysics/GameProgressAndStateInfo": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
   ],

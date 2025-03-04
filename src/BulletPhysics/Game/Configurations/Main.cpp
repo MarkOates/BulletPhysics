@@ -9,6 +9,7 @@
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
 #include <AllegroFlare/Screens/TitledMenuScreenFactory.hpp>
+#include <BulletPhysics/GameProgressAndStateInfo.hpp>
 #include <BulletPhysics/Gameplay/Level.hpp>
 #include <BulletPhysics/Gameplay/Screen.hpp>
 #include <functional>
@@ -403,22 +404,21 @@ void Main::load_last_played_session_or_start_new(AllegroFlare::GameSession* game
    return;
 }
 
-void Main::setup_new_game_progress_and_state_info(AllegroFlare::GameSession* game_session)
+AllegroFlare::GameProgressAndStateInfos::Base* Main::create_game_progress_and_state_info_saver_loader()
+{
+   return new BulletPhysics::GameProgressAndStateInfo();
+}
+
+void Main::setup_new_game_progress_and_state_info_DEPRECATED(AllegroFlare::GameSession* game_session)
 {
    if (!(game_session))
    {
       std::stringstream error_message;
-      error_message << "[BulletPhysics::Game::Configurations::Main::setup_new_game_progress_and_state_info]: error: guard \"game_session\" not met.";
+      error_message << "[BulletPhysics::Game::Configurations::Main::setup_new_game_progress_and_state_info_DEPRECATED]: error: guard \"game_session\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::setup_new_game_progress_and_state_info]: error: guard \"game_session\" not met");
+      throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::setup_new_game_progress_and_state_info_DEPRECATED]: error: guard \"game_session\" not met");
    }
-   // TODO: This method
-   //AllegroFlare::Logger::throw_error(
-      //"AllegroFlare::GameConfigurations::Base::setup_new_game_progress_and_state_info",
-      //"Not implemented in the base class. This method must be implemented in the derived class"
-   //);
-   //AllegroFlare::GameProgressAndStateInfos::Base *game_progress_and_state_info =
-     //game_session->get_game_progress_and_state_info();
+   AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME, "This is DEPRECATED.");
    return;
 }
 

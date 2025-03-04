@@ -435,7 +435,17 @@ methods:
       - AllegroFlare::GameProgressAndStateInfos::Base
 
 
-  - name: setup_new_game_progress_and_state_info
+  - name: create_game_progress_and_state_info_saver_loader
+    virtual: true
+    override: true
+    type: AllegroFlare::GameProgressAndStateInfos::Base*
+    body: |
+      return new BulletPhysics::GameProgressAndStateInfo();
+    body_dependency_symbols:
+      - BulletPhysics::GameProgressAndStateInfo
+
+
+  - name: setup_new_game_progress_and_state_info_DEPRECATED
     virtual: true
     override: true
     parameters:
@@ -444,16 +454,8 @@ methods:
         default_argument: nullptr
     guards: [ game_session ]
     body: |
-      // TODO: This method
-      //AllegroFlare::Logger::throw_error(
-         //"AllegroFlare::GameConfigurations::Base::setup_new_game_progress_and_state_info",
-         //"Not implemented in the base class. This method must be implemented in the derived class"
-      //);
-      //AllegroFlare::GameProgressAndStateInfos::Base *game_progress_and_state_info =
-        //game_session->get_game_progress_and_state_info();
+      AllegroFlare::Logger::throw_error(THIS_CLASS_AND_METHOD_NAME, "This is DEPRECATED.");
       return;
-    body_dependency_symbols:
-      - AllegroFlare::GameProgressAndStateInfos::Base
 
 
   - name: build_save_slots_for_load_a_saved_game_screen
@@ -697,5 +699,7 @@ dependencies:
     headers: [ AllegroFlare/Screens/TitledMenuScreenFactory.hpp ]
   - symbol: AllegroFlare::Screens::Base
     headers: [ AllegroFlare/Screens/Base.hpp ]
+  - symbol: BulletPhysics::GameProgressAndStateInfo
+    headers: [ BulletPhysics/GameProgressAndStateInfo.hpp ]
 
 
