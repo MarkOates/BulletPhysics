@@ -441,6 +441,25 @@ methods:
       - AllegroFlare::GameProgressAndStateInfos::Base
 
 
+  - name: load_save_file_content_into_gameplay
+    virtual: true
+    override: true
+    parameters:
+      - name: save_file_content
+        type: std::string
+        default_argument: '"[unset-save_file_content]"'
+    guards: [ (!save_file_content.empty()) ]
+    body: |
+      // TODO: This method
+      AllegroFlare::Logger::info_from(THIS_CLASS_AND_METHOD_NAME,
+         "This method is called. Please implement this method."
+      );
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::GameProgressAndStateInfos::Base
+
+
   - name: create_game_progress_and_state_info_saver_loader
     virtual: true
     override: true

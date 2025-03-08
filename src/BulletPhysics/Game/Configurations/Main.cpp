@@ -411,6 +411,23 @@ void Main::load_last_played_session_or_start_new(AllegroFlare::GameSession* game
    return;
 }
 
+void Main::load_save_file_content_into_gameplay(std::string save_file_content)
+{
+   if (!((!save_file_content.empty())))
+   {
+      std::stringstream error_message;
+      error_message << "[BulletPhysics::Game::Configurations::Main::load_save_file_content_into_gameplay]: error: guard \"(!save_file_content.empty())\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::load_save_file_content_into_gameplay]: error: guard \"(!save_file_content.empty())\" not met");
+   }
+   // TODO: This method
+   AllegroFlare::Logger::info_from(THIS_CLASS_AND_METHOD_NAME,
+      "This method is called. Please implement this method."
+   );
+
+   return;
+}
+
 AllegroFlare::GameProgressAndStateInfos::Base* Main::create_game_progress_and_state_info_saver_loader()
 {
    return new BulletPhysics::GameProgressAndStateInfo();

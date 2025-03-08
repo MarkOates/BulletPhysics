@@ -65,6 +65,7 @@ namespace BulletPhysics
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;
             virtual void load_audio_controller(AllegroFlare::AudioController* audio_controller=nullptr) override;
             virtual void load_last_played_session_or_start_new(AllegroFlare::GameSession* game_session=nullptr) override;
+            virtual void load_save_file_content_into_gameplay(std::string save_file_content="[unset-save_file_content]") override;
             virtual AllegroFlare::GameProgressAndStateInfos::Base* create_game_progress_and_state_info_saver_loader() override;
             virtual void setup_new_game_progress_and_state_info_DEPRECATED(AllegroFlare::GameSession* game_session=nullptr) override;
             virtual std::vector<AllegroFlare::LoadASavedGame::SaveSlots::Base*> build_save_slots_for_load_a_saved_game_screen() override;
