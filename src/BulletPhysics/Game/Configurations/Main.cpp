@@ -7,6 +7,7 @@
 #include <AllegroFlare/EventNames.hpp>
 #include <AllegroFlare/GameEventDatas/AchievementUnlocked.hpp>
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
+#include <AllegroFlare/LoadASavedGame/SaveSlots/Empty.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
 #include <AllegroFlare/Screens/TitledMenuScreenFactory.hpp>
 #include <BulletPhysics/GameProgressAndStateInfo.hpp>
@@ -343,19 +344,25 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitr
 
 std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_options()
 {
+   //{
+      //{ "Start new game", "start_new_game" }, // NOTE: This value is a constant expected by Routers/Complete
+      //{ "Load a saved game", "goto_load_a_saved_game_screen" }, // NOTE: This value is a constant expected by Routers/Complete
+      //{ "Credits", "goto_credits_screen" }, // NOTE: This value is a constant expected by Routers/Complete
+      //{ "Exit", "quit" } // NOTE: This value is a constant expected by Routers/Complete
+   //});
    //AllegroFlare::Logger::throw_error(
       //"AllegroFlare::GameConfigurations::Base::build_title_screen_menu_options",
          //"Not implemented in the base class. This method must be implemented in the derived class"
    //);
    std::vector<std::pair<std::string, std::string>> options = {
       //{ "Continue",          "continue_from_last_save" },       // TODO: If game session is saved and valid
-      //{ "Load a Saved Game", "goto_load_a_saved_game_screen" }, // TODO: If game session is saved and valid,
+      { "Load a Saved Game", "goto_load_a_saved_game_screen" }, // TODO: If game session is saved and valid,
                                                                 // and the game supports save slots
       { "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
-      //{ "Achievements",      "goto_achievements_screen" },
+      { "Achievements",      "goto_achievements_screen" },
       //{ "Settings",          "goto_settings_screen" },
       //{ "Version",           "goto_version_screen" },
-      //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
+      { "Credits",           "goto_credits_screen" },           // TODO: If game has been won
       { "Quit",              "quit" },
    };
    return options;
@@ -424,15 +431,15 @@ void Main::setup_new_game_progress_and_state_info_DEPRECATED(AllegroFlare::GameS
 
 std::vector<AllegroFlare::LoadASavedGame::SaveSlots::Base*> Main::build_save_slots_for_load_a_saved_game_screen()
 {
-   /*
+   ///*
    std::vector<AllegroFlare::LoadASavedGame::SaveSlots::Base*> result = {
       new AllegroFlare::LoadASavedGame::SaveSlots::Empty(), // TODO: Fill this list with items from save file
       new AllegroFlare::LoadASavedGame::SaveSlots::Empty(),
       new AllegroFlare::LoadASavedGame::SaveSlots::Empty(),
    };
    return result;
-   */
-   return {};
+   //*/
+   //return {};
 }
 
 void Main::handle_game_event(AllegroFlare::GameEvent* game_event)

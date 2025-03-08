@@ -221,6 +221,9 @@
   "BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/LoadASavedGame/SaveSlots/Empty": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
   ],
