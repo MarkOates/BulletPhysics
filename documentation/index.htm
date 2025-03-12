@@ -422,6 +422,14 @@ table td
   <td class="property">std::string</td>
 </tr>
 <tr>
+  <td class="property">player_inventory_items</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
+</tr>
+<tr>
+  <td class="property">player_num_lives</td>
+  <td class="property">int</td>
+</tr>
+<tr>
   <td class="property">dynamics_world</td>
   <td class="property">btDiscreteDynamicsWorld*</td>
 </tr>
@@ -1056,6 +1064,10 @@ table td
   <td class="method"><b>load_save_file_content_into_gameplay</b>(std::string save_file_content=&quot;[unset-save_file_content]&quot;)</td>
 </tr>
 <tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>build_save_file_content_for_current_game</b>()</td>
+</tr>
+<tr>
   <td class="method">AllegroFlare::GameProgressAndStateInfos::Base*</td>
   <td class="method"><b>create_game_progress_and_state_info_saver_loader</b>()</td>
 </tr>
@@ -1194,6 +1206,10 @@ table td
 <tr>
   <td class="property">player_inventory_items</td>
   <td class="property">std::vector&lt;std::string&gt;</td>
+</tr>
+<tr>
+  <td class="property">player_num_lives</td>
+  <td class="property">int</td>
 </tr>
 <tr>
   <td class="property">TYPE</td>

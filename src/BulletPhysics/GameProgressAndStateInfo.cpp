@@ -12,6 +12,7 @@ namespace BulletPhysics
 GameProgressAndStateInfo::GameProgressAndStateInfo()
    : AllegroFlare::GameProgressAndStateInfos::Base(BulletPhysics::GameProgressAndStateInfo::TYPE)
    , player_inventory_items({})
+   , player_num_lives(0)
 {
 }
 
@@ -27,15 +28,33 @@ void GameProgressAndStateInfo::set_player_inventory_items(std::vector<std::strin
 }
 
 
+void GameProgressAndStateInfo::set_player_num_lives(int player_num_lives)
+{
+   this->player_num_lives = player_num_lives;
+}
+
+
 std::vector<std::string> GameProgressAndStateInfo::get_player_inventory_items() const
 {
    return player_inventory_items;
 }
 
 
+int GameProgressAndStateInfo::get_player_num_lives() const
+{
+   return player_num_lives;
+}
+
+
 std::vector<std::string> &GameProgressAndStateInfo::get_player_inventory_items_ref()
 {
    return player_inventory_items;
+}
+
+
+int &GameProgressAndStateInfo::get_player_num_lives_ref()
+{
+   return player_num_lives;
 }
 
 

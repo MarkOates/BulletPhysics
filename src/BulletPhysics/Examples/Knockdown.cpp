@@ -26,6 +26,8 @@ namespace Examples
 Knockdown::Knockdown()
    : AllegroFlare::Screens::Gameplay()
    , data_folder_path("[unset-data_folder_path]")
+   , player_inventory_items()
+   , player_num_lives(0)
    , dynamics_world(nullptr)
    , dynamics_world_object(nullptr)
    , sphere_body(nullptr)
@@ -81,6 +83,18 @@ void Knockdown::set_data_folder_path(std::string data_folder_path)
 }
 
 
+void Knockdown::set_player_inventory_items(std::vector<std::string> player_inventory_items)
+{
+   this->player_inventory_items = player_inventory_items;
+}
+
+
+void Knockdown::set_player_num_lives(int player_num_lives)
+{
+   this->player_num_lives = player_num_lives;
+}
+
+
 void Knockdown::set_shape_model(AllegroFlare::Model3D* shape_model)
 {
    this->shape_model = shape_model;
@@ -90,6 +104,18 @@ void Knockdown::set_shape_model(AllegroFlare::Model3D* shape_model)
 std::string Knockdown::get_data_folder_path() const
 {
    return data_folder_path;
+}
+
+
+std::vector<std::string> Knockdown::get_player_inventory_items() const
+{
+   return player_inventory_items;
+}
+
+
+int Knockdown::get_player_num_lives() const
+{
+   return player_num_lives;
 }
 
 
@@ -571,6 +597,10 @@ void Knockdown::initialize()
             //clear();
             //reset();
          //} break;
+
+         case ALLEGRO_KEY_S: {
+            save_to_manual_save(); // from Screens::Gameplay
+         }; break;
 
          case ALLEGRO_KEY_SPACE: {
             //if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
@@ -1356,6 +1386,32 @@ void Knockdown::render_hud()
                "Press any key to continue"
             );
          }
+
+
+         // For DEVELOPMENT, show player_num_lives and inventory
+         {
+            std::stringstream inventory_items_str;
+            for (auto &inventory_item : player_inventory_items)
+            {
+               inventory_items_str << inventory_item << " ";
+            }
+
+            // For debugging, show state
+            al_draw_multiline_textf(
+               font,
+               ALLEGRO_COLOR{1, 1, 1, 1},
+               300,
+               100,
+               1920,
+               al_get_font_line_height(font),
+               ALLEGRO_ALIGN_LEFT,
+               "Player num lives: %d\n"
+                  "Player inventory_items: %s",
+                  player_num_lives,
+                  inventory_items_str.str().c_str()
+            );
+         }
+
 
 
          /*

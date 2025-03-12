@@ -16,6 +16,13 @@ properties:
     setter: true
     getter_ref: true
 
+  - name: player_num_lives
+    type: int
+    init_with: 0
+    getter: true
+    setter: true
+    getter_ref: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"BulletPhysics/GameProgressAndStateInfo"'

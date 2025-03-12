@@ -15,6 +15,18 @@ properties:
     getter: true
     setter: true
 
+  - name: player_inventory_items
+    type: std::vector<std::string>
+    init_with: ''
+    getter: true
+    setter: true
+
+  - name: player_num_lives
+    type: int
+    init_with: 0
+    getter: true
+    setter: true
+
   - name: dynamics_world
     type: btDiscreteDynamicsWorld*
     init_with: nullptr
@@ -590,6 +602,10 @@ methods:
                //clear();
                //reset();
             //} break;
+
+            case ALLEGRO_KEY_S: {
+               save_to_manual_save(); // from Screens::Gameplay
+            }; break;
 
             case ALLEGRO_KEY_SPACE: {
                //if (is_state(STATE_WAITING_FOR_PLAYER_TO_THROW_BALL))
@@ -1361,6 +1377,32 @@ methods:
                   "Press any key to continue"
                );
             }
+
+
+            // For DEVELOPMENT, show player_num_lives and inventory
+            {
+               std::stringstream inventory_items_str;
+               for (auto &inventory_item : player_inventory_items)
+               {
+                  inventory_items_str << inventory_item << " ";
+               }
+
+               // For debugging, show state
+               al_draw_multiline_textf(
+                  font,
+                  ALLEGRO_COLOR{1, 1, 1, 1},
+                  300,
+                  100,
+                  1920,
+                  al_get_font_line_height(font),
+                  ALLEGRO_ALIGN_LEFT,
+                  "Player num lives: %d\n"
+                     "Player inventory_items: %s",
+                     player_num_lives,
+                     inventory_items_str.str().c_str()
+               );
+            }
+
 
 
             /*

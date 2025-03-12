@@ -420,12 +420,33 @@ void Main::load_save_file_content_into_gameplay(std::string save_file_content)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[BulletPhysics::Game::Configurations::Main::load_save_file_content_into_gameplay]: error: guard \"(!save_file_content.empty())\" not met");
    }
-   // TODO: This method
-   AllegroFlare::Logger::info_from(THIS_CLASS_AND_METHOD_NAME,
-      "This method is called. Please implement this method."
-   );
+   BulletPhysics::GameProgressAndStateInfo game_progress_and_state_info;
+   game_progress_and_state_info.import_from_string(save_file_content);
+
+   // TODO: Set in-game variables
+   int player_num_lives = game_progress_and_state_info.get_player_num_lives();
+   std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
+
+   primary_gameplay_screen->set_player_num_lives(player_num_lives);
+   primary_gameplay_screen->set_player_inventory_items(player_inventory_items);
 
    return;
+}
+
+std::string Main::build_save_file_content_for_current_game()
+{
+   BulletPhysics::GameProgressAndStateInfo game_progress_and_state_info;
+
+   // Grab variables/data/content from the varous sources in the system
+   int player_num_lives = game_progress_and_state_info.get_player_num_lives();
+   std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
+
+   // Set in-game variables
+   game_progress_and_state_info.set_player_num_lives(player_num_lives);
+   game_progress_and_state_info.set_player_inventory_items(player_inventory_items);
+
+   // Return the string dump
+   return game_progress_and_state_info.export_to_string();
 }
 
 AllegroFlare::GameProgressAndStateInfos::Base* Main::create_game_progress_and_state_info_saver_loader()

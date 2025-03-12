@@ -10,6 +10,7 @@ TEST(BulletPhysics_JSONLoaders_BulletPhysics_GameProgressAndStateInfoTest,
 {
    BulletPhysics::GameProgressAndStateInfo game_progress_and_state_info;
    game_progress_and_state_info.set_player_inventory_items({ "fruit", "veggie", "fork" });
+   game_progress_and_state_info.set_player_num_lives(3);
 
    nlohmann::json j = game_progress_and_state_info;
 
@@ -19,7 +20,8 @@ R"({
     "fruit",
     "veggie",
     "fork"
-  ]
+  ],
+  "player_num_lives": 3
 })";
 
    std::string actual_values = j.dump(2);
@@ -38,7 +40,8 @@ R"({
     "fruit",
     "veggie",
     "fork"
-  ]
+  ],
+  "player_num_lives": 3
 })";
 
    nlohmann::json parsed_json = nlohmann::json::parse(json);
@@ -46,6 +49,7 @@ R"({
 
    BulletPhysics::GameProgressAndStateInfo expected;
    expected.set_player_inventory_items({ "fruit", "veggie", "fork" });
+   expected.set_player_num_lives(3);
 
    EXPECT_EQ(expected, game_progress_and_state_info);
 }

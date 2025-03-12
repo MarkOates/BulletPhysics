@@ -29,6 +29,8 @@ namespace BulletPhysics
       {
       private:
          std::string data_folder_path;
+         std::vector<std::string> player_inventory_items;
+         int player_num_lives;
          btDiscreteDynamicsWorld* dynamics_world;
          BulletPhysics::DynamicsWorld* dynamics_world_object;
          btRigidBody* sphere_body;
@@ -64,8 +66,12 @@ namespace BulletPhysics
          virtual ~Knockdown();
 
          void set_data_folder_path(std::string data_folder_path);
+         void set_player_inventory_items(std::vector<std::string> player_inventory_items);
+         void set_player_num_lives(int player_num_lives);
          void set_shape_model(AllegroFlare::Model3D* shape_model);
          std::string get_data_folder_path() const;
+         std::vector<std::string> get_player_inventory_items() const;
+         int get_player_num_lives() const;
          int num_cubes();
          int num_shapes();
          virtual bool load_level_by_identifier(std::string possible_type="") override;
