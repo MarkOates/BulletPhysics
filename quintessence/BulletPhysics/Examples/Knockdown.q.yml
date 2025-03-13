@@ -23,7 +23,7 @@ properties:
 
   - name: player_num_lives
     type: int
-    init_with: 0
+    init_with: 8
     getter: true
     setter: true
 
