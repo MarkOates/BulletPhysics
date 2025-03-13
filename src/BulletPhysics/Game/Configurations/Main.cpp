@@ -62,6 +62,11 @@ std::string Main::primary_display_icon_filename()
    return "icons/allegro-flare-generic-icon-1024.png";
 }
 
+int Main::get_num_autosave_save_slots()
+{
+   return 3;
+}
+
 std::vector<std::tuple<std::string, AllegroFlare::Achievement*, bool, bool>> Main::build_achievements()
 {
    return {};

@@ -598,8 +598,16 @@ void Knockdown::initialize()
             //reset();
          //} break;
 
-         case ALLEGRO_KEY_S: {
+         case ALLEGRO_KEY_M: {
             save_to_manual_save(); // from Screens::Gameplay
+         }; break;
+
+         case ALLEGRO_KEY_Q: {
+            save_to_quicksave_save(); // from Screens::Gameplay
+         }; break;
+
+         case ALLEGRO_KEY_A: {
+            save_to_autosave_save(); // from Screens::Gameplay
          }; break;
 
          case ALLEGRO_KEY_SPACE: {

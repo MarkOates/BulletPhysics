@@ -63,6 +63,14 @@ methods:
       return "icons/allegro-flare-generic-icon-1024.png";
 
 
+  - name: get_num_autosave_save_slots
+    type: int
+    virtual: true
+    override: true
+    body: |
+      return 3;
+
+
   - name: build_achievements
     virtual: true
     override: true
