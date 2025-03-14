@@ -462,11 +462,11 @@ methods:
       game_progress_and_state_info.import_from_string(save_file_content);
 
       // TODO: Set in-game variables
-      int player_num_lives = game_progress_and_state_info.get_player_num_lives();
-      std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
+      //int player_num_lives = game_progress_and_state_info.get_player_num_lives();
+      //std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
 
-      primary_gameplay_screen->set_player_num_lives(player_num_lives);
-      primary_gameplay_screen->set_player_inventory_items(player_inventory_items);
+      //primary_gameplay_screen->set_player_num_lives(player_num_lives);
+      //primary_gameplay_screen->set_player_inventory_items(player_inventory_items);
 
       return;
     body_dependency_symbols:
@@ -481,12 +481,12 @@ methods:
       BulletPhysics::GameProgressAndStateInfo game_progress_and_state_info;
 
       // Grab variables/data/content from the varous sources in the system
-      int player_num_lives = primary_gameplay_screen->get_player_num_lives();
-      std::vector<std::string> player_inventory_items = primary_gameplay_screen->get_player_inventory_items();
+      //int player_num_lives = primary_gameplay_screen->get_player_num_lives();
+      //std::vector<std::string> player_inventory_items = primary_gameplay_screen->get_player_inventory_items();
 
       // Set in-game variables
-      game_progress_and_state_info.set_player_num_lives(player_num_lives);
-      game_progress_and_state_info.set_player_inventory_items(player_inventory_items);
+      //game_progress_and_state_info.set_player_num_lives(player_num_lives);
+      //game_progress_and_state_info.set_player_inventory_items(player_inventory_items);
 
       // Return the string dump
       return game_progress_and_state_info.export_to_string();
