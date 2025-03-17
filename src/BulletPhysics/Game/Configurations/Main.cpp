@@ -335,6 +335,20 @@ void Main::handle_arbitrary_storyboard_screen_finished()
    return;
 }
 
+void Main::handle_save_file_loading_finished()
+{
+   // Typically, either of these two
+   AllegroFlare::EventEmitter* event_emitter = get_runner()->get_event_emitter();
+   //AllegroFlare::EventEmitter* event_emitter = primary_gameplay_screen->get_event_emitter();
+   event_emitter->emit_router_event(
+      //AllegroFlare::Routers::Standard::EVENT_ACTIVATE_PRIMARY_GAMEPLAY_SCREEN,
+      AllegroFlare::Routers::Standard::EVENT_ACTIVATE_LEVEL_SELECT_SCREEN,
+      nullptr,
+      al_get_time()
+   );
+   return;
+}
+
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
 {
    // NOTE: At the time of this writing, identifier is not properly wired up, you will need to find
@@ -429,11 +443,11 @@ void Main::load_save_file_content_into_gameplay(std::string save_file_content)
    game_progress_and_state_info.import_from_string(save_file_content);
 
    // TODO: Set in-game variables
-   int player_num_lives = game_progress_and_state_info.get_player_num_lives();
-   std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
+   //int player_num_lives = game_progress_and_state_info.get_player_num_lives();
+   //std::vector<std::string> player_inventory_items = game_progress_and_state_info.get_player_inventory_items();
 
-   primary_gameplay_screen->set_player_num_lives(player_num_lives);
-   primary_gameplay_screen->set_player_inventory_items(player_inventory_items);
+   //primary_gameplay_screen->set_player_num_lives(player_num_lives);
+   //primary_gameplay_screen->set_player_inventory_items(player_inventory_items);
 
    return;
 }
@@ -443,12 +457,12 @@ std::string Main::build_save_file_content_for_current_game()
    BulletPhysics::GameProgressAndStateInfo game_progress_and_state_info;
 
    // Grab variables/data/content from the varous sources in the system
-   int player_num_lives = primary_gameplay_screen->get_player_num_lives();
-   std::vector<std::string> player_inventory_items = primary_gameplay_screen->get_player_inventory_items();
+   //int player_num_lives = primary_gameplay_screen->get_player_num_lives();
+   //std::vector<std::string> player_inventory_items = primary_gameplay_screen->get_player_inventory_items();
 
    // Set in-game variables
-   game_progress_and_state_info.set_player_num_lives(player_num_lives);
-   game_progress_and_state_info.set_player_inventory_items(player_inventory_items);
+   //game_progress_and_state_info.set_player_num_lives(player_num_lives);
+   //game_progress_and_state_info.set_player_inventory_items(player_inventory_items);
 
    // Return the string dump
    return game_progress_and_state_info.export_to_string();

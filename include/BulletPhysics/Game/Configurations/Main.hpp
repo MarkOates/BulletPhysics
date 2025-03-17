@@ -62,6 +62,7 @@ namespace BulletPhysics
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_logos_storyboard_pages() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_storyboard_pages() override;
             virtual void handle_arbitrary_storyboard_screen_finished() override;
+            virtual void handle_save_file_loading_finished() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;
             virtual void load_audio_controller(AllegroFlare::AudioController* audio_controller=nullptr) override;
