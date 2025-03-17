@@ -71,6 +71,31 @@ methods:
       return 3;
 
 
+  - name: get_saving_and_loading_start_style
+    virtual: true
+    override: true
+    type: AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle
+    body: |
+      //return AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle::GAME_START_STYLE_A;
+      return AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle::GAME_START_STYLE_D;
+
+
+  - name: get_saving_and_loading_save_style
+    virtual: true
+    override: true
+    type: AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle
+    body: |
+      return AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle::GAME_SAVE_STYLE_4;
+
+
+  - name: get_saving_and_loading_load_style
+    virtual: true
+    override: true
+    type: AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle
+    body: |
+      return AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle::GAME_LOAD_STYLE_0;
+
+
   - name: build_achievements
     virtual: true
     override: true
@@ -391,9 +416,9 @@ methods:
       return {};
 
 
-  - name: build_title_screen_menu_options
-    virtual: true
-    override: true
+  - name: xx_build_title_screen_menu_options
+    xvirtual: true
+    xoverride: true
     type: std::vector<std::pair<std::string, std::string>>
     body: |
       //{
@@ -418,6 +443,46 @@ methods:
          { "Quit",              "quit" },
       };
       return options;
+
+
+  - name: build_title_screen_menu_options
+    virtual: true
+    override: true
+    type: std::vector<std::pair<std::string, std::string>>
+    body: |
+      AllegroFlare::SavingAndLoading::SavingAndLoading &saving_and_loading =
+         get_runner()->get_saving_and_loading_ref();
+
+      std::vector<std::pair<std::string, std::string>> save_context_dependent_game_start_menu_options =
+         saving_and_loading.obtain_context_sensitive_menu_items_for_starting_or_loading_the_game();
+         //{ "Continue",          "continue_from_last_save" },       // TODO: If game session is saved and valid
+         //{ "Load a Saved Game", "goto_load_a_saved_game_screen" }, // TODO: If game session is saved and valid,
+                                                                   // and the game supports save slots
+         //{ "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
+
+      std::vector<std::pair<std::string, std::string>> my_game_specific_menu_options = {
+         //{ "Achievements",      "goto_achievements_screen" },
+         //{ "Settings",          "goto_settings_screen" },
+         //{ "Version",           "goto_version_screen" },
+         //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
+      };
+
+      std::vector<std::pair<std::string, std::string>> quit_options = {
+         { "Quit", "quit" },
+      };
+
+      // Assemble the final menu options
+      std::vector<std::pair<std::string, std::string>> result_options;
+      for (const auto& vec : {
+            save_context_dependent_game_start_menu_options,
+            my_game_specific_menu_options,
+            quit_options
+         })
+      {
+         result_options.insert(result_options.end(), vec.begin(), vec.end());
+      }
+
+      return result_options;
 
 
   - name: load_audio_controller
@@ -780,5 +845,11 @@ dependencies:
     headers: [ BulletPhysics/GameProgressAndStateInfo.hpp ]
   - symbol: AllegroFlare::LoadASavedGame::SaveSlots::Empty
     headers: [ AllegroFlare/LoadASavedGame/SaveSlots/Empty.hpp ]
+  - symbol: AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle
+    headers: [ AllegroFlare/SavingAndLoading/SavingAndLoading.hpp ]
+  - symbol: AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle
+    headers: [ AllegroFlare/SavingAndLoading/SavingAndLoading.hpp ]
+  - symbol: AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle
+    headers: [ AllegroFlare/SavingAndLoading/SavingAndLoading.hpp ]
 
 

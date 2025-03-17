@@ -12,6 +12,7 @@
 #include <AllegroFlare/Levels/Base.hpp>
 #include <AllegroFlare/LoadASavedGame/SaveSlots/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
+#include <AllegroFlare/SavingAndLoading/SavingAndLoading.hpp>
 #include <AllegroFlare/Screens/Base.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Screens/Subscreen/Screen.hpp>
@@ -51,6 +52,9 @@ namespace BulletPhysics
             virtual std::string title_screen_title() override;
             virtual std::string primary_display_icon_filename() override;
             virtual int get_num_autosave_save_slots() override;
+            virtual AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle get_saving_and_loading_start_style() override;
+            virtual AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle get_saving_and_loading_save_style() override;
+            virtual AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle get_saving_and_loading_load_style() override;
             virtual std::vector<std::tuple<std::string, AllegroFlare::Achievement*, bool, bool>> build_achievements() override;
             virtual AllegroFlare::Screens::Gameplay* create_primary_gameplay_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual void destroy_primary_gameplay_screen() override;
@@ -64,6 +68,7 @@ namespace BulletPhysics
             virtual void handle_arbitrary_storyboard_screen_finished() override;
             virtual void handle_save_file_loading_finished() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
+            std::vector<std::pair<std::string, std::string>> xx_build_title_screen_menu_options();
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;
             virtual void load_audio_controller(AllegroFlare::AudioController* audio_controller=nullptr) override;
             virtual void load_last_played_session_or_start_new(AllegroFlare::GameSession* game_session=nullptr) override;

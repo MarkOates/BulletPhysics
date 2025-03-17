@@ -1004,6 +1004,18 @@ table td
   <td class="method"><b>get_num_autosave_save_slots</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle</td>
+  <td class="method"><b>get_saving_and_loading_start_style</b>()</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle</td>
+  <td class="method"><b>get_saving_and_loading_save_style</b>()</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle</td>
+  <td class="method"><b>get_saving_and_loading_load_style</b>()</td>
+</tr>
+<tr>
   <td class="method">std::vector&lt;std::tuple&lt;std::string, AllegroFlare::Achievement*, bool, bool&gt;&gt;</td>
   <td class="method"><b>build_achievements</b>()</td>
 </tr>
@@ -1054,6 +1066,10 @@ table td
 <tr>
   <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
   <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
+  <td class="method"><b>xx_build_title_screen_menu_options</b>()</td>
 </tr>
 <tr>
   <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
@@ -1199,6 +1215,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::LoadASavedGame::SaveSlots::Empty&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/LoadASavedGame/SaveSlots/Empty.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SavingAndLoading/SavingAndLoading.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SavingAndLoading/SavingAndLoading.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SavingAndLoading/SavingAndLoading.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1812,6 +1837,15 @@ table td
     "BulletPhysics/Game/Configurations/Main"
   ],
   "AllegroFlare/LoadASavedGame/SaveSlots/Empty": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/LoadStyle": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/SaveStyle": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/StartStyle": [
     "BulletPhysics/Game/Configurations/Main"
   ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [

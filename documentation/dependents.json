@@ -224,6 +224,15 @@
   "AllegroFlare/LoadASavedGame/SaveSlots/Empty": [
     "BulletPhysics/Game/Configurations/Main"
   ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/LoadStyle": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/SaveStyle": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
+  "AllegroFlare/SavingAndLoading/SavingAndLoading/StartStyle": [
+    "BulletPhysics/Game/Configurations/Main"
+  ],
   "BulletPhysics/JSONLoaders/BulletPhysics/GameProgressAndStateInfo": [
     "BulletPhysics/GameProgressAndStateInfo"
   ],

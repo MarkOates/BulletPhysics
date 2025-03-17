@@ -67,6 +67,22 @@ int Main::get_num_autosave_save_slots()
    return 3;
 }
 
+AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle Main::get_saving_and_loading_start_style()
+{
+   //return AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle::GAME_START_STYLE_A;
+   return AllegroFlare::SavingAndLoading::SavingAndLoading::StartStyle::GAME_START_STYLE_D;
+}
+
+AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle Main::get_saving_and_loading_save_style()
+{
+   return AllegroFlare::SavingAndLoading::SavingAndLoading::SaveStyle::GAME_SAVE_STYLE_4;
+}
+
+AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle Main::get_saving_and_loading_load_style()
+{
+   return AllegroFlare::SavingAndLoading::SavingAndLoading::LoadStyle::GAME_LOAD_STYLE_0;
+}
+
 std::vector<std::tuple<std::string, AllegroFlare::Achievement*, bool, bool>> Main::build_achievements()
 {
    return {};
@@ -361,7 +377,7 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitr
    return {};
 }
 
-std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_options()
+std::vector<std::pair<std::string, std::string>> Main::xx_build_title_screen_menu_options()
 {
    //{
       //{ "Start new game", "start_new_game" }, // NOTE: This value is a constant expected by Routers/Complete
@@ -385,6 +401,43 @@ std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_o
       { "Quit",              "quit" },
    };
    return options;
+}
+
+std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_options()
+{
+   AllegroFlare::SavingAndLoading::SavingAndLoading &saving_and_loading =
+      get_runner()->get_saving_and_loading_ref();
+
+   std::vector<std::pair<std::string, std::string>> save_context_dependent_game_start_menu_options =
+      saving_and_loading.obtain_context_sensitive_menu_items_for_starting_or_loading_the_game();
+      //{ "Continue",          "continue_from_last_save" },       // TODO: If game session is saved and valid
+      //{ "Load a Saved Game", "goto_load_a_saved_game_screen" }, // TODO: If game session is saved and valid,
+                                                                // and the game supports save slots
+      //{ "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
+
+   std::vector<std::pair<std::string, std::string>> my_game_specific_menu_options = {
+      //{ "Achievements",      "goto_achievements_screen" },
+      //{ "Settings",          "goto_settings_screen" },
+      //{ "Version",           "goto_version_screen" },
+      //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
+   };
+
+   std::vector<std::pair<std::string, std::string>> quit_options = {
+      { "Quit", "quit" },
+   };
+
+   // Assemble the final menu options
+   std::vector<std::pair<std::string, std::string>> result_options;
+   for (const auto& vec : {
+         save_context_dependent_game_start_menu_options,
+         my_game_specific_menu_options,
+         quit_options
+      })
+   {
+      result_options.insert(result_options.end(), vec.begin(), vec.end());
+   }
+
+   return result_options;
 }
 
 void Main::load_audio_controller(AllegroFlare::AudioController* audio_controller)
